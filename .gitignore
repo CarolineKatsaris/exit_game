@@ -1,0 +1,29 @@
+# IntelliJ IDEA
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/shelf/
+.idea/tasks.xml
+.idea/dictionaries/
+.idea/sonarlint/
+out/
+
+# Compiled files
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+*.zip
+
+# Log files
+*.log
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Build outputs (if using any build tool later)
+**/build/
+**/target/
+.gradle/
