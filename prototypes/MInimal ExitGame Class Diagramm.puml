@@ -1,0 +1,60 @@
+@startuml
+skinparam linetype ortho
+hide empty members
+top to bottom direction
+
+' ================== VIEW ==================
+class MainView extends JFrame implements PropertyChangeListener {
+  - mainPanel : JPanel
+  - hub       : JPanel
+  - introPanel: IntroPanel
+  - room1Button : JButton
+  - room2Button : JButton
+  - room3Button : JButton
+  --
+  + MainView()
+  + nextView(cardName:String) : void
+  + getCurrentPanel() : JPanel
+  + propertyChange(evt:PropertyChangeEvent) : void
+  - createUIComponents() : void
+}
+
+class "MainView::IntroPanel" as IntroPanel {
+  - backgroundImage : Image
+  + IntroPanel()
+  # paintComponent(g:Graphics) : void
+}
+
+MainView o-- IntroPanel
+
+' ================= CONTROLLER =================
+class Controller {
+  - view  : MainView
+  - model : Model
+  + Controller()
+}
+
+' ================== MODEL ==================
+class Model {
+  - pcs : PropertyChangeSupport
+  - gameState : String
+  + Model()
+  + addPropertyChangeListener(l:PropertyChangeListener) : void
+  + removePropertyChangeListener(l:PropertyChangeListener) : void
+  + setGameState(state:String) : void
+  + nextGameState() : void
+  + getGameState() : String
+}
+
+' ================== APP ==================
+class MVCPropertyChange {
+  + main(args:String[]) : void
+}
+
+' ------------- Beziehungen -------------
+MVCPropertyChange --> Controller : erstellt
+Controller --> MainView : nutzt/steuert
+Controller --> Model    : nutzt
+Model ..> PropertyChangeListener : Events
+MainView ..|> PropertyChangeListener
+@enduml

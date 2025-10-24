@@ -1,0 +1,69 @@
+@startuml
+top to bottom direction
+hide empty members
+skinparam packageStyle rectangle
+skinparam linetype ortho
+
+package model {
+  class PVModel {
+    - pcs : PropertyChangeSupport
+    - screen : String
+    + PVModel()
+    + getScreen() : String
+    + setScreen(newScreen:String) : void
+    + addPropertyChangeListener(l:PropertyChangeListener) : void
+  }
+}
+
+package view {
+  class PVMainView extends JFrame {
+    - cards : CardLayout
+    - root  : JPanel
+    - startView : StartView
+    - hubView   : HubView
+    + PVMainView()
+    + getStartButton() : JButton
+    + showStart() : void
+    + showHub()   : void
+  }
+
+  class StartView extends JPanel {
+    - startButton : JButton
+    + StartView()
+    + getStartButton() : JButton
+  }
+
+  class HubView extends JPanel {
+    + HubView()
+  }
+
+  PVMainView o-- StartView
+  PVMainView o-- HubView
+}
+
+package controller {
+  interface PropertyChangeListener
+  class PVController implements PropertyChangeListener {
+    - model : model.PVModel
+    - view  : view.PVMainView
+    + PVController(model:model.PVModel, view:view.PVMainView)
+    + propertyChange(evt:PropertyChangeEvent) : void
+  }
+}
+
+package app {
+  class PVPropertyChange {
+    + main(args:String[]) : void
+  }
+}
+
+' Beziehungen
+app.PVPropertyChange --> controller.PVController : erzeugt
+app.PVPropertyChange ----> model.PVModel : erzeugt
+app.PVPropertyChange --> view.PVMainView : erzeugt
+
+controller.PVController --> model.PVModel : nutzt
+controller.PVController --> view.PVMainView : steuert
+model.PVModel ..> controller.PropertyChangeListener : Events
+
+@enduml

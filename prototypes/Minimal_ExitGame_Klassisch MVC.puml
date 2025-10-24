@@ -1,0 +1,40 @@
+@startuml
+top to bottom direction
+hide empty members
+skinparam packageStyle rectangle
+skinparam linetype ortho
+
+package model {
+
+  class Model {
+    - pcs : PropertyChangeSupport
+    - screen : Screen
+    + getScreen() : Screen
+    + setScreen(s:Screen) : void
+    + addPropertyChangeListener(l:PropertyChangeListener) : void
+  }
+}
+
+
+package view {
+  class MainView extends JFrame implements PropertyChangeListener {
+    - cards : CardLayout
+    - root  : JPanel
+    - startBtn : JButton
+    + MainView(m:model.Model)
+    + getStartButton() : JButton
+    + propertyChange(e:PropertyChangeEvent) : void
+  }
+}
+
+package controller {
+  class AppController {
+    + AppController(m:model.Model, v:view.MainView)
+  }
+}
+
+controller.AppController --> model.Model : schreibt
+controller.AppController --> view.MainView : verdrahtet Klicks
+view.MainView ........> model.Model : beobachtet (PropertyChange)
+model.Model ..> PropertyChangeListener
+@enduml

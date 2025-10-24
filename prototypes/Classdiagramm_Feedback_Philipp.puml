@@ -1,0 +1,218 @@
+@startuml
+' -------- Layout: Pakete übereinander --------
+top to bottom direction
+skinparam packageStyle rectangle
+skinparam linetype ortho
+hide empty members
+
+' ========================= VIEW =========================
+package "view" {
+  class MainView {
+    ..Attribute..
+    - frame : JFrame
+    - root  : JPanel
+    - cards : CardLayout
+    - startView : StartView
+    - hubView   : HubView
+    - roomView  : RaumView
+    - quizView  : RaetselView
+    - overlay   : JComponent
+
+    ..Methoden..
+    + showStart() : void
+    + showHub()   : void
+    + showRoom()  : void
+    + showQuiz()  : void
+    + getStartView() : StartView
+    + getHubView()   : HubView
+    + getRoomView()  : RaumView
+    + getQuizView()  : RaetselView
+    + showOverlay(p:JPanel) : void
+    + hideOverlay() : void
+  }
+
+  class StartView {
+    + setStartBackgroundPath(path:String) : void // Wechselt von Intro Hintegrund auf Hub Hintergrund
+    + showStartScreen() : void
+    + showLoginScreen() : void
+    + getContinueButton() : JButton
+    + getLoginButton() : JButton
+    + getUsernameField() : JTextField
+    + getKlassenstufeCombo() : JComboBox<Integer>
+    + getErrorLabel() : JLabel
+  }
+
+  class HubView {
+    + showLoginPanel() : void
+    + showStoryPanel() : void
+    + showHubPanel()   : void
+    + setStoryPages(p: List<String>) : void
+    + getStoryNextButton() : JButton
+    + setRooms(rooms: List<RoomCard>) : void
+    + updateRoom(index:int, card: RoomCard) : void
+    + getRoomButtons() : List<JButton>
+    + getUsernameLabel() : JLabel
+
+  }
+
+  abstract class RaumView {
+    + setBackgroundPath(path:String) : void
+    + setRoomTitle(title:String) : void
+    + setProgress(percent:int) : void
+    + setHotspots(hs: List<Hotspot>) : void
+    + getHotspotButtons() : List<JButton>
+    (+ getHotspotButton(index:int) : JButton)
+    + showOverlay(content:JPanel) : void
+    + hideOverlay() : void
+
+    class Hotspot { + x:int + y:int + w:int + h:int + label:String + enabled:boolean }
+  }
+
+  abstract class RaetselView {
+    + setTitle(t:String) : void
+    + setQuestion(q:String) : void
+    + setImagePath(path:String) : void
+    + setChoices(opts: List<String>) : void   ' leer => Freitext
+    + getTitleLabel() : JLabel
+    + getQuestionArea() : JTextArea
+    + getChoicesPanel() : JPanel
+    - getChoicesGroup() : ButtonGroup         ' nur bei SingleChoice
+    + getChoiceButtons() : List<AbstractButton>
+    + getAnswerField() : JTextField           ' bei Freitext
+    + getSubmitButton() : JButton
+    + getCloseButton()  : JButton
+    + getFeedbackLabel(): JLabel
+    + clearInputs() : void
+    + focusInput() : void
+  }
+}
+
+' ====================== CONTROLLER ======================
+package "controller" {
+  interface PropertyChangeListener
+
+  class AppController implements PropertyChangeListener {
+    - ui    : view.MainView
+    - model : model.Spielzustand
+    + start() : void
+    + propertyChange(e: PropertyChangeEvent) : void
+    + openRoom(index:int) : void
+  }
+
+  class RoomController {
+    - model : model.Spielzustand
+    - view  : view.RaumView
+    + bind(view:view.RaumView, raum:model.Raum) : void
+    + onHotspot(index:int) : void
+  }
+
+  class RiddleController {
+    - model   : model.Spielzustand
+    - view    : view.RaetselView
+    - raetsel : model.Raetsel
+    + show(raetsel:model.Raetsel) : void
+    + submit() : void
+    + close() : void
+  }
+}
+
+' ======================== MODEL =========================
+package "model" {
+
+  class Spielzustand {
+    - pcs : PropertyChangeSupport
+    - screen : Screen
+    - aktuellerRaumIndex : int
+    - benutzername : String
+    - klassenstufe : int
+    - raeume : List<Raum>
+
+    + setBenutzer(name:String, stufe:int) : void
+    + getRaeume() : List<Raum>
+    + getAktuellerRaum() : Raum
+    + waehleRaum(index:int) : void
+    + setScreen(s:Screen) : void
+    + addPropertyChangeListener(l: PropertyChangeListener) : void
+    + removePropertyChangeListener(l: PropertyChangeListener) : void
+    + getRaumFortschritt(index:int) : int
+    + isRaumFreigeschaltet(index:int) : boolean
+    + findeNaechstesOffenesRaetsel(raumIndex:int) : int
+    + markiereRaetselGeloest(raumIndex:int, raetselIndex:int) : void
+  }
+
+  enum Screen {
+    START, HUB, ROOM, QUIZ
+    }
+
+
+  class Raum {
+    - name : String
+    - hintergrundBildPfad : String
+    - raetsel : List<Raetsel>
+
+    + getName() : String
+    + getHintergrundBildPfad() : String
+    + getRaetsel() : List<Raetsel>
+    + getFortschritt() : int
+    + isKomplettBearbeitet() : boolean
+  }
+
+  class Raetsel {
+    - titel : String
+    - beschreibung : String
+    - imagePath : String
+    - fragen : List<Frage>
+    - geloest : boolean
+
+    + getTitel() : String
+    + getBeschreibung() : String
+    + getFragen() : List<Frage>
+    + isGeloest() : boolean
+    + getFortschritt() : int
+    + pruefeAntwort(frageIndex:int, antwort:String) : Ergebnis
+
+    class Ergebnis {
+    + success:boolean
+    + text:String }
+  }
+
+  class Frage {
+    - text : String
+    - loesung : String                ' Freitext-Lösung
+    + getText() : String
+    + pruefen(antwort:String) : boolean
+  }
+
+  class MultipleChoice extends Frage {
+    - choices : List<String>
+    - correctIndex : int
+    + getChoices() : List<String>
+    + getCorrectIndex() : int
+    + pruefen(antwort:String) : boolean
+  }
+}
+
+' ===== Beziehungen =====
+model.Spielzustand "1" o-- "1..*" model.Raum
+model.Raum "1" o-- "0..*" model.Raetsel
+model.Raetsel "1" o-- "1..*" model.Frage
+
+controller.AppController --> view.MainView : steuert\n(show*/get*)
+controller.AppController --> model.Spielzustand : nutzt
+controller.RoomController --> view.RaumView
+controller.RoomController --> model.Spielzustand
+controller.RiddleController --> view.RaetselView
+controller.RiddleController --> model.Spielzustand
+
+note right of view.MainView
+Nur Controller rufen die Methoden auf.
+Views registrieren KEINE Listener, geben nur
+GUI-Komponenten/Setter heraus.
+end note
+
+note right of model.Spielzustand
+Screen gehört hierher:
+- setScreen(s) feuert PropertyChange "screen"
+- Controller hört zu und schaltet View-Karten
+end note
+@enduml
