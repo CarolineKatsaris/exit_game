@@ -6,6 +6,10 @@
       <sourceFolder url="file://$MODULE_DIR$/clickableAreas/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/clickableAreas/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MVCPropertyChange/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MVCPropertyChange/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/PassiveView/PV resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/PassiveView/PVsrc" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
