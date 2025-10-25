@@ -122,9 +122,14 @@
       <item class="MainView$IntroPanel" icon="/com/intellij/uiDesigner/icons/panel.svg" removable="true" auto-create-binding="false" can-attach-label="false">
         <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="0" />
       </item>
-      <item class="MainView" icon="" removable="true" auto-create-binding="false" can-attach-label="false">
+    </group>
+    <group name="Exit-Game">
+      <item class="MainView$TypeWriterPanel" icon="/com/intellij/uiDesigner/icons/panel.svg" removable="true" auto-create-binding="false" can-attach-label="false">
         <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="0" />
       </item>
     </group>
+  </component>
+  <component name="uidesigner-configuration">
+    <option name="DEFAULT_LAYOUT_MANAGER" value="CardLayout" />
   </component>
 </project>
