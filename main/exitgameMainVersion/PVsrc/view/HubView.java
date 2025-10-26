@@ -8,7 +8,7 @@ public class HubView extends JPanel {
     public HubView() {
         setLayout(new BorderLayout());
 
-        ImageIcon img = new ImageIcon(getClass().getResource("/HubViewBackround.png"));
+        ImageIcon img = new ImageIcon(getClass().getResource("/HubViewBackground.png"));
         JLabel imgLabel = new JLabel(img);
 
         add(imgLabel, BorderLayout.CENTER);

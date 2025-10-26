@@ -1,6 +1,6 @@
 package controller;
 
-import model.PVModel;
+import model.GameState;
 import view.EnumScreen;
 import view.PVMainView;
 
@@ -9,20 +9,20 @@ import java.beans.PropertyChangeListener;
 
 public class PVController implements PropertyChangeListener {
 
-    private final PVModel model;
+    private final GameState gameState;
     private final PVMainView view;
 
-    public PVController(PVModel model, PVMainView view) {
-        this.model = model;
+    public PVController(GameState gameState, PVMainView view) {
+        this.gameState = gameState;
         this.view = view;
 
         // Der Controller hört aufs Model:
-        model.addPropertyChangeListener(this);
+        gameState.addPropertyChangeListener(this);
 
         // Der Controller reagiert auf die View:
         view.getStartButton().addActionListener(e -> {
             // Spieler klickt "Starte Spiel" -> wir wechseln in den Hub
-            model.setScreen("hub");
+            gameState.setScreen("hub");
         });
 
         // Initialen Screen anzeigen

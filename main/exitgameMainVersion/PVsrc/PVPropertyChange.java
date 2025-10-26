@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.EventQueue;
 
-import model.PVModel;
+import model.GameState;
 import view.PVMainView;
 import controller.PVController;
 
@@ -14,9 +14,9 @@ public class PVPropertyChange {
         } catch (Exception ignored) {}
 
         EventQueue.invokeLater(() -> {
-            PVModel model = new PVModel();
+            GameState gameState  = new GameState();
             PVMainView view = new PVMainView();
-            PVController controller = new PVController(model, view);
+            PVController controller = new PVController(gameState, view);
 
             view.setVisible(true);
         });
