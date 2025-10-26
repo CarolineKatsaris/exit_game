@@ -30,9 +30,8 @@ public class Model {
     }
 
     public void nextGameState() {
-        //hubPanel fehlt noch
         if (GameState.equals("introPanel")) {
-            setGameState("typeWriterPanel1");
+            setGameState("hub");
         } else {
             setGameState("introPanel");
         }
