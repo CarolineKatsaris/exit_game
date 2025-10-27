@@ -35,9 +35,13 @@ public class PVController implements PropertyChangeListener {
             String newScreen = (String) evt.getNewValue();
             if ("start".equals(newScreen)) {
                 view.showScreen(EnumScreen.START.getCardName());
-            } else if ("hub".equals(newScreen)) {
+            }  else if ("hub".equals(newScreen)) {
                 view.showScreen(EnumScreen.HUB.getCardName());
-            }
+            }  //else if("login".equals(newScreen)){
+                   // view.showScreen(EnumScreen.LOGIN.getCardName());
+             //   }
+
+
         }
     }
 }

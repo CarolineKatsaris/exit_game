@@ -11,6 +11,7 @@ public class PVMainView extends JFrame {
     // Referenzen auf einzelne Screens:
     private StartView startView;
     private HubView hubView;
+    private LoginView loginView;
 
     public PVMainView() {
         setTitle("Exit Game – Passive View Prototyp");
@@ -24,10 +25,12 @@ public class PVMainView extends JFrame {
         // Screens anlegen
         startView = new StartView();
         hubView = new HubView();
+        loginView = new LoginView();
 
         // Screens registrieren mit Namen
         root.add(startView, EnumScreen.START.getCardName());
         root.add(hubView, EnumScreen.HUB.getCardName());
+        root.add(loginView, EnumScreen.LOGIN.getCardName());
 
         // Alles ins Fenster
         add(root, BorderLayout.CENTER);
