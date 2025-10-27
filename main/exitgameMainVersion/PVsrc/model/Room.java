@@ -2,15 +2,29 @@ package model;
 
 public class Room {
 
-    private String roomTitle;
+    private final String roomTitle;
+
+    private boolean open;
+
+    public Room(String roomTitle, boolean open) {
+        this.roomTitle = roomTitle;
+        this.open = open;
+    }
 
     public String getRoomTitle() {
         return roomTitle;
     }
 
-    public void setRoomTitle(String roomTitle) {
-        this.roomTitle = roomTitle;
+    public boolean isOpen() {
+        return open;
     }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
+
+
 
     //Liste der Rätsel
     }
