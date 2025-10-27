@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginView extends JFrame {
+public class LoginView extends JPanel {
 
     final JTextField nameField;
     final JComboBox<String> difficultySelection;
