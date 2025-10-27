@@ -13,23 +13,38 @@ public class GameState {
 
     private String username;
 
+    //Liste der einzelnen Räume, die schon offen bzw. geschlossen sind
+    private final List<Room> roomOverview = new ArrayList<>();
+
+    // Konstruktor - erzeugt die Räume, zunächst alle geschlossen
+    public GameState() {
+        roomOverview.add(new Room("Grafikkarte", false));
+        roomOverview.add(new Room("RAM", false));
+        roomOverview.add(new Room("Dateisystem", false));
+        roomOverview.add(new Room("Netzwerk", false));
+        roomOverview.add(new Room("CPU", false));
+    }
+
+    public List<Room> getRoomOverview() {
+        return new ArrayList<>(roomOverview);
+    }
+
     //benötigt für Anrede des Benutzers im Storytelling
     public String getUsername() {
         return username;
     }
 
-    public String setUsername(){
-        return username;
+    public void setUsername(String username){
+        String old = this.username;
+        this.username = username;
+        pcs.firePropertyChange("username", old, username); //übermittelt Namensänderungen
     }
-    //Liste der einzelnen Räume, die schon offen sind bzw. geschlossen
-    //private List<Room> roomOverview = new ArrayList<Room>(){
-    //};
 
-    // ist das Teil des CardLayouts? Wird das dafür verwendet?
+    // Verwendung für das Cardlayout
     public String getScreen() {
         return screen;
     }
-    // ist das Teil des CardLayouts? Wird das dafür verwendet?
+    // ermöglicht die Überprüfung des Screens
     public void setScreen(String newScreen) {
         String old = this.screen;
         this.screen = newScreen;
