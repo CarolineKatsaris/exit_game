@@ -2,17 +2,17 @@ package controller;
 
 import model.GameState;
 import view.EnumScreen;
-import view.PVMainView;
+import view.MainView;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class PVController implements PropertyChangeListener {
+public class Controller implements PropertyChangeListener {
 
     private final GameState gameState;
-    private final PVMainView view;
+    private final MainView view;
 
-    public PVController(GameState gameState, PVMainView view) {
+    public Controller(GameState gameState, MainView view) {
         this.gameState = gameState;
         this.view = view;
 

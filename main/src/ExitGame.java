@@ -2,10 +2,10 @@ import javax.swing.*;
 import java.awt.EventQueue;
 
 import model.GameState;
-import view.PVMainView;
-import controller.PVController;
+import view.MainView;
+import controller.Controller;
 
-public class PVPropertyChange {
+public class ExitGame {
     public static void main(String[] args) {
 
         // hübsches Look & Feel (optional)
@@ -15,8 +15,8 @@ public class PVPropertyChange {
 
         EventQueue.invokeLater(() -> {
             GameState gameState  = new GameState();
-            PVMainView view = new PVMainView();
-            PVController controller = new PVController(gameState, view);
+            MainView view = new MainView();
+            Controller controller = new Controller(gameState, view);
 
             view.setVisible(true);
         });

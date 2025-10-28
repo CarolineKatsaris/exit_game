@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
-public class PVMainView extends JFrame {
+public class MainView extends JFrame {
 
     private CardLayout cards;
     private JPanel root;
@@ -13,7 +13,7 @@ public class PVMainView extends JFrame {
     private HubView hubView;
     private LoginView loginView;
 
-    public PVMainView() {
+    public MainView() {
         setTitle("Exit Game – Passive View Prototyp");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 600);
