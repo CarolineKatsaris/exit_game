@@ -36,4 +36,7 @@ public class Quiz {
         this.quizSolved = quizSolved;
     }
 
+    public boolean isCompleted() {
+        return false;
+    }
 }
