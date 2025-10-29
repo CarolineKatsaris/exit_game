@@ -22,7 +22,7 @@ public class Controller implements PropertyChangeListener {
         // Der Controller reagiert auf die View:
         view.getStartButton().addActionListener(e -> {
             // Spieler klickt "Starte Spiel" -> wir wechseln in den Hub
-            gameState.setScreen("hub");
+            gameState.setScreen("login");
         });
 
         // Initialen Screen anzeigen
@@ -35,8 +35,8 @@ public class Controller implements PropertyChangeListener {
             String newScreen = (String) evt.getNewValue();
             if ("start".equals(newScreen)) {
                 view.showScreen(EnumScreen.START.getCardName());
-            }  else if ("hub".equals(newScreen)) {
-                view.showScreen(EnumScreen.HUB.getCardName());
+            }  else if ("login".equals(newScreen)) {
+                view.showScreen(EnumScreen.LOGIN.getCardName());
             }  //else if("login".equals(newScreen)){
                    // view.showScreen(EnumScreen.LOGIN.getCardName());
              //   }
