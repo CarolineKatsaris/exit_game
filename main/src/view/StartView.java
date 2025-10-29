@@ -3,51 +3,72 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
-
 public class StartView extends JPanel {
 
     private JButton startButton;
 
     public StartView() {
-        setLayout(new BorderLayout());
+        // Hintergrund fallback (falls Bild nicht geladen)
+        setBackground(Color.black);
 
-        // Hintergrundbild laden und Null-Prüfung //
-        java.net.URL imgUrl = getClass().getResource("/VirusBegin.png");
+        // 1) Bild laden und prüfen
+        java.net.URL imgUrl = getClass().getResource("/StartViewBackground.png");
         if (imgUrl == null) {
-            throw new IllegalStateException("Bild '/VirusBegin.png' wurde nicht gefunden!");
+            throw new IllegalStateException("Bild '/StartViewBackground.png' wurde nicht gefunden!");
         }
-        ImageIcon img = new ImageIcon(imgUrl);
-        JLabel imgLabel = new JLabel(img);
 
-        // Starttext (ohne Benutzeransprache, da vor dem Login)
-        imgLabel.setLayout(new BorderLayout()); //neuer "Container" für den Text, erstmal als eher unflexibles
-                                                // BorderLayout, kann man leicht abändern
+        ImageIcon bgIcon = new ImageIcon(imgUrl);
+        JLabel background = new JLabel(bgIcon);
 
-        JLabel introText = new JLabel("Willkommen im digitalen Escape Room!");
-        introText.setHorizontalAlignment(SwingConstants.CENTER);  // Zentrieren (oder ggf anders)
-        introText.setFont(new Font("SansSerif", Font.BOLD, 20));   // Schriftart und Größe
+        // *** WICHTIG ***
+        // Wir verwenden jetzt BorderLayout auf dem Hintergrundlabel,
+        // damit wir Text oben mittig und Button unten einfügen können.
+        background.setLayout(new BorderLayout());
+        background.setPreferredSize(new Dimension(
+                bgIcon.getIconWidth(),
+                bgIcon.getIconHeight()
+        ));
+
+        // 2) Deine Text-Elemente
+        JLabel introText = new JLabel("Ein Virus verbreitet sich in deiner Schule und diesmal ist es nicht Corona…");
+        introText.setHorizontalAlignment(SwingConstants.CENTER);
+        introText.setFont(new Font("OCR A Extended", Font.BOLD, 20));
         introText.setForeground(Color.WHITE);
 
-        JLabel subText = new JLabel("Finde Hinweise, löse Rätsel und stoppe den Virus!");
-        subText.setHorizontalAlignment(SwingConstants.CENTER); // Zentrieren
-        subText.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        JLabel subText = new JLabel("Kannst du helfen es zu stoppen?");
+        subText.setHorizontalAlignment(SwingConstants.CENTER);
+        subText.setFont(new Font("OCR A Extended", Font.PLAIN, 16));
         subText.setForeground(Color.WHITE);
 
-        JPanel textPanel = new JPanel(new GridLayout(2, 1)); //Legt den Text in zwei Zeilen und eine Spalte
-        textPanel.setOpaque(false); // durchsichtig, damit das Bild sichtbar bleibt (Opaque ist erstmal nicht transparent)
+        // 3) Textpanel wie von dir gebaut
+        JPanel textPanel = new JPanel(new GridLayout(2, 1));
+        textPanel.setOpaque(false); // transparent lassen, damit das Bild durchscheint
         textPanel.add(introText);
         textPanel.add(subText);
 
-        imgLabel.add(textPanel, BorderLayout.CENTER); // legt Text auf das Bild
-
-
+        // 4) Button bauen
         startButton = new JButton("Virus stoppen");
+        startButton.setFont(new Font("OCR A Extended", Font.BOLD, 16));
+        startButton.setForeground(Color.BLACK);
+        startButton.setBackground(new Color(10, 10, 10, 160)); // leicht transparent dunkel
+        startButton.setOpaque(true);
+        startButton.setFocusPainted(false);
+        startButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
 
-        JPanel bottom = new JPanel();
-        bottom.add(startButton);
+        // 5) Button-Panel für unten
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setOpaque(false); // durchsichtig
+        bottomPanel.add(startButton);
 
-        add(imgLabel, BorderLayout.CENTER);
-        add(bottom, BorderLayout.SOUTH);
+        // 6) Jetzt Text & Button ins Hintergrundlabel einfügen
+        // BorderLayout.CENTER   -> dein Text (mittig)
+        // BorderLayout.SOUTH    -> Button (unten)
+        background.add(textPanel, BorderLayout.CENTER);
+        background.add(bottomPanel, BorderLayout.SOUTH);
+
+        // 7) Und das alles in dieses StartView einsetzen
+        setLayout(new BorderLayout());
+        add(background, BorderLayout.CENTER);
     }
 
     public JButton getStartButton() {
