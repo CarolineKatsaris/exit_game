@@ -17,8 +17,6 @@ public class ExitGame {
             GameState gameState  = new GameState();
             MainView view = new MainView();
             Controller controller = new Controller(gameState, view);
-
-            view.setVisible(true);
         });
     }
 }
