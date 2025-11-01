@@ -9,7 +9,7 @@ public class GameState {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     // das ist euer "Screen"-Zustand aus dem Klassendiagramm - wofür wird das benötigt?
-    private String screen = "start";
+    private String screen;
     private String username;
     //Liste der einzelnen Räume, die schon offen bzw. geschlossen sind
     private final List<Room> roomOverview = new ArrayList<>();
