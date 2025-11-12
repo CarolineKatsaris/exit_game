@@ -12,6 +12,7 @@ public class MainView extends JFrame {
     private StartView startView;
     private HubView hubView;
     private LoginView loginView;
+    private RoomView roomView;
 
     public MainView() {
         setTitle("Exit Game – Passive View Prototyp");
@@ -26,11 +27,13 @@ public class MainView extends JFrame {
         startView = new StartView();
         hubView = new HubView();
         loginView = new LoginView();
+        roomView = new RoomView();
 
         // Screens registrieren mit Namen
         root.add(startView, EnumScreen.START.getCardName());
         root.add(hubView, EnumScreen.HUB.getCardName());
         root.add(loginView, EnumScreen.LOGIN.getCardName());
+        root.add(roomView, EnumScreen.ROOM.getCardName());
 
         // Alles ins Fenster
         add(root, BorderLayout.CENTER);
