@@ -3,7 +3,8 @@ package view;
 public enum EnumScreen {
     START("start"),
     HUB("hub"),
-    LOGIN("login");
+    LOGIN("login"),
+    ROOM("room");
 
     private final String cardName;
 
