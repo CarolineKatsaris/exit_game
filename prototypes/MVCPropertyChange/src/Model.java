@@ -9,7 +9,6 @@ public class Model {
     public  Model() {
 
     }
-
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         pcs.addPropertyChangeListener(listener);
     }

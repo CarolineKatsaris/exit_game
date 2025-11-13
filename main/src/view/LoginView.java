@@ -108,4 +108,7 @@ public class LoginView extends JPanel {
 
         g2d.fillRoundRect(rectX, rectY, rectWidth, rectHeight, 20, 20); // Rechteck mit abgerundeten Ecken
     }
+    public JButton getSubmitButton() {
+        return submitButton;
+    }
 }

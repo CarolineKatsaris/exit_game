@@ -1,5 +1,8 @@
 package model;
 
+import view.EnumScreen;
+import view.RoomView;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -9,10 +12,17 @@ public class GameState {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     // das ist euer "Screen"-Zustand aus dem Klassendiagramm - wofür wird das benötigt?
-    private String screen;
+    private Screen currentScreen;
     private String username;
     //Liste der einzelnen Räume, die schon offen bzw. geschlossen sind
     private final List<Room> roomOverview = new ArrayList<>();
+
+    public List<Screen> getAvailableScreens() {
+        return availableScreens;
+    }
+
+    //Liste aller möglichen Screens, die angesteuert werden können
+    private final List<Screen>availableScreens;
 
     // Konstruktor - erzeugt die Räume, zunächst alle geschlossen
     public GameState() {
@@ -54,6 +64,20 @@ public class GameState {
         roomOverview.add(fileRoom);
         roomOverview.add(netRoom);
         roomOverview.add(cpuRoom);
+
+        //Räume in die Screen Liste eintragen
+        availableScreens = List.of(
+            new Screen(EnumScreen.START.toString()),
+                new Screen(EnumScreen.LOGIN.toString()),
+            //new Screen("hub"),
+            new Screen(EnumScreen.ROOM.toString()),
+            graphicRoom,
+            ramRoom,
+            fileRoom,
+            netRoom,
+            cpuRoom,
+            new Screen("end")
+        );
     }
 
     List<Room> getRoomOverview() {
@@ -72,16 +96,20 @@ public class GameState {
     }
 
     // Verwendung für das Cardlayout
-    public String getScreen() {
-        return screen;
+    public Screen getCurrentScreen() {
+        return currentScreen;
     }
-    // ermöglicht die Überprüfung des Screens
-    public void setScreen(String newScreen) {
-        String old = this.screen;
-        this.screen = newScreen;
-        // feuert Event "screen hat sich geändert"
-        pcs.firePropertyChange("screen", old, newScreen);
+
+    //Hier wird geprüft, ob der Screen, den ich ansteuern möchte, überhaupt existiert (aus der Liste, die oben angelegt wurde)
+    public void changeScreen(Screen newScreen){
+        if (!availableScreens.contains(newScreen)){
+            System.err.println("Unbekannter Screen: " + newScreen.title);
+            return;
+        }
+
+        this.currentScreen = newScreen;
     }
+
     public void addPropertyChangeListener(PropertyChangeListener l) {
         pcs.addPropertyChangeListener(l);
     }
@@ -95,5 +123,13 @@ public class GameState {
         }
             return true; // alle Räume abgeschlossen
         }
+
+    //diese Methode leitet automatisch zum EndScreen über, wenn alle Räume abgeschlossen sind
+    public void checkForGameCompletion(){
+        if (allRoomsCompleted()){
+            changeScreen(getAvailableScreens().get(7));
+            pcs.firePropertyChange("gameCompleted", false, true);
+        }
+    }
     }
 

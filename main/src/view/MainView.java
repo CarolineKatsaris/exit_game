@@ -10,12 +10,12 @@ public class MainView extends JFrame {
 
     // Referenzen auf einzelne Screens:
     private StartView startView;
-    private HubView hubView;
     private LoginView loginView;
+    private HubView hubView;
     private RoomView roomView;
 
     public MainView() {
-        setTitle("Exit Game – Passive View Prototyp");
+        setTitle("Exit Game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 600);
 
@@ -45,11 +45,13 @@ public class MainView extends JFrame {
         return startView.getStartButton();
     }
 
+    public JButton getSubmitButton() { return loginView.getSubmitButton();}
+
     public void showScreen(String cardName) {
         cards.show(root, cardName);
     }
 
     public void showHub() {
         cards.show(root, "hub");
-    }
-}
+    }}
+

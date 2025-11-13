@@ -2,24 +2,34 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
-public class Room {
+public class Room extends Screen {
 
-    private final String roomTitle;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    //private final String roomTitle;
     private boolean open;
     private boolean completed;
     private List<Quiz> quizzes = new ArrayList<>();
     private int currentQuizIndex = 0;
 
     public Room(String roomTitle, boolean open) {
-        this.roomTitle = roomTitle;
+        super(roomTitle); //roomTitle an Elternklasse Screen übergeben und dort als title speichern
         this.open = open;
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener l2){
+        pcs.addPropertyChangeListener(l2);}
+
+
+    public void removePropertyChangeListener(PropertyChangeListener l2){
+        pcs.removePropertyChangeListener(l2);
+    }
     boolean isCompleted() {
         //Raum ist abgeschlossen, wenn alle Quizzes abgeschlossen sind
-        for (Quiz quiz:quizzes){
-            if(!quiz.isCompleted()){
+        for (Quiz quiz : quizzes) {
+            if (!quiz.isCompleted()) {
                 return false;
             }
         }
@@ -36,10 +46,6 @@ public class Room {
     void resetRoom() {
         this.open = false;
         this.completed = false;
-    }
-
-    public String getRoomTitle() {
-        return roomTitle;
     }
 
     public boolean isOpen() {
@@ -66,8 +72,15 @@ public class Room {
     }
 
     //von hier bekommt man die Liste der im Raum vorhandenen Quizzes
-    List<Quiz>getQuizzes(){
+    List<Quiz> getQuizzes() {
         return new ArrayList<>(quizzes);
     }
+
+    public void setCompleted(boolean completed) {
+        boolean old = this.completed;
+        this.completed = completed;
+        pcs.firePropertyChange("completed", old, completed);
 }
+}
+
 
