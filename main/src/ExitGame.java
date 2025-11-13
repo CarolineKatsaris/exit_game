@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.EventQueue;
 
 import model.GameState;
+import model.Model;
 import view.MainView;
 import controller.Controller;
 
@@ -14,9 +15,9 @@ public class ExitGame {
         } catch (Exception ignored) {}
 
         EventQueue.invokeLater(() -> {
-            GameState gameState  = new GameState();
+            Model model  = new Model();
             MainView view = new MainView();
-            Controller controller = new Controller(gameState, view);
+            Controller controller = new Controller(model, view);
         });
     }
 }

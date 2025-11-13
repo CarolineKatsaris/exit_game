@@ -1,6 +1,7 @@
 package controller;
 
 import model.GameState;
+import model.Model;
 import view.EnumScreen;
 import view.MainView;
 
@@ -10,25 +11,23 @@ import java.util.Arrays;
 
 public class Controller implements PropertyChangeListener {
 
-    private final GameState gameState;
     private final MainView view;
+    private final Model model;
 
     /**
      * Konstruktor, registiert PropertyChangeListener und setzt den ersten Screen.
-     * @param gameState
+     * @param model
      * @param view
      */
-    public Controller(GameState gameState, MainView view) {
-        this.gameState = gameState;
+    public Controller(Model model, MainView view) {
+        this.model = model;
         this.view = view;
 
         // Der Controller hört aufs Model, PropertyChangeListener anlegen
-        gameState.addPropertyChangeListener(this);
+        model.addPropertyChangeListener(this);
 
         //Model initialisieren - triggert PropChange(Intro Daten)
-        //ToDo bessere Methode zum initialisieren des Models #51
-        gameState.setScreen(EnumScreen.values()[0].toString());
-
+        model.setStartState();
         view.setVisible(true);
     }
 
@@ -38,17 +37,19 @@ public class Controller implements PropertyChangeListener {
      * ToDo kein String
      */
     void loadScreen(String screen) {
-        //Screen anzeigen
-        view.showScreen(screen);
-
-        //ActionListener anlegen, der Controller reagiert auf die View:
-        //ToDo generisch, view.getScreen().getClickables() -> Schleife addActionListener
-        view.getStartButton().addActionListener(e -> {
-            // Spieler klickt "Starte Spiel" -> wir wechseln in den Hub
-            gameState.setScreen("login");
-        });
+        view.showScreen(screen); //Screen anzeigen
+        // ActionListener für  Buttons Elemente hinzufügen
+        switch (screen) {
+            case "start":
+                view.getStartButton().addActionListener(e -> model.nextScreen());
+                break;
+            case "login":
+                view.getSubmitButton().addActionListener(e -> model.nextScreen());
+                break;
+            default:
+                break;
+        }
     }
-
     /**
      * Event handler für Änderungen aus dem Modell
      * @param e A PropertyChangeEvent object describing the event source 
@@ -58,7 +59,7 @@ public class Controller implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent e) {
         //nur für Events vom Typ "screen"
         if(e.getPropertyName().equals("screen")) {
-            loadScreen((String) e.getNewValue());
+            loadScreen(((GameState) e.getNewValue()).getCurrentScreen().getTitle());
         }
     }
 }
