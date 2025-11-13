@@ -1,5 +1,7 @@
 package view;
 
+import model.EnumScreen;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -49,6 +51,10 @@ public class MainView extends JFrame {
 
     public void showScreen(String cardName) {
         cards.show(root, cardName);
+    }
+
+    public void showScreen(EnumScreen screen) {
+        cards.show(root, screen.getCardName());
     }
 
     public void showHub() {

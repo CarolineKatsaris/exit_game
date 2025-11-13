@@ -1,4 +1,4 @@
-package view;
+package model;
 
 public enum EnumScreen {
     START("start"),
