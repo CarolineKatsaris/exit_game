@@ -18,34 +18,36 @@ public class LoginView extends JPanel {
                 getClass().getResource("/HubViewBackground.png")
         ).getImage();
 
-        setLayout(new GridBagLayout()); //flexibles Layout, Komponenten können in Gitter angeordnet werden
-        GridBagConstraints gbc = new GridBagConstraints(); //Klasse, um Einstellungen für Positionierung der Komponenten zu definieren
-        gbc.insets = new Insets(10, 10, 10, 10); //Abstand um Komponenten
-        gbc.anchor = GridBagConstraints.CENTER; //Ausrichtung der Komponente in zugewiesener Zelle; Hier: Mittig
+        setLayout(null); // Absolutes Layout für Overlay
 
-        //Label für den Namen
+        // Rechteck für Eingabefelder
+        int rectX = 50;
+        int rectY = 200;
+        int rectWidth = 400;
+        int rectHeight = 150;
+
+        // Label für den Namen
         JLabel nameLabel = new JLabel("Name:");
-        gbc.gridx = 0;
-        gbc.gridy = 0;
         nameLabel.setForeground(Color.BLACK);
-        add(nameLabel, gbc);
         nameLabel.setOpaque(true);
         nameLabel.setBackground(new Color(255, 255, 255, 150));
+        nameLabel.setBounds(rectX + 20, rectY + 20, 80, 30); // Position innerhalb des Rechtecks
+        add(nameLabel);
 
-        //Textfeld für Namen eingeben
+        // Textfeld für Namen eingeben
         nameField = new JTextField(20);
         nameField.setText("Tippe hier deinen Vornamen ein!");
         nameField.setForeground(Color.GRAY);
-        gbc.gridx = 1;
-        add(nameField, gbc);
+        nameField.setBounds(rectX + 110, rectY + 20, 200, 30); // Position innerhalb des Rechtecks
+        add(nameField);
 
-        /*// FocusListener hinzufügen
+        // FocusListener hinzufügen
         nameField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (nameField.getText().equals("Vorname eingeben")) {
+                if (nameField.getText().equals("Tippe hier deinen Vornamen ein!")) {
                     nameField.setText(""); // Platzhaltertext entfernen
-                    nameField.setForeground(Color.BLACK); // Schriftfarbe ändern, wenn der Benutzer tippt
+                    nameField.setForeground(Color.BLACK); // Schriftfarbe ändern
                 }
             }
 
@@ -53,40 +55,34 @@ public class LoginView extends JPanel {
             public void focusLost(FocusEvent e) {
                 if (nameField.getText().isEmpty()) {
                     nameField.setForeground(Color.GRAY); // Farbe zurücksetzen
-                    nameField.setText("Vorname eingeben"); // Platzhaltertext zurücksetzen
+                    nameField.setText("Tippe hier deinen Vornamen ein!"); // Platzhaltertext zurücksetzen
                 }
             }
-        });*/
+        });
 
-        //Auswahl der Schwierigkeit
+        // Auswahl der Schwierigkeit
         JLabel difficultyLabel = new JLabel("Schwierigkeitsstufe:");
-        gbc.gridx = 0;
-        gbc.gridy = 1;
         difficultyLabel.setForeground(Color.BLACK);
-        add(difficultyLabel, gbc);
         difficultyLabel.setOpaque(true);
         difficultyLabel.setBackground(new Color(255, 255, 255, 150));
+        difficultyLabel.setBounds(rectX + 20, rectY + 60, 150, 30); // Position innerhalb des Rechtecks
+        add(difficultyLabel);
 
         String[] difficulties = {"Unterstufe", "Mittelstufe", "Oberstufe"};
         difficultySelection = new JComboBox<>(difficulties);
-        gbc.gridx = 1;
-        add(difficultySelection, gbc);
+        difficultySelection.setBounds(rectX + 180, rectY + 60, 130, 30); // Position innerhalb des Rechtecks
+        add(difficultySelection);
 
-        //Bestätigen Button
+        // Bestätigen Button
         submitButton = new JButton("Starten");
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-
         submitButton.setBackground(new Color(0, 120, 215));
         submitButton.setForeground(Color.BLACK);
         submitButton.setFont(new Font("SansSerif", Font.BOLD, 14));
-
-        add(submitButton, gbc);
+        submitButton.setBounds(rectX + 100, rectY + 100, 200, 30); // Position innerhalb des Rechtecks
+        add(submitButton);
     }
 
-    //Bild als Hintergrund zeichnen
+    // Bild als Hintergrund zeichnen
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -103,11 +99,12 @@ public class LoginView extends JPanel {
         // Berechnung der Position und Größe des Rechtecks
         int rectX = 50; // X-Position des Rechtecks
         int rectY = 200; // Y-Position des Rechtecks
-        int rectWidth = getWidth() - 100; // Breite des Rechtecks
+        int rectWidth = 400; // Breite des Rechtecks
         int rectHeight = 150; // Höhe des Rechtecks
 
         g2d.fillRoundRect(rectX, rectY, rectWidth, rectHeight, 20, 20); // Rechteck mit abgerundeten Ecken
     }
+
     public JButton getSubmitButton() {
         return submitButton;
     }
