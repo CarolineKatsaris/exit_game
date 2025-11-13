@@ -2,12 +2,11 @@ package controller;
 
 import model.GameState;
 import model.Model;
-import view.EnumScreen;
+import model.EnumScreen;
 import view.MainView;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Arrays;
 
 public class Controller implements PropertyChangeListener {
 
@@ -15,7 +14,7 @@ public class Controller implements PropertyChangeListener {
     private final Model model;
 
     /**
-     * Konstruktor, registiert PropertyChangeListener und setzt den ersten Screen.
+     * Konstruktor, registriert PropertyChangeListener und setzt den ersten Screen.
      * @param model
      * @param view
      */
@@ -33,17 +32,17 @@ public class Controller implements PropertyChangeListener {
 
     /**
      * Lädt Screen in MainView und legt die ActionListener an.
-     * @param screen Screenname als String
-     * ToDo kein String
+     * @param screen Screen als EnumScreen
+     *
      */
-    void loadScreen(String screen) {
+    void loadScreen(EnumScreen screen) {
         view.showScreen(screen); //Screen anzeigen
         // ActionListener für  Buttons Elemente hinzufügen
         switch (screen) {
-            case "start":
+            case START:
                 view.getStartButton().addActionListener(e -> model.nextScreen());
                 break;
-            case "login":
+            case LOGIN:
                 view.getSubmitButton().addActionListener(e -> model.nextScreen());
                 break;
             default:
@@ -58,8 +57,20 @@ public class Controller implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         //nur für Events vom Typ "screen"
-        if(e.getPropertyName().equals("screen")) {
-            loadScreen(((GameState) e.getNewValue()).getCurrentScreen().getTitle());
+        if("screen".equals(e.getPropertyName())) {
+            GameState state = (GameState) e.getNewValue();
+            String title = state.getCurrentScreen().getTitle();  // z.B. "start", "Grafikkarte", ...
+
+            EnumScreen screen;
+            try {
+                // versucht, z.B. "start" → "START" → EnumScreen.START
+                screen = EnumScreen.valueOf(title.toUpperCase());
+            } catch (IllegalArgumentException ex) {
+                // Wenn es kein Enum-Wert ist (z.B. "Grafikkarte"), dann ist es irgendein Raum:
+                screen = EnumScreen.ROOM;
+            }
+
+            loadScreen(screen);
         }
     }
 }

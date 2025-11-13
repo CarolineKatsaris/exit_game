@@ -1,8 +1,5 @@
 package model;
 
-import view.EnumScreen;
-import view.RoomView;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -11,7 +8,7 @@ import java.util.List;
 public class GameState {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-    // das ist euer "Screen"-Zustand aus dem Klassendiagramm - wofür wird das benötigt?
+    // das ist euer "screen"-Zustand aus dem Klassendiagramm - wofür wird das benötigt?
     private Screen currentScreen;
     private String username;
     //Liste der einzelnen Räume, die schon offen bzw. geschlossen sind
