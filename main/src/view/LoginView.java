@@ -1,5 +1,7 @@
 package view;
 
+import model.EnumDifficulty;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
@@ -9,7 +11,7 @@ public class LoginView extends JPanel {
 
     private final Image backgroundImageLogin;
     final JTextField nameField;
-    final JComboBox<String> difficultySelection;
+    final JComboBox<EnumDifficulty> difficultySelection;
     final JButton submitButton;
 
     public LoginView() {
@@ -68,7 +70,7 @@ public class LoginView extends JPanel {
         difficultyLabel.setBounds(rectX + 20, rectY + 60, 150, 30); // Position innerhalb des Rechtecks
         add(difficultyLabel);
 
-        String[] difficulties = {"Unterstufe", "Mittelstufe", "Oberstufe"};
+        EnumDifficulty[] difficulties = {EnumDifficulty.Unterstufe, EnumDifficulty.Mittelstufe, EnumDifficulty.Oberstufe};
         difficultySelection = new JComboBox<>(difficulties);
         difficultySelection.setBounds(rectX + 180, rectY + 60, 130, 30); // Position innerhalb des Rechtecks
         add(difficultySelection);

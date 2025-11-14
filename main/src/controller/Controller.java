@@ -43,7 +43,7 @@ public class Controller implements PropertyChangeListener {
                 view.getStartButton().addActionListener(e -> model.nextScreen());
                 break;
             case LOGIN:
-                view.getSubmitButton().addActionListener(e -> model.nextScreen());
+                view.getSubmitButton().addActionListener(e -> model.validateLogin(view.getLoginUsername(), view.getLoginDifficulty()));
                 break;
             default:
                 break;

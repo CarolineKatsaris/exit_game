@@ -7,19 +7,14 @@ import java.util.List;
 
 public class GameState {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-
+    //Liste der einzelnen Räume, die schon offen bzw. geschlossen sind
+    private final List<Room> roomOverview = new ArrayList<>();
+    //Liste aller möglichen Screens, die angesteuert werden können
+    private final List<Screen>availableScreens;
     // das ist euer "screen"-Zustand aus dem Klassendiagramm - wofür wird das benötigt?
     private Screen currentScreen;
     private String username;
-    //Liste der einzelnen Räume, die schon offen bzw. geschlossen sind
-    private final List<Room> roomOverview = new ArrayList<>();
-
-    public List<Screen> getAvailableScreens() {
-        return availableScreens;
-    }
-
-    //Liste aller möglichen Screens, die angesteuert werden können
-    private final List<Screen>availableScreens;
+    private EnumDifficulty difficulty;
 
     // Konstruktor - erzeugt die Räume, zunächst alle geschlossen
     public GameState() {
@@ -77,6 +72,10 @@ public class GameState {
         );
     }
 
+    public List<Screen> getAvailableScreens() {
+        return availableScreens;
+    }
+
     List<Room> getRoomOverview() {
         return new ArrayList<>(roomOverview);
     }
@@ -98,13 +97,21 @@ public class GameState {
     }
 
     //Hier wird geprüft, ob der Screen, den ich ansteuern möchte, überhaupt existiert (aus der Liste, die oben angelegt wurde)
-    public void changeScreen(Screen newScreen){
+    void changeScreen(Screen newScreen){
         if (!availableScreens.contains(newScreen)){
             System.err.println("Unbekannter Screen: " + newScreen.title);
             return;
         }
 
         this.currentScreen = newScreen;
+    }
+
+    public Enum getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(EnumDifficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener l) {
@@ -122,11 +129,11 @@ public class GameState {
         }
 
     //diese Methode leitet automatisch zum EndScreen über, wenn alle Räume abgeschlossen sind
-    public void checkForGameCompletion(){
+    void checkForGameCompletion(){
         if (allRoomsCompleted()){
             changeScreen(getAvailableScreens().get(7));
             pcs.firePropertyChange("gameCompleted", false, true);
         }
     }
-    }
+}
 
