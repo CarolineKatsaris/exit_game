@@ -2,7 +2,6 @@ package controller;
 
 import model.GameState;
 import model.Model;
-import model.EnumScreen;
 import view.MainView;
 
 import java.beans.PropertyChangeEvent;
@@ -14,9 +13,12 @@ public class Controller implements PropertyChangeListener {
     private final Model model;
 
     /**
-     * Konstruktor, registriert PropertyChangeListener und setzt den ersten Screen.
-     * @param model
-     * @param view
+     * Constructs a Controller instance that connects the given Model and MainView.
+     * The Controller observes the Model for property changes and initializes the
+     * application's starting state. It also makes the MainView visible.
+     *
+     * @param model The Model instance to be controlled and observed.
+     * @param view The MainView instance to be interacted with and controlled.
      */
     public Controller(Model model, MainView view) {
         this.model = model;
@@ -32,17 +34,17 @@ public class Controller implements PropertyChangeListener {
 
     /**
      * Lädt Screen in MainView und legt die ActionListener an.
-     * @param screen Screen als EnumScreen
-     *
+     * @param screen Screenname als String
+     * ToDo kein String
      */
-    void loadScreen(EnumScreen screen) {
+    void loadScreen(String screen) {
         view.showScreen(screen); //Screen anzeigen
-        // ActionListener für  Buttons Elemente hinzufügen
+        // ActionListener für Buttons Elemente hinzufügen
         switch (screen) {
-            case START:
+            case "start":
                 view.getStartButton().addActionListener(e -> model.nextScreen());
                 break;
-            case LOGIN:
+            case "login":
                 view.getSubmitButton().addActionListener(e -> model.validateLogin(view.getLoginUsername(), view.getLoginDifficulty()));
                 break;
             default:
@@ -57,20 +59,8 @@ public class Controller implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         //nur für Events vom Typ "screen"
-        if("screen".equals(e.getPropertyName())) {
-            GameState state = (GameState) e.getNewValue();
-            String title = state.getCurrentScreen().getTitle();  // z.B. "start", "Grafikkarte", ...
-
-            EnumScreen screen;
-            try {
-                // versucht, z.B. "start" → "START" → EnumScreen.START
-                screen = EnumScreen.valueOf(title.toUpperCase());
-            } catch (IllegalArgumentException ex) {
-                // Wenn es kein Enum-Wert ist (z.B. "Grafikkarte"), dann ist es irgendein Raum:
-                screen = EnumScreen.ROOM;
-            }
-
-            loadScreen(screen);
+        if(e.getPropertyName().equals("screen")) {
+            loadScreen(((GameState) e.getNewValue()).getCurrentScreen().getTitle());
         }
     }
 }

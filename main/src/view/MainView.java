@@ -20,7 +20,7 @@ public class MainView extends JFrame {
     public MainView() {
         setTitle("Exit Game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(1536, 1024);
 
         // Layout-Container für die Screens
         cards = new CardLayout();
