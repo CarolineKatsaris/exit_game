@@ -14,7 +14,7 @@ public class Room extends Screen {
     private List<Quiz> quizzes = new ArrayList<>();
     private int currentQuizIndex = 0;
 
-    public Room(String roomTitle, boolean open) {
+    public Room(EnumScreen roomTitle, boolean open) {
         super(roomTitle); //roomTitle an Elternklasse Screen übergeben und dort als title speichern
         this.open = open;
     }

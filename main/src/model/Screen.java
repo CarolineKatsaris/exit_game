@@ -1,13 +1,13 @@
 package model;
 
 public class Screen {
-    String title;
+    EnumScreen title;
 
-    Screen(String title) {
+    Screen(EnumScreen title) {
         this.title = title;
     }
 
-    public String getTitle() {
+    public EnumScreen getTitle() {
         return title;
     }
 }

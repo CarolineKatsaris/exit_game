@@ -29,11 +29,11 @@ public class Model {
 
     //ToDo das soll in GameState und in getScreenByTitle umbenannt werden
     public Room getRoomByRoomTitle(String roomTitle) {
-        for (Room r : gameState.getRoomOverview()) {
-            if (r.getTitle().equalsIgnoreCase(roomTitle)){
-                return r;
-        }
-    }
+//        for (Raum r : gameState.getRoomOverview()) {
+//            if (r.getTitle().equalsIgnoreCase(roomTitle)){
+//                return r;
+//            }
+//        }
         return null;
     }
 
@@ -51,11 +51,11 @@ public class Model {
         pcs.firePropertyChange("screen", null, gameState);
     }
 
-    //mit dieser Methode können die Screens per Room-Objekt gewechselt werden
+    //mit dieser Methode können die Screens per Raum-Objekt gewechselt werden
     void openRoom(Room room){
         if (room ==null) return;
     //hier wird der Screen Name generiert (Setzt sich aus dem RaumNamen plus "room_" zusammen
-        String roomScreen = "room_" + room.getTitle().toLowerCase();
+        //String roomScreen = "room_" + room.getTitle().toLowerCase();
 
         if(!room.isOpen()){
             room.setOpen(true);
