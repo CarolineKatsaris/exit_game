@@ -33,10 +33,10 @@ public class MainView extends JFrame {
         roomView = new RoomView();
 
         // Screens registrieren mit Namen
-        root.add(startView, EnumScreen.START.getCardName());
-        root.add(hubView, EnumScreen.HUB.getCardName());
-        root.add(loginView, EnumScreen.LOGIN.getCardName());
-        root.add(roomView, EnumScreen.ROOM.getCardName());
+        root.add(startView, EnumScreen.Start.toString());
+        root.add(hubView, EnumScreen.Hub.toString());
+        root.add(loginView, EnumScreen.Login.toString());
+        root.add(roomView, EnumScreen.Raum.toString());
 
         // Alles ins Fenster
         add(root, BorderLayout.CENTER);
@@ -60,12 +60,16 @@ public class MainView extends JFrame {
         }
     }
 
-    public void showScreen(String cardName) {
-        cards.show(root, cardName);
+    public RoomView getRoomView() {
+        return roomView;
     }
 
+    public void showScreen(String cardName) {
+        cards.show(root, cardName);
+    } // String cardName -> Screen s (Enum), cardname -> s.name
+
     public void showScreen(EnumScreen screen) {
-        cards.show(root, screen.getCardName());
+        cards.show(root, screen.toString());
     }
 
     public void showHub() {

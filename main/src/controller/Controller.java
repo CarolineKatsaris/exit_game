@@ -1,5 +1,6 @@
 package controller;
 
+import model.EnumScreen;
 import model.GameState;
 import model.Model;
 import view.MainView;
@@ -34,18 +35,24 @@ public class Controller implements PropertyChangeListener {
 
     /**
      * Lädt Screen in MainView und legt die ActionListener an.
-     * @param screen Screenname als String
-     * ToDo kein String
+     * @param screen Screen als EnumScreen
+     * Später: view.getButtonsFor(screen).forEach(btn ->
+     *     btn.addActionListener(e -> model.handleEvent(btn.getActionCommand()))
+     * );
      */
-    void loadScreen(String screen) {
+    void loadScreen(EnumScreen screen) {
         view.showScreen(screen); //Screen anzeigen
         // ActionListener für Buttons Elemente hinzufügen
         switch (screen) {
-            case "start":
+            case Start: //-> {} * eventuell Pfeil + Klammernschreibweise statt break
                 view.getStartButton().addActionListener(e -> model.nextScreen());
                 break;
-            case "login":
+            case Login:
                 view.getSubmitButton().addActionListener(e -> model.validateLogin(view.getLoginUsername(), view.getLoginDifficulty()));
+                break;
+            //-> {} * eventuell Pfeil + Klammernschreibweise statt break
+            case Raum:
+                registerRoomListeners();
                 break;
             default:
                 break;
@@ -63,4 +70,46 @@ public class Controller implements PropertyChangeListener {
             loadScreen(((GameState) e.getNewValue()).getCurrentScreen().getTitle());
         }
     }
+   // ToDo: Generischere Methode finden
+    private boolean roomListenersRegistered = false;
+
+    private void registerRoomListeners() {
+
+        if (roomListenersRegistered) return;
+        roomListenersRegistered = true;
+
+        var room = view.getRoomView();
+
+        // -------------------
+        // QUIZ-BUTTON CLICKS ->  model.nextScreen() als Platzhalter
+        // -------------------
+        room.getQuiz1Button().addActionListener(e -> model.nextScreen());
+        room.getQuiz2Button().addActionListener(e -> model.nextScreen());
+        room.getQuiz3Button().addActionListener(e -> model.nextScreen());
+
+        // -------------------
+        // HOVER-EFFEKTE
+        // -------------------
+        room.getQuiz1Button().addMouseListener(
+                new HoverAdapter(
+                        () -> room.setQuiz1Highlight(true),
+                        () -> room.setQuiz1Highlight(false)
+                )
+        );
+
+        room.getQuiz2Button().addMouseListener(
+                new HoverAdapter(
+                        () -> room.setQuiz2Highlight(true),
+                        () -> room.setQuiz2Highlight(false)
+                )
+        );
+
+        room.getQuiz3Button().addMouseListener(
+                new HoverAdapter(
+                        () -> room.setQuiz3Highlight(true),
+                        () -> room.setQuiz3Highlight(false)
+                )
+        );
+    }
+
 }

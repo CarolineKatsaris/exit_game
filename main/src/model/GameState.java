@@ -14,11 +14,11 @@ public class GameState {
 
     // Konstruktor - erzeugt die Räume, zunächst alle geschlossen
     public GameState() {
-        Room graphicRoom = new Room("Grafikkarte",false);
-        Room ramRoom = new Room("RAM", false);
-        Room fileRoom = new Room("Dateisystem", false);
-        Room netRoom = new Room("Netzwerk", false);
-        Room cpuRoom = new Room("CPU", false);
+        Room graphicRoom = new Room(EnumScreen.Grafikkarte,false);
+        Room ramRoom = new Room(EnumScreen.RAM, false);
+        Room fileRoom = new Room(EnumScreen.Dateisystem, false);
+        Room netRoom = new Room(EnumScreen.Netzwerk, false);
+        Room cpuRoom = new Room(EnumScreen.CPU, false);
 
         //Quizze für jeden Raum erstellen und auf eine Liste mit allen drei setzen
         Quiz graphicQuiz1 = new Quiz();
@@ -55,16 +55,16 @@ public class GameState {
 
         //Räume in die Screens Liste eintragen
         availableScreens = List.of(
-            new Screen(EnumScreen.START.toString()),
-                new Screen(EnumScreen.LOGIN.toString()),
+            new Screen(EnumScreen.Start),
+            new Screen(EnumScreen.Login),
             //new Screen("hub"),
-            new Screen(EnumScreen.ROOM.toString()),
+            new Screen(EnumScreen.Raum),
             graphicRoom,
             ramRoom,
             fileRoom,
             netRoom,
             cpuRoom,
-            new Screen("end")
+            new Screen(EnumScreen.Ende)
         );
     }
 
