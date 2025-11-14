@@ -19,13 +19,6 @@ public class Room extends Screen {
         this.open = open;
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener l2){
-        pcs.addPropertyChangeListener(l2);}
-
-
-    public void removePropertyChangeListener(PropertyChangeListener l2){
-        pcs.removePropertyChangeListener(l2);
-    }
     boolean isCompleted() {
         //Raum ist abgeschlossen, wenn alle Quizzes abgeschlossen sind
         for (Quiz quiz : quizzes) {

@@ -1,17 +1,13 @@
 package model;
 
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameState {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    //Liste der einzelnen Räume, die schon offen bzw. geschlossen sind
-    private final List<Room> roomOverview = new ArrayList<>();
-    //Liste aller möglichen Screens, die angesteuert werden können
-    private final List<Screen>availableScreens;
-    // das ist euer "screen"-Zustand aus dem Klassendiagramm - wofür wird das benötigt?
+    private final List<Room> roomOverview = new ArrayList<>(); //Liste der einzelnen Räume, die schon offen bzw. geschlossen sind
+    private final List<Screen>availableScreens; //Liste aller möglichen Screens, die angesteuert werden können
     private Screen currentScreen;
     private String username;
     private EnumDifficulty difficulty;
@@ -57,7 +53,7 @@ public class GameState {
         roomOverview.add(netRoom);
         roomOverview.add(cpuRoom);
 
-        //Räume in die Screen Liste eintragen
+        //Räume in die Screens Liste eintragen
         availableScreens = List.of(
             new Screen(EnumScreen.START.toString()),
                 new Screen(EnumScreen.LOGIN.toString()),
@@ -80,7 +76,7 @@ public class GameState {
         return new ArrayList<>(roomOverview);
     }
 
-    //benötigt für Anrede des Benutzers im Storytelling
+    //Wird benötigt für Anrede des Benutzers im Storytelling
     public String getUsername() {
         return username;
     }
@@ -91,7 +87,7 @@ public class GameState {
         pcs.firePropertyChange("username", old, username); //übermittelt Namensänderungen
     }
 
-    // Verwendung für das Cardlayout
+    // Verwendung für das Card Layout
     public Screen getCurrentScreen() {
         return currentScreen;
     }
@@ -106,16 +102,12 @@ public class GameState {
         this.currentScreen = newScreen;
     }
 
-    public Enum getDifficulty() {
+    public EnumDifficulty getDifficulty() {
         return difficulty;
     }
 
     public void setDifficulty(EnumDifficulty difficulty) {
         this.difficulty = difficulty;
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener l) {
-        pcs.addPropertyChangeListener(l);
     }
 
     //prüft, ob ALLE Räume abgeschlossen sind und das Spiel somit zu Ende ist

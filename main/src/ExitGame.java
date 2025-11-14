@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.EventQueue;
 
-import model.GameState;
 import model.Model;
 import view.MainView;
 import controller.Controller;
