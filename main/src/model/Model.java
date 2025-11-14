@@ -17,8 +17,13 @@ public class Model {
         return gameState;
     }
 
-    //Hier erfolgt durch die beiden Methoden der Zugriff auf die einzelnen Räume
-    public List<Room> getRooms(){
+    void setGameState(GameState newState) {
+        GameState oldState = this.gameState;
+        this.gameState = newState;
+        pcs.firePropertyChange("gameState", oldState, newState);
+    }
+
+    List<Room> getRooms(){
         return gameState.getRoomOverview();
     }
 
@@ -40,21 +45,14 @@ public class Model {
         pcs.removePropertyChangeListener(listener);
     }
 
-    //hier wird immer nach dem aktuellen Gamestate abgefragt
-    public void setGameState(GameState newState) {
-        GameState oldState = this.gameState;
-        this.gameState = newState;
-        pcs.firePropertyChange("gameState", oldState, newState);
-    }
-
     // hier werden die Screens auch direkt gewechselt
-    public void changeScreen(Screen newScreen){
+    void changeScreen(Screen newScreen){
         gameState.changeScreen(newScreen);
         pcs.firePropertyChange("screen", null, gameState);
     }
 
     //mit dieser Methode können die Screens per Room-Objekt gewechselt werden
-    public void openRoom(Room room){
+    void openRoom(Room room){
         if (room ==null) return;
     //hier wird der Screen Name generiert (Setzt sich aus dem RaumNamen plus "room_" zusammen
         String roomScreen = "room_" + room.getTitle().toLowerCase();
@@ -67,13 +65,14 @@ public class Model {
     }
 
     // Diese Methode markiert den Raum als abgeschlossen und prüft, ob ALLE Räume fertig sind
-    public void completeRoom(Room room){
+    void completeRoom(Room room){
         room.setCompleted(true);
         pcs.firePropertyChange("roomCompleted", null, room);
         gameState.checkForGameCompletion();
     }
+
     //mit dieser Methode kann einfach zur HubAnsicht gewechselt werden
-    public void returnToHub(){
+    void returnToHub(){
         //ToDo Fix
         //changeScreen("hub");
     }
@@ -86,5 +85,15 @@ public class Model {
         int nextIdx = gameState.getAvailableScreens().indexOf(gameState.getCurrentScreen());
         nextIdx++;
         changeScreen(gameState.getAvailableScreens().get(nextIdx));
+    }
+
+    public void validateLogin(String username, EnumDifficulty difficulty){
+        if (!username.isBlank()){
+            gameState.setUsername(username);
+            gameState.setDifficulty(difficulty);
+            nextScreen();
+        } else {
+            //auf Login Screen bleiben
+        }
     }
 }

@@ -1,5 +1,6 @@
 package view;
 
+import model.EnumDifficulty;
 import model.EnumScreen;
 
 import javax.swing.*;
@@ -47,7 +48,17 @@ public class MainView extends JFrame {
         return startView.getStartButton();
     }
 
+    // Login-View Werte, ToDo generische Implementierung
     public JButton getSubmitButton() { return loginView.getSubmitButton();}
+    public EnumDifficulty getLoginDifficulty() { return (EnumDifficulty) loginView.difficultySelection.getSelectedItem();}
+    public String getLoginUsername() {
+        if(loginView.nameField.getText().equals("Tippe hier deinen Vornamen ein!")){ //Default Value filtern
+            return "";
+        }
+        else  {
+            return loginView.nameField.getText();
+        }
+    }
 
     public void showScreen(String cardName) {
         cards.show(root, cardName);
