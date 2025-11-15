@@ -13,8 +13,7 @@ public class RoomView extends JLayeredPane {
     public RoomView() {
         setLayout(null);
 
-        ImageIcon bg = new ImageIcon(getClass()
-                .getResource("/GraphicsCardRoomView_elements.png"));
+        ImageIcon bg = new ImageIcon(getClass().getResource("/GraphicsCardRoomView_elements.png"));
         background = new JLabel(bg);
         background.setBounds(0, 0, bg.getIconWidth(), bg.getIconHeight());
         add(background, Integer.valueOf(0)); // unterste Ebene

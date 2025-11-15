@@ -51,7 +51,7 @@ public class Controller implements PropertyChangeListener {
                 view.getSubmitButton().addActionListener(e -> model.validateLogin(view.getLoginUsername(), view.getLoginDifficulty()));
                 break;
             //-> {} * eventuell Pfeil + Klammernschreibweise statt break
-            case Raum:
+            case Room:
                 registerRoomListeners();
                 break;
             default:

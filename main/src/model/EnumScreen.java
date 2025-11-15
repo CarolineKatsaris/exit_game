@@ -1,14 +1,14 @@
 package model;
 
-public enum EnumScreen {
+public enum EnumScreen { //Besser in Großbuchstaben, weil Konvention -> Leichter erkennbar, dass es sich um ein Enum handelt.
     Start,
     Hub,
     Login,
-    Raum,
-    Grafikkarte,
-    RAM,
-    Dateisystem,
-    Netzwerk,
-    CPU,
-    Ende;
+    Room,
+    GraphicRoom,
+    RAMRoom,
+    FileRoom,
+    NetRoom,
+    CPURoom,
+    End;
 }
