@@ -34,9 +34,9 @@ public class MainView extends JFrame {
 
         // Screens registrieren mit Namen
         root.add(startView, EnumScreen.Start.toString());
-        root.add(hubView, EnumScreen.Hub.toString());
+        // später: root.add(hubView, EnumScreen.Hub.toString());
         root.add(loginView, EnumScreen.Login.toString());
-        root.add(roomView, EnumScreen.Raum.toString());
+        root.add(roomView, EnumScreen.Room.toString());
 
         // Alles ins Fenster
         add(root, BorderLayout.CENTER);
@@ -49,13 +49,18 @@ public class MainView extends JFrame {
     }
 
     // Login-View Werte, ToDo generische Implementierung
-    public JButton getSubmitButton() { return loginView.getSubmitButton();}
-    public EnumDifficulty getLoginDifficulty() { return (EnumDifficulty) loginView.difficultySelection.getSelectedItem();}
+    public JButton getSubmitButton() {
+        return loginView.getSubmitButton();
+    }
+
+    public EnumDifficulty getLoginDifficulty() {
+        return (EnumDifficulty) loginView.difficultySelection.getSelectedItem();
+    }
+
     public String getLoginUsername() {
-        if(loginView.nameField.getText().equals("Tippe hier deinen Vornamen ein!")){ //Default Value filtern
+        if (loginView.nameField.getText().equals("Tippe hier deinen Vornamen ein!")) { //Default Value filtern
             return "";
-        }
-        else  {
+        } else {
             return loginView.nameField.getText();
         }
     }
@@ -72,7 +77,8 @@ public class MainView extends JFrame {
         cards.show(root, screen.toString());
     }
 
-    public void showHub() {
+    /*public void showHub() {
         cards.show(root, "hub");
-    }}
+    }*/
+}
 

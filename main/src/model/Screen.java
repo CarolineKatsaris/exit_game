@@ -1,11 +1,11 @@
 package model;
 
 public class Screen {
-    EnumScreen title;
+    private  EnumScreen title;
 
-    Screen(EnumScreen title) {
+    public Screen(EnumScreen title) {
         this.title = title;
-    }
+    } // public oder private?
 
     public EnumScreen getTitle() {
         return title;

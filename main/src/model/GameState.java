@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameState {
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);// Braucht man den in GameState?
     private final List<Room> roomOverview = new ArrayList<>(); //Liste der einzelnen Räume, die schon offen bzw. geschlossen sind
     private final List<Screen>availableScreens; //Liste aller möglichen Screens, die angesteuert werden können
     private Screen currentScreen;
@@ -14,11 +14,11 @@ public class GameState {
 
     // Konstruktor - erzeugt die Räume, zunächst alle geschlossen
     public GameState() {
-        Room graphicRoom = new Room(EnumScreen.Grafikkarte,false);
-        Room ramRoom = new Room(EnumScreen.RAM, false);
-        Room fileRoom = new Room(EnumScreen.Dateisystem, false);
-        Room netRoom = new Room(EnumScreen.Netzwerk, false);
-        Room cpuRoom = new Room(EnumScreen.CPU, false);
+        Room graphicRoom = new Room(EnumScreen.GraphicRoom,false);
+        Room ramRoom = new Room(EnumScreen.RAMRoom, false);
+        Room fileRoom = new Room(EnumScreen.FileRoom, false);
+        Room netRoom = new Room(EnumScreen.NetRoom, false);
+        Room cpuRoom = new Room(EnumScreen.CPURoom, false);
 
         //Quizze für jeden Raum erstellen und auf eine Liste mit allen drei setzen
         Quiz graphicQuiz1 = new Quiz();
@@ -58,13 +58,13 @@ public class GameState {
             new Screen(EnumScreen.Start),
             new Screen(EnumScreen.Login),
             //new Screen("hub"),
-            new Screen(EnumScreen.Raum),
+            new Screen(EnumScreen.Room),
             graphicRoom,
             ramRoom,
             fileRoom,
             netRoom,
             cpuRoom,
-            new Screen(EnumScreen.Ende)
+            new Screen(EnumScreen.End)
         );
     }
 
@@ -81,10 +81,10 @@ public class GameState {
         return username;
     }
 
-    public void setUsername(String username){
+    public void setUsername(String username){ //übermittelt Namensänderungen -> Muss ins Model
         String old = this.username;
         this.username = username;
-        pcs.firePropertyChange("username", old, username); //übermittelt Namensänderungen
+        pcs.firePropertyChange("username", old, username);
     }
 
     // Verwendung für das Card Layout
@@ -95,7 +95,7 @@ public class GameState {
     //Hier wird geprüft, ob der Screen, den ich ansteuern möchte, überhaupt existiert (aus der Liste, die oben angelegt wurde)
     void changeScreen(Screen newScreen){
         if (!availableScreens.contains(newScreen)){
-            System.err.println("Unbekannter Screen: " + newScreen.title);
+            System.err.println("Unbekannter Screen: " + newScreen.getTitle());
             return;
         }
 
@@ -121,7 +121,7 @@ public class GameState {
         }
 
     //diese Methode leitet automatisch zum EndScreen über, wenn alle Räume abgeschlossen sind
-    void checkForGameCompletion(){
+    void checkForGameCompletion(){ //-> Muss ins Model
         if (allRoomsCompleted()){
             changeScreen(getAvailableScreens().get(7));
             pcs.firePropertyChange("gameCompleted", false, true);
