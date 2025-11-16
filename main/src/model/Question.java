@@ -1,8 +1,17 @@
 package model;
+import java.util.List;
 
 public class Question {
 
     private String question;
+    private final List<String> answers; // genau 4
+    private final int correctIndex; // 0..3
+
+    public Question(String questionText, List<String> answers, int correctIndex) {
+        this.question = questionText;
+        this.answers = answers;
+        this.correctIndex = correctIndex;
+    }
 
     public String getQuestion() {
         return question;
@@ -12,14 +21,14 @@ public class Question {
         this.question = question;
     }
 
-    private String answer;
-
-    public String getAnswer() {
-        return answer;
+    public List<String> getAnswers() {
+        return answers;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public int getCorrectIndex() {
+        return correctIndex;
     }
+
+
 
 }

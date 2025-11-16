@@ -2,6 +2,7 @@ package view;
 
 import model.EnumDifficulty;
 import model.EnumScreen;
+import model.Question;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class MainView extends JFrame {
     private LoginView loginView;
     private HubView hubView;
     private RoomView roomView;
+    private QuizView quizView;
 
     public MainView() {
         setTitle("Exit Game");
@@ -31,6 +33,11 @@ public class MainView extends JFrame {
         hubView = new HubView();
         loginView = new LoginView();
         roomView = new RoomView();
+        quizView = new QuizView();
+        // GlassPane setzen
+        setGlassPane(quizView);
+        quizView.setVisible(false);
+
 
         // Screens registrieren mit Namen
         root.add(startView, EnumScreen.Start.toString());
@@ -80,5 +87,17 @@ public class MainView extends JFrame {
     /*public void showHub() {
         cards.show(root, "hub");
     }*/
+    public void showQuiz(Question q) {
+        quizView.setQuestion(q);
+        quizView.setVisible(true);
+    }
+
+    public void hideQuiz() {
+        quizView.setVisible(false);
+    }
+
+    public JButton[] getQuizAnswerButtons() {
+        return quizView.getAnswerButtons();
+    }
 }
 
