@@ -1,6 +1,6 @@
 package model;
 
-public class MultipleChoice extends Question{
+public class MultipleChoice /*extends Question */{
 
     //Liste der MultipleChoice Fragen
 

@@ -8,6 +8,8 @@ import java.util.List;
 public class Model {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private GameState gameState;
+    private Question currentQuestion;
+
 
     public  Model() {
         this.gameState = new GameState();
@@ -62,6 +64,45 @@ public class Model {
             pcs.firePropertyChange("roomOpen", null, room);
         }
         changeScreen(room);
+    }
+
+    // Methoden für Quiz
+
+    public Question getCurrentQuestion() {
+        return currentQuestion;
+    }
+
+    // Quiz starten
+    public void startQuizForCurrentRoom() {
+        // TODO: hier später je nach Room die passende Frage holen
+        currentQuestion = new Question(
+                "Was macht die GPU?",
+                List.of("Grafik berechnen", "Daten speichern", "CPU kühlen", "Strom liefern"),
+                0 // richtige Antwort
+        );
+
+        // View informieren: Quiz anzeigen und Frage anzeigen
+        pcs.firePropertyChange("quizShown", null, currentQuestion);
+    }
+
+    // Auf Antwortbutton reagieren
+    public void handleQuizAnswer(String actionCommand) {
+        // z.B. "QUIZ_ANSWER_0" -> Index extrahieren
+        int chosenIndex = Integer.parseInt(
+                actionCommand.substring("QUIZ_ANSWER_".length())
+        );
+
+        boolean correct = (chosenIndex == currentQuestion.getCorrectIndex());
+
+        // TODO: Punkte / Leben / Feedback / Raumwechsel usw.
+        if (correct) {
+            System.out.println("Richtige Antwort!");
+        } else {
+            System.out.println("Falsche Antwort!");
+        }
+
+        // Quiz-Overlay ausblenden
+        pcs.firePropertyChange("quizHidden", true, false);
     }
 
     // Diese Methode markiert den Raum als abgeschlossen und prüft, ob ALLE Räume fertig sind

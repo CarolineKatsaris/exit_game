@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameState {
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);// Braucht man den in GameState?
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);// ToDo: Im Controller wird nur der pcs aus dem Model aufgerufen, der hier kann raus :)
     private final List<Room> roomOverview = new ArrayList<>(); //Liste der einzelnen Räume, die schon offen bzw. geschlossen sind
     private final List<Screen>availableScreens; //Liste aller möglichen Screens, die angesteuert werden können
     private Screen currentScreen;
@@ -81,7 +81,7 @@ public class GameState {
         return username;
     }
 
-    public void setUsername(String username){ //übermittelt Namensänderungen -> Muss ins Model
+    public void setUsername(String username){ //übermittelt Namensänderungen ToDo: -> Muss ins Model
         String old = this.username;
         this.username = username;
         pcs.firePropertyChange("username", old, username);
@@ -121,7 +121,7 @@ public class GameState {
         }
 
     //diese Methode leitet automatisch zum EndScreen über, wenn alle Räume abgeschlossen sind
-    void checkForGameCompletion(){ //-> Muss ins Model
+    void checkForGameCompletion(){ //ToDo: -> Muss ins Model
         if (allRoomsCompleted()){
             changeScreen(getAvailableScreens().get(7));
             pcs.firePropertyChange("gameCompleted", false, true);
