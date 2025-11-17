@@ -1,42 +1,37 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Quiz {
 
-    private String quizTitle;
+    private final List<Question> questions;
+    private int currentIndex = 0;
 
-    public String getRoomTitle() {
-        return quizTitle;
+    public Quiz() {
+        this.questions = new ArrayList<>();
+    }
+    public void addQuestion(Question question){
+        questions.add(question);
     }
 
-    public void setRoomTitle(String roomTitle) {
-        this.quizTitle = roomTitle;
-    }
-    //Erklärt das jeweilige Quiz
-    private String quizInfo;
-
-    public String getQuizInfo() {
-        return quizInfo;
+    public List<Question> getQuestions() {
+        return questions;
     }
 
-    public void setQuizInfo(String quizInfo) {
-        this.quizInfo = quizInfo;
-    }
-    //Liste der Fragen
-
-    //hier fehlt die komplette Logik dahinter!!!
-    //stellt fest, ob Rätsel gelöst wurde
-    private boolean quizSolved;
-
-    public boolean isQuizSolved() {
-        //Hier fehlt noch die Logik des gelösten Quiz
-        return quizSolved;
+    public Question getCurrentQuestion() {
+        if (currentIndex >= 0 && currentIndex < questions.size()) {
+            return questions.get(currentIndex);
+        }
+        return null;
     }
 
-    public void setQuizSolved(boolean quizSolved) {
-        this.quizSolved = quizSolved;
-    }
+    public void nextQuestion() {
+        currentIndex++;
+        }
+
 
     public boolean isCompleted() {
-        return false;
+        return currentIndex >= questions.size();
     }
 }

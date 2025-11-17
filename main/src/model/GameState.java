@@ -22,6 +22,33 @@ public class GameState {
 
         //Quizze für jeden Raum erstellen und auf eine Liste mit allen drei setzen
         Quiz graphicQuiz1 = new Quiz();
+
+        // Caros Frage hart codiert hierher übernommen
+        // Fragen später in Datenbank
+        graphicQuiz1.addQuestion(
+                new Question(
+                        "Was macht die GPU?",
+                        List.of(
+                                "Grafik berechnen",
+                                "Daten speichern",
+                                "CPU kühlen",
+                                "Strom liefern"
+                        ),
+                        0 // richtige Antwort wie bisher
+                )
+        );
+        graphicQuiz1.addQuestion(
+                new Question(
+                        "Wann ist Nikolaus?",
+                        List.of("Dezember",
+                                "Januar",
+                                "Februar",
+                                "April"),
+                        0
+                )
+        );
+
+
         Quiz graphicQuiz2 = new Quiz();
         Quiz graphicQuiz3 = new Quiz();
         graphicRoom.setQuizzes(List.of(graphicQuiz1,graphicQuiz2,graphicQuiz3));

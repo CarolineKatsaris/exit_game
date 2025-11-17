@@ -9,7 +9,7 @@ public class Model {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private GameState gameState;
     private Question currentQuestion;
-
+    private EnumScreen currentQuizRoomType;
 
     public  Model() {
         this.gameState = new GameState();
@@ -19,6 +19,7 @@ public class Model {
         return gameState;
     }
 
+    //TODO: brauchen wir diese Methode noch?
     void setGameState(GameState newState) {
         GameState oldState = this.gameState;
         this.gameState = newState;
@@ -57,7 +58,7 @@ public class Model {
     void openRoom(Room room){
         if (room ==null) return;
     //hier wird der Screen Name generiert (Setzt sich aus dem RaumNamen plus "room_" zusammen
-        //String roomScreen = "room_" + room.getTitle().toLowerCase();
+        // String roomScreen = "room_" + room.getTitle().toLowerCase();
 
         if(!room.isOpen()){
             room.setOpen(true);
@@ -66,26 +67,76 @@ public class Model {
         changeScreen(room);
     }
 
+
+
+
     // Methoden für Quiz
 
-    public Question getCurrentQuestion() {
-        return currentQuestion;
+    // Methode, die den passenden Raum in GameState sucht
+    public void startQuizForRoom(EnumScreen roomType) {
+        currentQuizRoomType = roomType;
+        Question qFromQuiz = null;
+
+        Room foundRoom = null;
+        for (Room r : gameState.getRoomOverview()) {
+            if (r.getTitle() == roomType) {
+                foundRoom = r;
+                break;
+            }
+
+        }
+
+        // aktuelles Quiz im Raum holen
+        Quiz quiz = foundRoom.getCurrentQuiz();
+        if (quiz == null) {
+            return;
+        }
+
+        // aktuelle Frage aus dem Quiz holen
+        qFromQuiz = quiz.getCurrentQuestion();
+        if (qFromQuiz == null) {
+            return;
+        }
+
+        // Frage im Model merken und View informieren
+        currentQuestion = qFromQuiz;
+        pcs.firePropertyChange("quizShown", null, currentQuestion);
     }
 
-    // Quiz starten
+
+//TODO: Methode brauchen wir nicht mehr? Löschen?
+    /* // Quiz starten
     public void startQuizForCurrentRoom() {
-        // TODO: hier später je nach Room die passende Frage holen
-        currentQuestion = new Question(
-                "Was macht die GPU?",
-                List.of("Grafik berechnen", "Daten speichern", "CPU kühlen", "Strom liefern"),
-                0 // richtige Antwort
-        );
+        Question qFromQuiz = null;
+
+        // Frage aus dem aktuellen Raum/Quiz holen
+        if (gameState.getCurrentScreen() instanceof Room room) {
+            Quiz quiz = room.getCurrentQuiz();
+            if (quiz != null) {
+                qFromQuiz = quiz.getCurrentQuestion();   // nimmt intern die aktuelle Frage
+            }
+        }
+
+
+        currentQuestion = qFromQuiz;
 
         // View informieren: Quiz anzeigen und Frage anzeigen
         pcs.firePropertyChange("quizShown", null, currentQuestion);
     }
+*/
 
-    // Auf Antwortbutton reagieren
+     //iteriert durch die Räume, holt sich Titel und Typ des Raumes
+    private Room findRoomByType(EnumScreen roomType) {
+        for (Room r : gameState.getRoomOverview()) {
+            if (r.getTitle() == roomType) {
+                return r;
+            }
+        }
+        return null;
+    }
+
+
+    // Auf Antwortbutton reagieren und Weiterschalten der Fragen
     public void handleQuizAnswer(String actionCommand) {
         // z.B. "QUIZ_ANSWER_0" -> Index extrahieren
         int chosenIndex = Integer.parseInt(
@@ -97,13 +148,38 @@ public class Model {
         // TODO: Punkte / Leben / Feedback / Raumwechsel usw.
         if (correct) {
             System.out.println("Richtige Antwort!");
+
+
+            // Weiterschalten zur nächsten Frage
+            Room room = findRoomByType(currentQuizRoomType);
+            if (room == null) {
+                pcs.firePropertyChange("quizHidden", true, false);
+                return;
+            }
+            Quiz quiz = room.getCurrentQuiz();
+            if (quiz == null) {
+                pcs.firePropertyChange("quizHidden", true, false);
+                return;
+            }
+            quiz.nextQuestion();
+            Question next = quiz.getCurrentQuestion();
+
+
+            if (next != null) {
+                // nächste Frage anzeigen
+                currentQuestion = next;
+                pcs.firePropertyChange("quizShown", null, currentQuestion);
+            } else {
+                // keine weitere Frage → Quiz schließen
+                pcs.firePropertyChange("quizHidden", true, false);
+            }
+//TODO: Fenster Falsche Frage muss noch angezeigt werden
         } else {
             System.out.println("Falsche Antwort!");
         }
-
-        // Quiz-Overlay ausblenden
-        pcs.firePropertyChange("quizHidden", true, false);
     }
+
+
 
     // Diese Methode markiert den Raum als abgeschlossen und prüft, ob ALLE Räume fertig sind
     void completeRoom(Room room){
