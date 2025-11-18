@@ -11,7 +11,8 @@ public class Quiz {
     public Quiz() {
         this.questions = new ArrayList<>();
     }
-    public void addQuestion(Question question){
+
+    public void addQuestion(Question question) {
         questions.add(question);
     }
 
@@ -27,11 +28,14 @@ public class Quiz {
     }
 
     public void nextQuestion() {
-        currentIndex++;
+
+        if (currentIndex < questions.size() - 1) {
+            currentIndex++;
+        }
+    }
+
+        public boolean isCompleted () {
+            return currentIndex >= questions.size()-1;
         }
 
-
-    public boolean isCompleted() {
-        return currentIndex >= questions.size();
     }
-}
