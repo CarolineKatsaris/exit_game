@@ -203,14 +203,33 @@ public class Model {
         nextIdx++;
         changeScreen(gameState.getAvailableScreens().get(nextIdx));
     }
-
-    public void validateLogin(String username, EnumDifficulty difficulty){
-        if (!username.isBlank()){
+    public void validateLogin(String username, EnumDifficulty difficulty) {
+        if (!username.isBlank()) {
             gameState.setUsername(username);
             gameState.setDifficulty(difficulty);
+
+            // Load and register the SQLite JDBC driver
+            try {
+                Class.forName("org.sqlite.JDBC");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Failed to load SQLite JDBC driver", e);
+            }
+
+            // Inserting the username into the "spieler" table in the SQLite database
+            try (java.sql.Connection conn = java.sql.DriverManager.getConnection("jdbc:sqlite:ExitGame.sqlite");
+                 java.sql.PreparedStatement pstmt = conn.prepareStatement("INSERT INTO spieler (name) VALUES (?);")) {
+
+                pstmt.setString(1, username);
+                pstmt.executeUpdate();
+
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace(); // Log or handle the SQL exception
+            }
+
             nextScreen();
         } else {
-            //auf Login Screen bleiben
+            // Stay on the Login screen if the username is invalid
         }
     }
 }
