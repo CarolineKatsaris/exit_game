@@ -10,6 +10,7 @@ public class Model {
     private GameState gameState;
     private Question currentQuestion;
     private EnumScreen currentQuizRoomType;
+    private Quiz currentQuiz;
 
     public  Model() {
         this.gameState = new GameState();
@@ -88,6 +89,7 @@ public class Model {
         if (quiz == null) {
             return;
         }
+        currentQuiz = quiz;
 
         // aktuelle Frage aus dem Quiz holen
         qFromQuiz = quiz.getCurrentQuestion();
@@ -142,37 +144,37 @@ public class Model {
 
         boolean correct = (chosenIndex == currentQuestion.getCorrectIndex());
 
-        // TODO: Punkte / Leben / Feedback / Raumwechsel usw.
         if (correct) {
             System.out.println("Richtige Antwort!");
 
-
-            // Weiterschalten zur nächsten Frage
-            Room room = findRoomByType(currentQuizRoomType);
-            if (room == null) {
+            // Sicherheitsnetz: falls irgendwas schief ist
+            if (currentQuiz == null) {
                 pcs.firePropertyChange("quizHidden", true, false);
                 return;
             }
-            Quiz quiz = room.getCurrentQuiz();
-            if (quiz == null) {
+
+            // *** WICHTIG: war das schon die letzte Frage? ***
+            if (currentQuiz.isCompleted()) {
+                // aktuelle Frage ist die letzte → Quiz beenden
                 pcs.firePropertyChange("quizHidden", true, false);
                 return;
             }
-            quiz.nextQuestion();
-            Question next = quiz.getCurrentQuestion();
 
+            // sonst zur nächsten Frage schalten
+            currentQuiz.nextQuestion();
+            Question next = currentQuiz.getCurrentQuestion();
 
             if (next != null) {
-                // nächste Frage anzeigen
                 currentQuestion = next;
                 pcs.firePropertyChange("quizShown", null, currentQuestion);
             } else {
-                // keine weitere Frage → Quiz schließen
                 pcs.firePropertyChange("quizHidden", true, false);
             }
-//TODO: Fenster Falsche Frage muss noch angezeigt werden
+
         } else {
+            // falsche Antwort → Quiz offen lassen, nur Feedback
             System.out.println("Falsche Antwort!");
+
         }
     }
 
