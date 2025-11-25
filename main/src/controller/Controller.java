@@ -32,7 +32,7 @@ public class Controller implements PropertyChangeListener {
         model.setStartState();
         view.setVisible(true);
     }
-
+    
     /**
      * Lädt Screen in MainView und legt die ActionListener an.
      * @param screen Screen als EnumScreen
@@ -66,8 +66,11 @@ public class Controller implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         //nur für Events vom Typ "screen"
-        if(e.getPropertyName().equals("screen")) {
-            loadScreen(((GameState) e.getNewValue()).getCurrentScreen().getTitle());
+        //if(e.getPropertyName().equals("screen")) {
+            if ("screen".equals(e.getPropertyName())){
+                EnumScreen screen = (EnumScreen) e.getNewValue();
+                loadScreen(screen);
+            //loadScreen(((GameState) e.getNewValue()).getCurrentScreen().getTitle());
         }
     }
    // ToDo: Generischere Methode finden
@@ -111,5 +114,4 @@ public class Controller implements PropertyChangeListener {
                 )
         );
     }
-
 }
