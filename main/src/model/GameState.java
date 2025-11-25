@@ -121,14 +121,20 @@ public class GameState {
 
     //Hier wird geprüft, ob der Screen, den ich ansteuern möchte, überhaupt existiert (aus der Liste, die oben angelegt wurde)
     void changeScreen(Screen newScreen){
-        if (!availableScreens.contains(newScreen)){
-            System.err.println("Unbekannter Screen: " + newScreen.getTitle());
-            return;
+        Screen old = this.currentScreen;
+        this.currentScreen = newScreen;
+        //wird schon im MOdel gefeuert
+        //pcs.firePropertyChange("screen",old,newScreen);
         }
 
-        this.currentScreen = newScreen;
+    Screen findScreenByName(EnumScreen title){
+        for (Screen s : availableScreens){
+            if (s.getTitle().equals(title)){
+                return s;
+            }
+        }
+        return null;
     }
-
     public EnumDifficulty getDifficulty() {
         return difficulty;
     }
