@@ -81,7 +81,6 @@ public class Model {
                 foundRoom = r;
                 break;
             }
-
         }
 
         // aktuelles Quiz im Raum holen
@@ -194,6 +193,7 @@ public class Model {
             changeScreen(hubScreen);
         }
     }
+
     public void setStartState() {
         changeScreen(getGameState().getAvailableScreens().get(0));
     }

@@ -12,6 +12,7 @@ public class Controller implements PropertyChangeListener {
 
     private final MainView view;
     private final Model model;
+    private boolean hubListenersRegistered;
 
     /**
      * Constructs a Controller instance that connects the given Model and MainView.
@@ -54,6 +55,9 @@ public class Controller implements PropertyChangeListener {
             case Room:
                 registerRoomListeners();
                 break;
+            //case Hub:
+            //    registerHubButtons();
+
             default:
                 break;
         }
@@ -74,7 +78,6 @@ public class Controller implements PropertyChangeListener {
         }
     }
    // ToDo: Generischere Methode finden
-    private boolean roomListenersRegistered = false;
 
     private void registerRoomListeners() {
 
@@ -113,5 +116,41 @@ public class Controller implements PropertyChangeListener {
                         () -> room.setQuiz3Highlight(false)
                 )
         );
+
+        room.getBackButton().addActionListener(e -> {
+            view.showScreen(EnumScreen.Hub);
+        });
+
     }
+    }
+
+// Hier müssen später die HubButtons Listener eingefügt werden
+
+private boolean hubListenersRegistered = false;
+
+private void registerHubListeners() {
+
+    // Listener dürfen nur EINMAL registriert werden
+    if (hubListenersRegistered) return;
+    hubListenersRegistered = true;
+
+    var hub = view.getHubView();
+    //   CLICK – Raum öffnen
+    hub.getGraphicsCardButton().addActionListener(e -> {
+        // (später: model.enterRoom("graphics_card") o. ä.)
+        view.showScreen(EnumScreen.Room);
+
+    });
+
+    //   HOVER – Rahmen ein/aus
+    hub.getGraphicsCardButton().addMouseListener(
+            new HoverAdapter(
+                    () -> hub.setGraphicsCardHighlight(true),
+                    () -> hub.setGraphicsCardHighlight(false)
+
+            )
+
+
+    );
 }
+

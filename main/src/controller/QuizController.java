@@ -23,7 +23,6 @@ public class QuizController implements PropertyChangeListener {
                     model.handleQuizAnswer(e.getActionCommand())
             );
         }
-
         model.addPropertyChangeListener(this);
     }
 

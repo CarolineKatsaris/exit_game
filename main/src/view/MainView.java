@@ -44,6 +44,7 @@ public class MainView extends JFrame {
         // später: root.add(hubView, EnumScreen.Hub.toString());
         root.add(loginView, EnumScreen.Login.toString());
         root.add(roomView, EnumScreen.Room.toString());
+        root.add(hubView, EnumScreen.Hub.toString());
 
         // Alles ins Fenster
         add(root, BorderLayout.CENTER);
@@ -59,6 +60,10 @@ public class MainView extends JFrame {
     public JButton getSubmitButton() {
         return loginView.getSubmitButton();
     }
+
+    public JButton getGraphicsCardButton() { return hubView.getGraphicsCardButton(); }
+
+    public JButton getBackButton() { return roomView.getBackButton(); };
 
     public EnumDifficulty getLoginDifficulty() {
         return (EnumDifficulty) loginView.difficultySelection.getSelectedItem();
