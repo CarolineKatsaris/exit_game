@@ -13,6 +13,7 @@ public class Controller implements PropertyChangeListener {
     private final MainView view;
     private final Model model;
     private boolean hubListenersRegistered;
+    private boolean roomListenersRegistered;
 
     /**
      * Constructs a Controller instance that connects the given Model and MainView.
@@ -20,7 +21,7 @@ public class Controller implements PropertyChangeListener {
      * application's starting state. It also makes the MainView visible.
      *
      * @param model The Model instance to be controlled and observed.
-     * @param view The MainView instance to be interacted with and controlled.
+     * @param view  The MainView instance to be interacted with and controlled.
      */
     public Controller(Model model, MainView view) {
         this.model = model;
@@ -33,13 +34,14 @@ public class Controller implements PropertyChangeListener {
         model.setStartState();
         view.setVisible(true);
     }
-    
+
     /**
      * Lädt Screen in MainView und legt die ActionListener an.
+     *
      * @param screen Screen als EnumScreen
-     * Später: view.getButtonsFor(screen).forEach(btn ->
-     *     btn.addActionListener(e -> model.handleEvent(btn.getActionCommand()))
-     * );
+     *               Später: view.getButtonsFor(screen).forEach(btn ->
+     *               btn.addActionListener(e -> model.handleEvent(btn.getActionCommand()))
+     *               );
      */
     void loadScreen(EnumScreen screen) {
         view.showScreen(screen); //Screen anzeigen
@@ -62,22 +64,24 @@ public class Controller implements PropertyChangeListener {
                 break;
         }
     }
+
     /**
      * Event handler für Änderungen aus dem Modell
-     * @param e A PropertyChangeEvent object describing the event source 
-     *            and the property that has changed.
+     *
+     * @param e A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
      */
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         //nur für Events vom Typ "screen"
         //if(e.getPropertyName().equals("screen")) {
-            if ("screen".equals(e.getPropertyName())){
-                EnumScreen screen = (EnumScreen) e.getNewValue();
-                loadScreen(screen);
+        if ("screen".equals(e.getPropertyName())) {
+            EnumScreen screen = (EnumScreen) e.getNewValue();
+            loadScreen(screen);
             //loadScreen(((GameState) e.getNewValue()).getCurrentScreen().getTitle());
         }
     }
-   // ToDo: Generischere Methode finden
+    // ToDo: Generischere Methode finden
 
     private void registerRoomListeners() {
 
@@ -122,35 +126,31 @@ public class Controller implements PropertyChangeListener {
         });
 
     }
+
+    // Hier müssen später die HubButtons Listener eingefügt werden
+    private void registerHubListeners() {
+        hubListenersRegistered = false;
+        // Listener dürfen nur EINMAL registriert werden
+        if (hubListenersRegistered) return;
+        hubListenersRegistered = true;
+
+        var hub = view.getHubView();
+        //   CLICK – Raum öffnen
+        hub.getGraphicsCardButton().addActionListener(e -> {
+            // (später: model.enterRoom("graphics_card") o. ä.)
+            view.showScreen(EnumScreen.Room);
+
+        });
+
+        //   HOVER – Rahmen ein/aus
+        hub.getGraphicsCardButton().addMouseListener(
+                new HoverAdapter(
+                        () -> hub.setGraphicsCardHighlight(true),
+                        () -> hub.setGraphicsCardHighlight(false)
+
+                )
+
+
+        );
     }
-
-// Hier müssen später die HubButtons Listener eingefügt werden
-
-private boolean hubListenersRegistered = false;
-
-private void registerHubListeners() {
-
-    // Listener dürfen nur EINMAL registriert werden
-    if (hubListenersRegistered) return;
-    hubListenersRegistered = true;
-
-    var hub = view.getHubView();
-    //   CLICK – Raum öffnen
-    hub.getGraphicsCardButton().addActionListener(e -> {
-        // (später: model.enterRoom("graphics_card") o. ä.)
-        view.showScreen(EnumScreen.Room);
-
-    });
-
-    //   HOVER – Rahmen ein/aus
-    hub.getGraphicsCardButton().addMouseListener(
-            new HoverAdapter(
-                    () -> hub.setGraphicsCardHighlight(true),
-                    () -> hub.setGraphicsCardHighlight(false)
-
-            )
-
-
-    );
 }
-
