@@ -96,6 +96,16 @@ public class MainView extends JFrame {
         quizView.setVisible(false);
     }
 
+    //Färbt Button rot für eine Sekunde
+    public void highlightIncorrectAnswer(JButton button) {
+        button.setBackground(Color.RED);
+
+        //Farbe nach einer Sekunde zurücksetzen
+        Timer timer = new Timer(1000, e -> button.setBackground(null));
+        timer.setRepeats(false);
+        timer.start();
+    }
+
     public JButton[] getQuizAnswerButtons() {
         return quizView.getAnswerButtons();
     }
