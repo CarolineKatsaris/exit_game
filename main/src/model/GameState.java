@@ -44,8 +44,7 @@ public class GameState {
         availableScreens = List.of(
                 new Screen(EnumScreen.Start),
                 new Screen(EnumScreen.Login),
-                new Screen(EnumScreen.Room),
-                new Screen(EnumScreen.Hub),
+                //new Screen(EnumScreen.Room),
                 graphicRoom,
                 ramRoom,
                 fileRoom,

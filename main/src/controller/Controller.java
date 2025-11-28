@@ -1,8 +1,6 @@
 package controller;
 
-import model.EnumScreen;
-import model.GameState;
-import model.Model;
+import model.*;
 import view.MainView;
 
 import java.beans.PropertyChangeEvent;
@@ -76,9 +74,18 @@ public class Controller implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent e) {
         //nur für Events vom Typ "screen"
         //if(e.getPropertyName().equals("screen")) {
-        if ("screen".equals(e.getPropertyName())) {
-            EnumScreen screen = (EnumScreen) e.getNewValue();
-            loadScreen(screen);
+            if ("screen".equals(e.getPropertyName())){
+                Screen screen = (Screen) e.getNewValue();
+
+                //ToDo Workaround, da View nur Room anzeigen kann, aber noch keinen Mechanismus hat, Rooms generisch anzuzeigen
+                //ToDo loadScreen muss das Screen Objekt an view weitergeben und nicht nur den Titel.
+                if(screen instanceof Room) {
+                    loadScreen(EnumScreen.Room);
+                }
+                else {
+                    loadScreen(screen.getTitle());
+                }
+
             //loadScreen(((GameState) e.getNewValue()).getCurrentScreen().getTitle());
         }
     }
