@@ -45,6 +45,7 @@ public class GameState {
                 new Screen(EnumScreen.Start),
                 new Screen(EnumScreen.Login),
                 new Screen(EnumScreen.Room),
+                new Screen(EnumScreen.Hub),
                 graphicRoom,
                 ramRoom,
                 fileRoom,

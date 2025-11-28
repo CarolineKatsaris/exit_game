@@ -57,8 +57,9 @@ public class Controller implements PropertyChangeListener {
             case Room:
                 registerRoomListeners();
                 break;
-            //case Hub:
-            //    registerHubButtons();
+            case Hub:
+                registerHubListeners();
+                break;
 
             default:
                 break;
@@ -126,10 +127,12 @@ public class Controller implements PropertyChangeListener {
         });
 
     }
+    // Initialisierung von hubListenersRegistered: wird erst in der Methode registerHubListeners() aktiviert
+
 
     // Hier müssen später die HubButtons Listener eingefügt werden
     private void registerHubListeners() {
-        hubListenersRegistered = false;
+
         // Listener dürfen nur EINMAL registriert werden
         if (hubListenersRegistered) return;
         hubListenersRegistered = true;
@@ -145,12 +148,9 @@ public class Controller implements PropertyChangeListener {
         //   HOVER – Rahmen ein/aus
         hub.getGraphicsCardButton().addMouseListener(
                 new HoverAdapter(
-                        () -> hub.setGraphicsCardHighlight(true),
-                        () -> hub.setGraphicsCardHighlight(false)
-
+                        () ->hub.setGraphicsCardHighlight(true),
+                        () ->hub.setGraphicsCardHighlight(false)
                 )
-
-
         );
     }
 }

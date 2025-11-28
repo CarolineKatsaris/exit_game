@@ -15,24 +15,13 @@ public class HubView extends JLayeredPane {
         setLayout(null);
 
         ImageIcon img = new ImageIcon(getClass().getResource("/HubViewBackground.png"));
-
         background = new JLabel(img);
-
         background.setBounds(0, 0, img.getIconWidth(), img.getIconHeight());
-
         add(background, Integer.valueOf(0));  // unterste Ebene
 
         // Invisible Button über die Grafik "Grafikkarte"
 
-        graphicsCardBtn = makeInvisibleButton(
-
-                480, 310,   // X und Y anpassen (Beispielwerte!)
-
-                250, 200,   // Breite/Höhe anpassen
-
-                "graphics_card"
-
-        );
+        graphicsCardBtn = makeInvisibleButton(480, 310, 250, 200,"graphics_card");
 
         add(graphicsCardBtn, Integer.valueOf(1)); // eine Ebene drüber
 
@@ -41,19 +30,12 @@ public class HubView extends JLayeredPane {
     private JButton makeInvisibleButton(int x, int y, int w, int h, String cmd) {
 
         JButton b = new JButton();
-
         b.setBounds(x, y, w, h);
-
         b.setOpaque(false);
-
         b.setContentAreaFilled(false);
-
         b.setBorderPainted(false);
-
         b.setFocusPainted(false);
-
         b.setActionCommand(cmd);
-
         return b;
 
     }
@@ -63,30 +45,20 @@ public class HubView extends JLayeredPane {
     public void setGraphicsCardHighlight(boolean on) {
 
         if (on) {
-
             graphicsCardBtn.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
-
             graphicsCardBtn.setBorderPainted(true);
-
             graphicsCardBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
         } else {
 
             graphicsCardBtn.setBorder(BorderFactory.createEmptyBorder());
-
             graphicsCardBtn.setBorderPainted(false);
-
             graphicsCardBtn.setCursor(Cursor.getDefaultCursor());
-
         }
-
         repaint();
-
     }
 
     public JButton getGraphicsCardButton() {
         return graphicsCardBtn;
-
     }
 
 }
