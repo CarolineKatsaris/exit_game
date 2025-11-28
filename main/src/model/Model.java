@@ -52,7 +52,7 @@ public class Model {
     // hier werden die Screens auch direkt gewechselt
     void changeScreen(Screen newScreen){
         gameState.changeScreen(newScreen);
-        pcs.firePropertyChange("screen", null, newScreen.getTitle());
+        pcs.firePropertyChange("screen", null, newScreen);
     }
 
     //mit dieser Methode können die Screens per Raum-Objekt gewechselt werden
@@ -198,6 +198,9 @@ public class Model {
         changeScreen(getGameState().getAvailableScreens().get(0));
     }
 
+    /**
+     * Schaltet zum nächsten Screen aus der Liste availableScreens in gameState. Dazu wird currentScreen in der Liste gesucht und dann der nächste Screen ermittelt.
+     */
     public void nextScreen() {
         int nextIdx = gameState.getAvailableScreens().indexOf(gameState.getCurrentScreen());
         nextIdx++;
