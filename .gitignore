@@ -6,6 +6,12 @@
 .idea/dictionaries/
 .idea/sonarlint/
 out/
+.idea/
+.idea/dataSources/
+.idea/data_source*.xml
+*.iml
+.idea/easycode/
+
 
 # Compiled files
 *.class
