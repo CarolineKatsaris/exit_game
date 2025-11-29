@@ -129,12 +129,10 @@ public class Controller implements PropertyChangeListener {
                 )
         );
 
-        room.getBackButton().addActionListener(e -> {
-            view.showScreen(EnumScreen.Hub);
-        });
+        room.getBackButton().addActionListener(e ->
+            model.returnToHub());
 
     }
-    // Initialisierung von hubListenersRegistered: wird erst in der Methode registerHubListeners() aktiviert
 
 
     // Hier müssen später die HubButtons Listener eingefügt werden
@@ -147,8 +145,7 @@ public class Controller implements PropertyChangeListener {
         var hub = view.getHubView();
         //   CLICK – Raum öffnen
         hub.getGraphicsCardButton().addActionListener(e -> {
-            // (später: model.enterRoom("graphics_card") o. ä.)
-            view.showScreen(EnumScreen.Room);
+            model.enterRoom();
 
         });
 

@@ -21,7 +21,7 @@ public class HubView extends JLayeredPane {
 
         // Invisible Button über die Grafik "Grafikkarte"
 
-        graphicsCardBtn = makeInvisibleButton(480, 310, 250, 200,"graphics_card");
+        graphicsCardBtn = makeInvisibleButton(80, 200, 250, 300,"graphics_card");
 
         add(graphicsCardBtn, Integer.valueOf(1)); // eine Ebene drüber
 

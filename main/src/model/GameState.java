@@ -40,15 +40,22 @@ public class GameState {
         roomOverview.add(netRoom);
         roomOverview.add(cpuRoom);
 
-        // Räume in die Screens-Liste eintragen
+        // Räume in die Screens-Liste eintragen, legt Reihenfolge fest -> Hubview immer wieder zwischenschalten?
+
+
         availableScreens = List.of(
                 new Screen(EnumScreen.Start),
                 new Screen(EnumScreen.Login),
-                //new Screen(EnumScreen.Room),
+                new Screen(EnumScreen.Hub),
+                //new Screen(EnumScreen.Room)?,
                 graphicRoom,
+                new Screen(EnumScreen.Hub),
                 ramRoom,
+                new Screen(EnumScreen.Hub),
                 fileRoom,
+                new Screen(EnumScreen.Hub),
                 netRoom,
+                new Screen(EnumScreen.Hub),
                 cpuRoom,
                 new Screen(EnumScreen.End)
         );
