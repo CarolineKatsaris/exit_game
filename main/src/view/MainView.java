@@ -41,7 +41,7 @@ public class MainView extends JFrame {
 
         // Screens registrieren mit Namen
         root.add(startView, EnumScreen.Start.toString());
-        // später: root.add(hubView, EnumScreen.Hub.toString());
+        root.add(hubView, EnumScreen.Hub.toString());
         root.add(loginView, EnumScreen.Login.toString());
         root.add(roomView, EnumScreen.Room.toString());
 
@@ -49,11 +49,30 @@ public class MainView extends JFrame {
         add(root, BorderLayout.CENTER);
     }
 
-    // --- Zugriff für den Controller ---
+    // ============================================================================
+//  Zugriff auf View-Elemente (für den Controller)
+// ============================================================================
+    public void showScreen(String cardName) {
+        cards.show(root, cardName);
+    } // String cardName -> Screen s (Enum), cardname -> s.name
 
+    public void showScreen(EnumScreen screen) {
+        cards.show(root, screen.toString());
+    }
+    //
+// ─────────────────────────────────────────────────────────────────────────────
+//   START-VIEW BUTTONS
+// ─────────────────────────────────────────────────────────────────────────────
+//
     public JButton getStartButton() {
         return startView.getStartButton();
     }
+
+//
+// ─────────────────────────────────────────────────────────────────────────────
+//   LOGIN-VIEW BUTTONS UND EINGABEN
+// ─────────────────────────────────────────────────────────────────────────────
+//
 
     // Login-View Werte, ToDo generische Implementierung
     public JButton getSubmitButton() {
@@ -71,22 +90,38 @@ public class MainView extends JFrame {
             return loginView.nameField.getText();
         }
     }
+    //
+// ─────────────────────────────────────────────────────────────────────────────
+//   HUB-VIEW
+// ─────────────────────────────────────────────────────────────────────────────
+//
+//  Dieser Button liegt als „unsichtbarer“ Hotspot über der Grafikkarten-Grafik
+//  im Hub-Bild. Der Controller nutzt ihn, um in den Graphics-Room zu wechseln.
+//
+    public HubView getHubView() {
+        return hubView;
+    }
+//
+// ─────────────────────────────────────────────────────────────────────────────
+//   ROOM-VIEW + BUTTONS
+// ─────────────────────────────────────────────────────────────────────────────
+//
+//  Drei unsichtbare Hotspots in der RoomView:
+//   • quiz1Button  → GPU/VRAM-Panel
+//   • quiz2Button  → rechter Störbildschirm
+//   • quiz3Button  → Framebuffer-Konsole
+//  Zusätzlich ein sichtbarer „Zurück zum Hub“-Button.
+//
 
     public RoomView getRoomView() {
         return roomView;
     }
 
-    public void showScreen(String cardName) {
-        cards.show(root, cardName);
-    } // String cardName -> Screen s (Enum), cardname -> s.name
+    public JButton getBackButton() { return roomView.getBackButton(); };
 
-    public void showScreen(EnumScreen screen) {
-        cards.show(root, screen.toString());
-    }
 
-    /*public void showHub() {
-        cards.show(root, "hub");
-    }*/
+
+
     public void showQuiz(Question q) {
         quizView.setQuestion(q);
         quizView.setVisible(true);
@@ -94,6 +129,16 @@ public class MainView extends JFrame {
 
     public void hideQuiz() {
         quizView.setVisible(false);
+    }
+
+    //Färbt Button rot für eine Sekunde
+    public void highlightIncorrectAnswer(JButton button) {
+        button.setBackground(Color.RED);
+
+        //Farbe nach einer Sekunde zurücksetzen
+        Timer timer = new Timer(1000, e -> button.setBackground(null));
+        timer.setRepeats(false);
+        timer.start();
     }
 
     public JButton[] getQuizAnswerButtons() {

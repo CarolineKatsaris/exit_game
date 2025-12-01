@@ -55,6 +55,40 @@ public class Model {
         pcs.firePropertyChange("screen", null, newScreen);
     }
 
+    /* Methode um Räume zu öffen, später evtl. überarbeiten (locked/unlocked)
+     * Nutzt die Reihenfolge in availableScreens: Start -> Login -> Hub -> (erster Raum) -> ...
+     */
+
+    public void enterRoom() {
+        var screens = gameState.getAvailableScreens();
+        var current = gameState.getCurrentScreen();
+
+        int currentIdx = screens.indexOf(current);
+        if (currentIdx == -1) return; // Fallback: wenn currentScreen nicht in der Liste ist, nichts tun
+
+        int nextIdx = currentIdx + 1;
+        if (nextIdx < screens.size()) {
+            changeScreen(screens.get(nextIdx)); // Wechselt zum nächsten Screen in der Liste
+        }
+    }
+
+    //mit dieser Methode kann einfach zur HubAnsicht gewechselt werden, geht einfach bei available Screens wieder eins zurück
+    public void returnToHub() {
+        var screens = gameState.getAvailableScreens();
+        var current = gameState.getCurrentScreen();
+
+        int idx = screens.indexOf(current);
+        if (idx <= 0) return;          // ganz vorne -> nichts tun
+
+        Screen previous = screens.get(idx - 1);  // in der availableScreenList steht immer der zugehörige Hub davor
+        changeScreen(previous);
+    }
+
+
+
+
+
+
     //mit dieser Methode können die Screens per Raum-Objekt gewechselt werden
     void openRoom(Room room){
         if (room ==null) return;
@@ -81,7 +115,6 @@ public class Model {
                 foundRoom = r;
                 break;
             }
-
         }
 
         // aktuelles Quiz im Raum holen
@@ -133,6 +166,10 @@ public class Model {
         }
         return null;
     }
+
+
+
+
 
 
     // Auf Antwortbutton reagieren und Weiterschalten der Fragen
@@ -187,13 +224,7 @@ public class Model {
         gameState.checkForGameCompletion();
     }
 
-    //mit dieser Methode kann einfach zur HubAnsicht gewechselt werden
-    void returnToHub() {
-        Screen hubScreen = gameState.findScreenByName((EnumScreen.Room));
-        if (hubScreen != null) {
-            changeScreen(hubScreen);
-        }
-    }
+
     public void setStartState() {
         changeScreen(getGameState().getAvailableScreens().get(0));
     }
