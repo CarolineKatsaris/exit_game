@@ -1,18 +1,17 @@
-# IntelliJ IDEA - Local/User specific files (NOT shared)
+# IntelliJ IDEA
 .idea/workspace.xml
 .idea/usage.statistics.xml
 .idea/shelf/
 .idea/tasks.xml
 .idea/dictionaries/
 .idea/sonarlint/
-.idea/easycode/
-*.iml
-
-# Database - Local/User specific (NOT shared)
-# Credentials and local database paths are stored here
-.idea/dataSources.local.xml
-# Cached database schema introspection (regenerated locally)
+out/
+.idea/
 .idea/dataSources/
+.idea/data_source*.xml
+*.iml
+.idea/easycode/
+
 
 # Compiled files
 *.class
