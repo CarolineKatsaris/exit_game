@@ -16,10 +16,12 @@ public class QuizView extends JPanel {
         setOpaque(false);
         setLayout(new GridBagLayout()); // zentriert das innere Panel
 
+
         JPanel dialogPanel = new JPanel();
         dialogPanel.setLayout(new BorderLayout(10, 10));
         dialogPanel.setBackground(new Color(20, 20, 20, 230)); // dunkles Overlay für das Kästchen
         dialogPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+
 
         // Frage
         questionLabel = new JLabel("Frage kommt aus dem Model");

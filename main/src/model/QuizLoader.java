@@ -45,7 +45,7 @@ public class QuizLoader {
             // Ergebnis wird zurückgegeben
             try (ResultSet rs = ps.executeQuery()) {
 
-                // alles Startwerte
+                // alles Startwerte --> hier wird erst noch alles mit null befüllt
                 Integer currentQuestionId = null; //aktuelle Frage
                 String currentQuestionText = null; // Text der aktuellen Frage
                 int currentQuizNr = 0; // aktuelles Quiz

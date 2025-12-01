@@ -9,6 +9,7 @@ public class RoomView extends JLayeredPane {
     private final JButton quiz1Btn; // GPU -> VRAM
     private final JButton quiz2Btn; // Framebuffer
     private final JButton quiz3Btn; // gestörter Screen
+    private final JButton back;
 
     public RoomView() {
         setLayout(null);
@@ -28,6 +29,10 @@ public class RoomView extends JLayeredPane {
         add(quiz3Btn, Integer.valueOf(1));
 
         setPreferredSize(background.getPreferredSize());
+
+        back = new JButton("Zurück");
+        back.setBounds(20,20,100,30);
+        add(back, Integer.valueOf(2)); //auf oberste Ebene legen
     }
 
     private JButton makeInvisibleButton(int x, int y, int w, int h, String cmd) {
@@ -53,6 +58,8 @@ public class RoomView extends JLayeredPane {
     public void setQuiz1Highlight(boolean on) { setHighlight(quiz1Btn, on); }
     public void setQuiz2Highlight(boolean on) { setHighlight(quiz2Btn, on); }
     public void setQuiz3Highlight(boolean on) { setHighlight(quiz3Btn, on); }
+
+   public JButton getBackButton() { return back; };
 
     private void setHighlight(JButton b, boolean on) {
         if (on) {
