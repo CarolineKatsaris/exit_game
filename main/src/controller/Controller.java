@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import view.MainView;
 
+import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -34,6 +35,17 @@ public class Controller implements PropertyChangeListener {
     }
 
     /**
+     * Generische Methode, um Listener nur einmal zu registrieren.
+     * @param button
+     * @param action
+     */
+    private void registerListener(JButton button, java.awt.event.ActionListener action) {
+        if (button.getActionListeners().length == 0) {
+            button.addActionListener(action);
+        }
+    }
+
+    /**
      * Lädt Screen in MainView und legt die ActionListener an.
      *
      * @param screen Screen als EnumScreen
@@ -41,27 +53,26 @@ public class Controller implements PropertyChangeListener {
      *               btn.addActionListener(e -> model.handleEvent(btn.getActionCommand()))
      *               );
      */
-    void loadScreen(EnumScreen screen) {
+    void loadScreen(Screen screen) {
         view.showScreen(screen); //Screen anzeigen
-        // ActionListener für Buttons Elemente hinzufügen
-        switch (screen) {
-            case Start: //-> {} * eventuell Pfeil + Klammernschreibweise statt break
-                view.getStartButton().addActionListener(e -> model.nextScreen());
+        switch (screen.getTitle()) { // ActionListener für Buttons Elemente hinzufügen
+            case Start: //ToDo -> {} * eventuell Pfeil + Klammernschreibweise statt break
+                registerListener(view.getStartButton(), e -> model.nextScreen());
                 break;
             case Login:
-                view.getSubmitButton().addActionListener(e -> model.validateLogin(view.getLoginUsername(), view.getLoginDifficulty()));
-                break;
-            //-> {} * eventuell Pfeil + Klammernschreibweise statt break
-            case Room:
-                registerRoomListeners();
+                registerListener(view.getSubmitButton(),
+                        e -> model.validateLogin(view.getLoginUsername(), view.getLoginDifficulty()));
                 break;
             case Hub:
                 registerHubListeners();
                 break;
-
             default:
                 break;
         }
+        if(screen instanceof Room) { //Sonderfall: Screen ist Raum
+            registerRoomListeners();
+        }
+
     }
 
     /**
@@ -73,24 +84,13 @@ public class Controller implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         //nur für Events vom Typ "screen"
-        //if(e.getPropertyName().equals("screen")) {
-            if ("screen".equals(e.getPropertyName())){
-                Screen screen = (Screen) e.getNewValue();
-
-                //ToDo Workaround, da View nur Room anzeigen kann, aber noch keinen Mechanismus hat, Rooms generisch anzuzeigen
-                //ToDo loadScreen muss das Screen Objekt an view weitergeben und nicht nur den Titel.
-                if(screen instanceof Room) {
-                    loadScreen(EnumScreen.Room);
-                }
-                else {
-                    loadScreen(screen.getTitle());
-                }
-
-            //loadScreen(((GameState) e.getNewValue()).getCurrentScreen().getTitle());
+        if(e.getPropertyName().equals("screen")) {
+           Screen screen = (Screen) e.getNewValue();
+           loadScreen(screen);
         }
     }
-    // ToDo: Generischere Methode finden
 
+    // ToDo: Generischere Methode finden
     private void registerRoomListeners() {
 
         if (roomListenersRegistered) return;
@@ -145,8 +145,7 @@ public class Controller implements PropertyChangeListener {
         var hub = view.getHubView();
         //   CLICK – Raum öffnen
         hub.getGraphicsCardButton().addActionListener(e -> {
-            model.enterRoom();
-
+            model.enterRoom(e.getActionCommand()); //ActionCommand == Screen.Title
         });
 
         //   HOVER – Rahmen ein/aus

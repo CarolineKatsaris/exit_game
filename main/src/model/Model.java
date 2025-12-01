@@ -12,7 +12,7 @@ public class Model {
     private EnumScreen currentQuizRoomType;
     private Quiz currentQuiz;
 
-    public  Model() {
+    public Model() {
         this.gameState = new GameState();
     }
 
@@ -27,7 +27,7 @@ public class Model {
         pcs.firePropertyChange("gameState", oldState, newState);
     }
 
-    List<Room> getRooms(){
+    List<Room> getRooms() {
         return gameState.getRoomOverview();
     }
 
@@ -43,33 +43,24 @@ public class Model {
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         pcs.addPropertyChangeListener(listener);
-     }
+    }
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         pcs.removePropertyChangeListener(listener);
     }
 
     // hier werden die Screens auch direkt gewechselt
-    void changeScreen(Screen newScreen){
+    void changeScreen(Screen newScreen) {
         gameState.changeScreen(newScreen);
         pcs.firePropertyChange("screen", null, newScreen);
     }
 
-    /* Methode um Räume zu öffen, später evtl. überarbeiten (locked/unlocked)
+    /**
+     * Methode um Räume zu öffen, später evtl. überarbeiten (locked/unlocked)
      * Nutzt die Reihenfolge in availableScreens: Start -> Login -> Hub -> (erster Raum) -> ...
      */
-
-    public void enterRoom() {
-        var screens = gameState.getAvailableScreens();
-        var current = gameState.getCurrentScreen();
-
-        int currentIdx = screens.indexOf(current);
-        if (currentIdx == -1) return; // Fallback: wenn currentScreen nicht in der Liste ist, nichts tun
-
-        int nextIdx = currentIdx + 1;
-        if (nextIdx < screens.size()) {
-            changeScreen(screens.get(nextIdx)); // Wechselt zum nächsten Screen in der Liste
-        }
+    public void enterRoom(String roomTitle) {
+        nextScreen(); //ToDo Raum basierend auf Titel mit changeScreen öffnen, falls es erlaubt ist
     }
 
     //mit dieser Methode kann einfach zur HubAnsicht gewechselt werden, geht einfach bei available Screens wieder eins zurück
@@ -85,17 +76,13 @@ public class Model {
     }
 
 
-
-
-
-
     //mit dieser Methode können die Screens per Raum-Objekt gewechselt werden
-    void openRoom(Room room){
-        if (room ==null) return;
-    //hier wird der Screen Name generiert (Setzt sich aus dem RaumNamen plus "room_" zusammen
+    void openRoom(Room room) {
+        if (room == null) return;
+        //hier wird der Screen Name generiert (Setzt sich aus dem RaumNamen plus "room_" zusammen
         // String roomScreen = "room_" + room.getTitle().toLowerCase();
 
-        if(!room.isOpen()){
+        if (!room.isOpen()) {
             room.setOpen(true);
             pcs.firePropertyChange("roomOpen", null, room);
         }
@@ -157,7 +144,7 @@ public class Model {
     }
 */
 
-     //iteriert durch die Räume, holt sich Titel und Typ des Raumes
+    //iteriert durch die Räume, holt sich Titel und Typ des Raumes
     private Room findRoomByType(EnumScreen roomType) {
         for (Room r : gameState.getRoomOverview()) {
             if (r.getTitle() == roomType) {
@@ -166,10 +153,6 @@ public class Model {
         }
         return null;
     }
-
-
-
-
 
 
     // Auf Antwortbutton reagieren und Weiterschalten der Fragen
@@ -216,9 +199,8 @@ public class Model {
     }
 
 
-
     // Diese Methode markiert den Raum als abgeschlossen und prüft, ob ALLE Räume fertig sind
-    void completeRoom(Room room){
+    void completeRoom(Room room) {
         room.setCompleted(true);
         pcs.firePropertyChange("roomCompleted", null, room);
         gameState.checkForGameCompletion();
@@ -237,10 +219,18 @@ public class Model {
         nextIdx++;
         changeScreen(gameState.getAvailableScreens().get(nextIdx));
     }
+
+    void showError(String errorMessage) {
+        gameState.getCurrentScreen().setErrorMessage(errorMessage);
+        changeScreen(gameState.getCurrentScreen());
+    }
+
+
     public void validateLogin(String username, EnumDifficulty difficulty) {
         if (!username.isBlank()) {
             gameState.setUsername(username);
             gameState.setDifficulty(difficulty);
+            gameState.getCurrentScreen().clearErrorMessage();
 
             // Load and register the SQLite JDBC driver
             try {
@@ -263,7 +253,7 @@ public class Model {
 
             nextScreen();
         } else {
-            // Stay on the Login screen if the username is invalid
+            showError("Ungültiger Benutzername");
         }
     }
 }
