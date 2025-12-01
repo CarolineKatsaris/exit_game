@@ -5,6 +5,10 @@
 .idea/tasks.xml
 .idea/dictionaries/
 .idea/sonarlint/
+.idea/dataSources/
+.idea/dataSources.local.xml
+.idea/data_source_mapping.xml
+
 out/
 .idea/
 .idea/dataSources/
