@@ -1,5 +1,7 @@
 package view;
 
+import model.EnumScreen;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -21,7 +23,7 @@ public class HubView extends JLayeredPane {
 
         // Invisible Button über die Grafik "Grafikkarte"
 
-        graphicsCardBtn = makeInvisibleButton(80, 200, 250, 300,"graphics_card");
+        graphicsCardBtn = makeInvisibleButton(80, 200, 250, 300, EnumScreen.GraphicRoom.toString());
 
         add(graphicsCardBtn, Integer.valueOf(1)); // eine Ebene drüber
 

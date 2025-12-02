@@ -1,8 +1,6 @@
 package view;
 
-import model.EnumDifficulty;
-import model.EnumScreen;
-import model.Question;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,15 +47,19 @@ public class MainView extends JFrame {
         add(root, BorderLayout.CENTER);
     }
 
-    // ============================================================================
-//  Zugriff auf View-Elemente (für den Controller)
-// ============================================================================
-    public void showScreen(String cardName) {
+    /**
+     * Zeigt den angegebenen Screen an (stateless). Dazu muss eine Card in root existieren, die mit dem Title von screen übereinstimmt. Sonderfall ist es, wenn es ein Raum ist, dann wird EnumScreen.Room verwendet.
+     */
+    public void showScreen(Screen screen) {
+        String cardName;
+        if(screen instanceof Room) {cardName = EnumScreen.Room.toString();}
+        else {cardName = screen.getTitle().toString();}
         cards.show(root, cardName);
-    } // String cardName -> Screen s (Enum), cardname -> s.name
 
-    public void showScreen(EnumScreen screen) {
-        cards.show(root, screen.toString());
+        if(screen.isError()) {
+            JOptionPane.showMessageDialog(root, screen.getErrorMessage(),
+                    "Fehler", JOptionPane.ERROR_MESSAGE); //ToDo bessere Fehleranzeige als ein Popup
+        }
     }
     //
 // ─────────────────────────────────────────────────────────────────────────────
