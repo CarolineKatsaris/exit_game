@@ -101,9 +101,16 @@ public class Controller implements PropertyChangeListener {
         // -------------------
         // QUIZ-BUTTON CLICKS ->  model.nextScreen() als Platzhalter
         // -------------------
-        room.getQuiz1Button().addActionListener(e -> model.startQuizForRoom(EnumScreen.GraphicRoom)); // Dieser Button ist aktiviert
-        room.getQuiz2Button().addActionListener(e -> model.nextScreen());
-        room.getQuiz3Button().addActionListener(e -> model.nextScreen());
+        room.getQuiz1Button().addActionListener(
+                e -> model.startQuizForRoom(EnumScreen.GraphicRoom, 0)
+        );
+        room.getQuiz2Button().addActionListener(
+                e -> model.startQuizForRoom(EnumScreen.GraphicRoom, 1)
+        );
+        room.getQuiz3Button().addActionListener(
+                e -> model.startQuizForRoom(EnumScreen.GraphicRoom, 2)
+        );
+
 
         // -------------------
         // HOVER-EFFEKTE

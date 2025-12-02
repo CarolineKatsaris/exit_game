@@ -63,10 +63,6 @@ public class GameState {
 
 
 
-
-
-
-
     public List<Screen> getAvailableScreens() {
         return availableScreens;
     }
@@ -96,14 +92,17 @@ public class GameState {
         //pcs.firePropertyChange("screen",old,newScreen);
         }
 
-    Screen findScreenByName(EnumScreen title){
-        for (Screen s : availableScreens){
-            if (s.getTitle().equals(title)){
-                return s;
+
+    public Screen getScreenByTitle(EnumScreen title) {
+        for (Screen screen : availableScreens) {
+            if (screen.getTitle() == title) {
+                return screen;
             }
         }
         return null;
     }
+
+
     public EnumDifficulty getDifficulty() {
         return difficulty;
     }
