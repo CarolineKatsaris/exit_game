@@ -15,30 +15,12 @@ public class Model {
     public Model() {
         this.gameState = new GameState();
     }
-
     public GameState getGameState() {
         return gameState;
     }
 
-    //TODO: brauchen wir diese Methode noch?
-    void setGameState(GameState newState) {
-        GameState oldState = this.gameState;
-        this.gameState = newState;
-        pcs.firePropertyChange("gameState", oldState, newState);
-    }
-
     List<Room> getRooms() {
         return gameState.getRoomOverview();
-    }
-
-    //ToDo das soll in GameState und in getScreenByTitle umbenannt werden
-    public Room getRoomByRoomTitle(String roomTitle) {
-//        for (Raum r : gameState.getRoomOverview()) {
-//            if (r.getTitle().equalsIgnoreCase(roomTitle)){
-//                return r;
-//            }
-//        }
-        return null;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -76,26 +58,13 @@ public class Model {
     }
 
 
-    //mit dieser Methode können die Screens per Raum-Objekt gewechselt werden
-    void openRoom(Room room) {
-        if (room == null) return;
-        //hier wird der Screen Name generiert (Setzt sich aus dem RaumNamen plus "room_" zusammen
-        // String roomScreen = "room_" + room.getTitle().toLowerCase();
-
-        if (!room.isOpen()) {
-            room.setOpen(true);
-            pcs.firePropertyChange("roomOpen", null, room);
-        }
-        changeScreen(room);
-    }
-
     // Methoden für Quiz
 
     // Methode, die den passenden Raum in GameState sucht
-    public void startQuizForRoom(EnumScreen roomType) {
+    public void startQuizForRoom(EnumScreen roomType, int quizIndex) {
         currentQuizRoomType = roomType;
-        Question qFromQuiz = null;
 
+        // passenden Raum finden
         Room foundRoom = null;
         for (Room r : gameState.getRoomOverview()) {
             if (r.getTitle() == roomType) {
@@ -104,55 +73,33 @@ public class Model {
             }
         }
 
-        // aktuelles Quiz im Raum holen
+
+        if (foundRoom == null) {
+            return;
+        }
+
+        System.out.println("Quizzes im Raum " + roomType + ": " + foundRoom.getQuizzes().size());
+
+        // Quiz-Index setzen
+        foundRoom.setCurrentQuizIndex(quizIndex);
+
+        // aktuelles Quiz holen
         Quiz quiz = foundRoom.getCurrentQuiz();
         if (quiz == null) {
             return;
         }
         currentQuiz = quiz;
 
-        // aktuelle Frage aus dem Quiz holen
-        qFromQuiz = quiz.getCurrentQuestion();
+        // aktuelle Frage holen
+        Question qFromQuiz = quiz.getCurrentQuestion();
         if (qFromQuiz == null) {
             return;
         }
 
-        // Frage im Model merken und View informieren
         currentQuestion = qFromQuiz;
         pcs.firePropertyChange("quizShown", null, currentQuestion);
     }
 
-
-//TODO: Methode brauchen wir nicht mehr? Löschen?
-    /* // Quiz starten
-    public void startQuizForCurrentRoom() {
-        Question qFromQuiz = null;
-
-        // Frage aus dem aktuellen Raum/Quiz holen
-        if (gameState.getCurrentScreen() instanceof Room room) {
-            Quiz quiz = room.getCurrentQuiz();
-            if (quiz != null) {
-                qFromQuiz = quiz.getCurrentQuestion();   // nimmt intern die aktuelle Frage
-            }
-        }
-
-
-        currentQuestion = qFromQuiz;
-
-        // View informieren: Quiz anzeigen und Frage anzeigen
-        pcs.firePropertyChange("quizShown", null, currentQuestion);
-    }
-*/
-
-    //iteriert durch die Räume, holt sich Titel und Typ des Raumes
-    private Room findRoomByType(EnumScreen roomType) {
-        for (Room r : gameState.getRoomOverview()) {
-            if (r.getTitle() == roomType) {
-                return r;
-            }
-        }
-        return null;
-    }
 
 
     // Auf Antwortbutton reagieren und Weiterschalten der Fragen
