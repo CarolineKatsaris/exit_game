@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c99ab046-c786-42fb-aa16-aecda596b082" name="Changes" comment="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" show_ignored="true" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="origin/main" />
+  </component>
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLabMergeRequestFiltersHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPENED&quot;,
+    &quot;assignee&quot;: {
+      &quot;type&quot;: &quot;org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue&quot;,
+      &quot;username&quot;: &quot;00000000014BE7A2&quot;,
+      &quot;fullname&quot;: &quot;Sandra Sowa&quot;
+    }
+  }
+}</component>
+  <component name="GitLabMergeRequestsSettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;first&quot;: &quot;https://gitlab.lrz.de/00000000014C06C6/exit-game.git&quot;,
+    &quot;second&quot;: &quot;27be35d7-75ce-4ab1-bd2d-1cdc7cb5c95b&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="33SpKTd8DopAaySzkKNeeeawLQW" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Application.ClickableAreas.executor": "Run",
+    "Application.ExitGame.executor": "Run",
+    "Application.HelloWorld.executor": "Run",
+    "Application.PVPropertyChange.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.QuizTest.executor": "Run",
+    "JUnit.QuizTest.getCurrentQuestion.executor": "Run",
+    "JUnit.QuizTest.nextQuestionShouldAdvance.executor": "Run",
+    "JUnit.db in main.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
+    "git-widget-placeholder": "Sandra-u-Svenja",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/sandrasowa/IdeaProjects/exit-game",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="model" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="model" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.ExitGame">
+    <configuration name="PVPropertyChange" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="PVPropertyChange" />
+      <module name="prototypes" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="QuizTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model" />
+      <option name="MAIN_CLASS_NAME" value="model.QuizTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="QuizTest.getCurrentQuestion" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model" />
+      <option name="MAIN_CLASS_NAME" value="model.QuizTest" />
+      <option name="METHOD_NAME" value="getCurrentQuestion" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="QuizTest.nextQuestionShouldAdvance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model" />
+      <option name="MAIN_CLASS_NAME" value="model.QuizTest" />
+      <option name="METHOD_NAME" value="nextQuestionShouldAdvance" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="db in main" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="db.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="db" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="exit-game" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.QuizTest.nextQuestionShouldAdvance" />
+        <item itemvalue="JUnit.QuizTest.getCurrentQuestion" />
+        <item itemvalue="JUnit.QuizTest" />
+        <item itemvalue="JUnit.db in main" />
+        <item itemvalue="Application.PVPropertyChange" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28238.7" />
+        <option value="bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-IU-252.28238.7" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c99ab046-c786-42fb-aa16-aecda596b082" name="Changes" comment="" />
+      <created>1759320265233</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1759320265233</updated>
+      <workItem from="1763721227308" duration="33000" />
+      <workItem from="1763721279602" duration="1467000" />
+      <workItem from="1763722785254" duration="2224000" />
+      <workItem from="1763729885774" duration="1130000" />
+      <workItem from="1763732616002" duration="18753000" />
+      <workItem from="1764426892921" duration="9158000" />
+    </task>
+    <task id="LOCAL-00001" summary="Keine Ahnung was der will">
+      <option name="closed" value="true" />
+      <created>1760548451417</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1760548451417</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Test">
+      <option name="closed" value="true" />
+      <created>1760549411332</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1760549411332</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Test 2">
+      <option name="closed" value="true" />
+      <created>1760965662847</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1760965662848</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Testkommentar 2">
+      <option name="closed" value="true" />
+      <created>1760966317821</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1760966317821</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Tippfehler ausgebessert, Null-Exception bei VirusBegin-Bild in StartView hinzugefügt - aus Versehen in Caros Branch !? (Sorry!)">
+      <option name="closed" value="true" />
+      <created>1761466597711</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1761466597712</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Tippfehler ausgebessert, Null-Exception bei VirusBegin-Bild in StartView hinzugefügt - aus Versehen in Caros Branch !? (Sorry!)">
+      <option name="closed" value="true" />
+      <created>1761470542363</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1761470542363</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Striche ergänzt zum Testen">
+      <option name="closed" value="true" />
+      <created>1761471804861</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1761471804861</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Methode zur Übermittlung des Benutzernamens für das Storytelling in Klasse GameState ergänzt - entsprechende Methoden im Controller / View fehlen noch">
+      <option name="closed" value="true" />
+      <created>1761576890413</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1761576890413</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Konstruktor in GameState angelegt, der die Räume erzeugt (zunächst geschlossen), Konstruktur in Room angelegt">
+      <option name="closed" value="true" />
+      <created>1761581686262</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1761581686262</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Getter für Raumliste ergänzt">
+      <option name="closed" value="true" />
+      <created>1761581843689</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1761581843689</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Starttext (nicht dynamisch, da hier noch keine Benutzeranrede) hinzugefügt und erste Formatierungsmöglichkeiten hinzugefügt; wollte im Projekt mal was machen, das man beim Ausführen sieht ;-)">
+      <option name="closed" value="true" />
+      <created>1761659802858</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1761659802858</updated>
+    </task>
+    <task id="LOCAL-00012" summary="EnumScreen von View in Model verschoben (wie in eurem Dokument gewünscht), im Controller String zu Screen angepasst und kleinere Anpassungen in MainView ergänzt - vll nicht alles zu 100% wie in eurem Beispielcode, bitte einfach mal genau drüberschauen bevor gemerged wird">
+      <option name="closed" value="true" />
+      <created>1763050995940</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1763050995940</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Fragentext in Quiz verschoben, Struktur für Fragenabruf angepasst">
+      <option name="closed" value="true" />
+      <created>1763282946354</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1763282946354</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Methode startQuizforRoom im Model ergänzt, Methode registerRoomListeners angepasst">
+      <option name="closed" value="true" />
+      <created>1763288674843</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1763288674843</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Richtig / falsch wird in der Konsole angezeigt, zweite Frage im Quiz1 GraphicRoom testweise hart codiert ergänzt">
+      <option name="closed" value="true" />
+      <created>1763289690890</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1763289690890</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Methode zum Weiterschalten auf zweite Frage ergänzt (handleQuizAnswer überarbeitet und angepasst, im Quiz gibt es jetzt zwei Fragen, die nacheinander geöffnet werden bei richtiger Antwort, es fehlt die Zwischenschaltung &quot;Richte Antwort&quot; bzw. &quot;Falsche Antwort&quot;, Fragentext wird jetzt von GameState verwaltet, Quiz verwaltet die Fragenliste und stellt Methode nextQuestion bereit">
+      <option name="closed" value="true" />
+      <created>1763293898855</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1763293898855</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Hausaufgabe angefangen: Ordner Test erstellt, in Quiz die Methode getCurrentQuestion getestet">
+      <option name="closed" value="true" />
+      <created>1763394690440</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1763394690440</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Änderungen, die wir gemeinsam noch in der Testmethode ergänzt haben">
+      <option name="closed" value="true" />
+      <created>1763480655828</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1763480655828</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Zweite Testmethode nextQuestion ergänzt, die hat mir tatsächlich einen Fehler aufgezeigt in Quiz, den ich dann angepasst habe">
+      <option name="closed" value="true" />
+      <created>1763483597384</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1763483597384</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Datenbank angelegt, Datenbankmanager angelegt, wird noch nicht bei allen laufen, weil Datenbank ins Repository muss">
+      <option name="closed" value="true" />
+      <created>1763582317602</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1763582317602</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Fragen liegen in der Datenbank">
+      <option name="closed" value="true" />
+      <created>1763744582177</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1763744582177</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Methode loadQuizzesforRoom durchkommentiert">
+      <option name="closed" value="true" />
+      <created>1763796581892</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1763796581892</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Klasse QuizLoader erstellt, Methode zum Laden der Quizze aus GameState in QuizLoader ausgelagert (übersichtlicher)">
+      <option name="closed" value="true" />
+      <created>1763798411830</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1763798411830</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Tabelle question um difficulty ergänzt (US Unterstufe ist default)">
+      <option name="closed" value="true" />
+      <created>1763798606101</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1763798606101</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Tabelle question um difficulty ergänzt (US Unterstufe ist default)">
+      <option name="closed" value="true" />
+      <created>1764100003094</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1764100003094</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Tabelle question um difficulty ergänzt (US Unterstufe ist default)">
+      <option name="closed" value="true" />
+      <created>1764101471403</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1764101471403</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Tabelle question um difficulty ergänzt (US Unterstufe ist default)">
+      <option name="closed" value="true" />
+      <created>1764101773217</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1764101773217</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Model aufgeräumt, Methode getRoombyTitle -&gt; getScreenbyTitle und in Gamestate verschoben">
+      <option name="closed" value="true" />
+      <created>1764697651832</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1764697651832</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)">
+      <option name="closed" value="true" />
+      <created>1764703810428</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1764703810428</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)">
+      <option name="closed" value="true" />
+      <created>1764704331926</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1764704331926</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)">
+      <option name="closed" value="true" />
+      <created>1764704380651</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1764704380651</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)">
+      <option name="closed" value="true" />
+      <created>1764704443389</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1764704443389</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)">
+      <option name="closed" value="true" />
+      <created>1764704782037</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1764704782037</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)">
+      <option name="closed" value="true" />
+      <created>1764704893890</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1764704893890</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)">
+      <option name="closed" value="true" />
+      <created>1764705258123</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1764705258123</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)">
+      <option name="closed" value="true" />
+      <created>1764705444594</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1764705444594</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)">
+      <option name="closed" value="true" />
+      <created>1764705514349</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1764705514349</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)">
+      <option name="closed" value="true" />
+      <created>1764705567917</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1764705567917</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)">
+      <option name="closed" value="true" />
+      <created>1764705684894</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1764705684894</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="Sandra-u-Svenja" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Keine Ahnung was der will" />
+    <MESSAGE value="Test" />
+    <MESSAGE value="Test 2" />
+    <MESSAGE value="Testkommentar 2" />
+    <MESSAGE value="Tippfehler ausgebessert, Null-Exception bei VirusBegin-Bild in StartView hinzugefügt - aus Versehen in Caros Branch !? (Sorry!)" />
+    <MESSAGE value="Striche ergänzt zum Testen" />
+    <MESSAGE value="Methode zur Übermittlung des Benutzernamens für das Storytelling in Klasse GameState ergänzt - entsprechende Methoden im Controller / View fehlen noch" />
+    <MESSAGE value="Konstruktor in GameState angelegt, der die Räume erzeugt (zunächst geschlossen), Konstruktur in Room angelegt" />
+    <MESSAGE value="Getter für Raumliste ergänzt" />
+    <MESSAGE value="Starttext (nicht dynamisch, da hier noch keine Benutzeranrede) hinzugefügt und erste Formatierungsmöglichkeiten hinzugefügt; wollte im Projekt mal was machen, das man beim Ausführen sieht ;-)" />
+    <MESSAGE value="EnumScreen von View in Model verschoben (wie in eurem Dokument gewünscht), im Controller String zu Screen angepasst und kleinere Anpassungen in MainView ergänzt - vll nicht alles zu 100% wie in eurem Beispielcode, bitte einfach mal genau drüberschauen bevor gemerged wird" />
+    <MESSAGE value="Fragentext in Quiz verschoben, Struktur für Fragenabruf angepasst" />
+    <MESSAGE value="Methode startQuizforRoom im Model ergänzt, Methode registerRoomListeners angepasst" />
+    <MESSAGE value="Richtig / falsch wird in der Konsole angezeigt, zweite Frage im Quiz1 GraphicRoom testweise hart codiert ergänzt" />
+    <MESSAGE value="Methode zum Weiterschalten auf zweite Frage ergänzt (handleQuizAnswer überarbeitet und angepasst, im Quiz gibt es jetzt zwei Fragen, die nacheinander geöffnet werden bei richtiger Antwort, es fehlt die Zwischenschaltung &quot;Richte Antwort&quot; bzw. &quot;Falsche Antwort&quot;, Fragentext wird jetzt von GameState verwaltet, Quiz verwaltet die Fragenliste und stellt Methode nextQuestion bereit" />
+    <MESSAGE value="Hausaufgabe angefangen: Ordner Test erstellt, in Quiz die Methode getCurrentQuestion getestet" />
+    <MESSAGE value="Änderungen, die wir gemeinsam noch in der Testmethode ergänzt haben" />
+    <MESSAGE value="Zweite Testmethode nextQuestion ergänzt, die hat mir tatsächlich einen Fehler aufgezeigt in Quiz, den ich dann angepasst habe" />
+    <MESSAGE value="Datenbank angelegt, Datenbankmanager angelegt, wird noch nicht bei allen laufen, weil Datenbank ins Repository muss" />
+    <MESSAGE value="Fragen liegen in der Datenbank" />
+    <MESSAGE value="Methode loadQuizzesforRoom durchkommentiert" />
+    <MESSAGE value="Klasse QuizLoader erstellt, Methode zum Laden der Quizze aus GameState in QuizLoader ausgelagert (übersichtlicher)" />
+    <MESSAGE value="Tabelle question um difficulty ergänzt (US Unterstufe ist default)" />
+    <MESSAGE value="Model aufgeräumt, Methode getRoombyTitle -&gt; getScreenbyTitle und in Gamestate verschoben" />
+    <MESSAGE value="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)" />
+  </component>
+</project>
