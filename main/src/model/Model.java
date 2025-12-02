@@ -61,10 +61,10 @@ public class Model {
     // Methoden für Quiz
 
     // Methode, die den passenden Raum in GameState sucht
-    public void startQuizForRoom(EnumScreen roomType) {
+    public void startQuizForRoom(EnumScreen roomType, int quizIndex) {
         currentQuizRoomType = roomType;
-        Question qFromQuiz = null;
 
+        // passenden Raum finden
         Room foundRoom = null;
         for (Room r : gameState.getRoomOverview()) {
             if (r.getTitle() == roomType) {
@@ -73,20 +73,29 @@ public class Model {
             }
         }
 
-        // aktuelles Quiz im Raum holen
+
+        if (foundRoom == null) {
+            return;
+        }
+
+        System.out.println("Quizzes im Raum " + roomType + ": " + foundRoom.getQuizzes().size());
+
+        // Quiz-Index setzen
+        foundRoom.setCurrentQuizIndex(quizIndex);
+
+        // aktuelles Quiz holen
         Quiz quiz = foundRoom.getCurrentQuiz();
         if (quiz == null) {
             return;
         }
         currentQuiz = quiz;
 
-        // aktuelle Frage aus dem Quiz holen
-        qFromQuiz = quiz.getCurrentQuestion();
+        // aktuelle Frage holen
+        Question qFromQuiz = quiz.getCurrentQuestion();
         if (qFromQuiz == null) {
             return;
         }
 
-        // Frage im Model merken und View informieren
         currentQuestion = qFromQuiz;
         pcs.firePropertyChange("quizShown", null, currentQuestion);
     }
