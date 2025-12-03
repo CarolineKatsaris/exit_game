@@ -57,6 +57,16 @@ public class Model {
         changeScreen(previous);
     }
 
+    // Hilfsmethode, um einen Raum anhand seines EnumScreen zu finden
+    private Room findRoomByType(EnumScreen roomType) {
+        for (Room r : gameState.getRoomOverview()) {
+            if (r.getTitle() == roomType) {
+                return r;
+            }
+        }
+        return null;
+    }
+
 
     // Methoden für Quiz
 
@@ -73,12 +83,26 @@ public class Model {
             }
         }
 
-
         if (foundRoom == null) {
             return;
         }
 
-        System.out.println("Quizzes im Raum " + roomType + ": " + foundRoom.getQuizzes().size());
+
+
+
+        //  Intro-Text anzeigen, bevor das erste Quiz startet
+        if (!foundRoom.isIntroShown()
+                && foundRoom.getIntroText() != null
+                && !foundRoom.getIntroText().isBlank()) {
+
+            foundRoom.setIntroShown(true);
+
+            // an die View melden
+            // pcs.firePropertyChange("storyText", null, foundRoom.getIntroText());
+            System.out.println("INTRO for " + roomType + ": " + foundRoom.getIntroText());
+
+            return;
+        }
 
         // Quiz-Index setzen
         foundRoom.setCurrentQuizIndex(quizIndex);
@@ -88,6 +112,12 @@ public class Model {
         if (quiz == null) {
             return;
         }
+        if (quiz.isFinished()) {
+            System.out.println("Quiz " + quizIndex + " in Raum " + roomType
+                    + " ist bereits abgeschlossen und kann nicht neu gestartet werden.");
+            return;
+        }
+
         currentQuiz = quiz;
 
         // aktuelle Frage holen
@@ -124,6 +154,36 @@ public class Model {
             if (currentQuiz.isCompleted()) {
                 // aktuelle Frage ist die letzte → Quiz beenden
                 pcs.firePropertyChange("quizHidden", true, false);
+
+                currentQuiz.markFinished(); // Quiz wird als beendet markiert -> kann nicht nochmal gespielt werden
+
+
+                // Prüfen, ob das das letzte Quiz im Raum ist für Ourto
+                Room room = findRoomByType(currentQuizRoomType);
+                if (room != null) {
+                    List<Quiz> quizzesInRoom = room.getQuizzes();
+                    int quizIndex = quizzesInRoom.indexOf(currentQuiz);
+                    boolean isLastQuizInRoom = (quizIndex == quizzesInRoom.size() - 1);
+
+                    if (isLastQuizInRoom) {
+
+                        // Raum als abgeschlossen markieren + ggf. Spielende prüfen
+                        completeRoom(room);
+
+                        // Outro-Text nur einmal anzeigen
+                        if (!room.isOutroShown()
+                                && room.getOutroText() != null
+                                && !room.getOutroText().isBlank()) {
+
+                            room.setOutroShown(true);
+
+                            System.out.println("OUTRO for " + currentQuizRoomType + ": " + room.getOutroText());
+
+                            // pcs.firePropertyChange("storyText", null, room.getOutroText());
+                        }
+                    }
+                }
+
                 return;
             }
 
