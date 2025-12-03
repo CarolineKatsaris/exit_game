@@ -9,12 +9,13 @@ public class MainView extends JFrame {
 
     private CardLayout cards;
     private JPanel root;
+    private JPanel roomCard;
 
     // Referenzen auf einzelne Screens:
     private StartView startView;
     private LoginView loginView;
     private HubView hubView;
-    private RoomView roomView;
+    private AbstractRoomView roomView;
     private QuizView quizView;
 
     public MainView() {
@@ -25,12 +26,13 @@ public class MainView extends JFrame {
         // Layout-Container für die Screens
         cards = new CardLayout();
         root = new JPanel(cards);
+        roomCard = new JPanel(new BorderLayout());
 
         // Screens anlegen
         startView = new StartView();
         hubView = new HubView();
         loginView = new LoginView();
-        roomView = new RoomView();
+        roomView = new GraphicsCardRoomView(); // optional / Übergangslösung
         quizView = new QuizView();
         // GlassPane setzen
         setGlassPane(quizView);
@@ -41,14 +43,16 @@ public class MainView extends JFrame {
         root.add(startView, EnumScreen.Start.toString());
         root.add(hubView, EnumScreen.Hub.toString());
         root.add(loginView, EnumScreen.Login.toString());
-        root.add(roomView, EnumScreen.Room.toString());
+        root.add(roomCard, EnumScreen.Room.toString());
+        roomCard.add(roomView, BorderLayout.CENTER);// nur solange roomView = new GraphicsCardRoomView(); als initialer Screen gesetzt ist
 
         // Alles ins Fenster
         add(root, BorderLayout.CENTER);
     }
 
     /**
-     * Zeigt den angegebenen Screen an (stateless). Dazu muss eine Card in root existieren, die mit dem Title von screen übereinstimmt. Sonderfall ist es, wenn es ein Raum ist, dann wird EnumScreen.Room verwendet.
+     * Zeigt den angegebenen Screen an (stateless). Dazu muss eine Card in root existieren, die mit dem Title von screen übereinstimmt.
+     * Sonderfall ist es, wenn es ein Raum ist, dann wird EnumScreen.Room verwendet.
      */
     public void showScreen(Screen screen) {
         String cardName;
@@ -115,9 +119,19 @@ public class MainView extends JFrame {
 //  Zusätzlich ein sichtbarer „Zurück zum Hub“-Button.
 //
 
-    public RoomView getRoomView() {
+    public void setRoomView(AbstractRoomView view) {
+        roomCard.removeAll();
+        roomCard.add(view, BorderLayout.CENTER);
+        roomCard.revalidate();
+        roomCard.repaint();
+        roomView = view;
+    }
+
+    public AbstractRoomView getRoomView() {
         return roomView;
     }
+
+
 
     public JButton getBackButton() { return roomView.getBackButton(); };
 

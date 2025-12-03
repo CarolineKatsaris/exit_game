@@ -1,6 +1,8 @@
 package controller;
 
 import model.*;
+import view.AbstractRoomView;
+import view.GraphicsCardRoomView;
 import view.MainView;
 
 import javax.swing.*;
@@ -54,7 +56,23 @@ public class Controller implements PropertyChangeListener {
      *               );
      */
     void loadScreen(Screen screen) {
+
+        // 1) Wenn es ein Room ist → passende View setzen
+        if (screen instanceof Room room) { //Wir brauchen room.getTitle(), also die Variante mit Variable Room room
+            AbstractRoomView newRoomView = createRoomView(room);
+            view.setRoomView(newRoomView);
+            /** Optional geht auch:
+             * view.showScreen(room);
+             * registerRoomListeners();
+             * return;
+             * -> Damit fällt das untere if weg
+             */
+        }
+
+        // 2) Screen anzeigen
         view.showScreen(screen); //Screen anzeigen
+
+        // 3) Buttons registrieren
         switch (screen.getTitle()) { // ActionListener für Buttons Elemente hinzufügen
             case Start: //ToDo -> {} * eventuell Pfeil + Klammernschreibweise statt break
                 registerListener(view.getStartButton(), e -> model.nextScreen());
@@ -89,6 +107,19 @@ public class Controller implements PropertyChangeListener {
            loadScreen(screen);
         }
     }
+
+    private AbstractRoomView createRoomView(Room room) {
+        return switch (room.getTitle()) {
+            case GraphicRoom -> new GraphicsCardRoomView();
+            //case RAMRoom     -> new RamRoomView();
+            //case FileSystemRoom -> new FileSystemRoomView();
+            // ...
+            default -> throw new IllegalArgumentException(
+                    "Keine View für Room: " + room.getTitle()
+            );
+        };
+    }
+
 
     // ToDo: Generischere Methode finden
     private void registerRoomListeners() {
