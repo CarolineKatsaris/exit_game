@@ -107,5 +107,43 @@ public class QuizLoader {
         //alle Quizobjekte aus der Map werden in eine Liste gepackt, die zurückgegeben wird
         return new java.util.ArrayList<>(quizByNumber.values());
     }
+
+
+    // läd Into- / Outrotexte aus der Datenbank
+
+    public String loadIntroTextForScreen(EnumScreen screen) {
+        return loadStoryText(screen, "INTRO");
+    }
+
+    public String loadOutroTextForScreen(EnumScreen screen) {
+        return loadStoryText(screen, "OUTRO");
+    }
+
+    private String loadStoryText(EnumScreen screen, String kind) {
+        String sql = """
+            SELECT bodytext
+            FROM story_text
+            WHERE screen = ? AND kind = ?
+            LIMIT 1
+            """;
+
+        try (Connection conn = DriverManager.getConnection(dbUrl);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, screen.name()); // z.B. "GraphicRoom"
+            ps.setString(2, kind);          // "INTRO" oder "OUTRO"
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("bodytext");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // falls nichts gefunden wird
+        return null;
+    }
 }
 
