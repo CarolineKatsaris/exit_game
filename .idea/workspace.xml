@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c99ab046-c786-42fb-aa16-aecda596b082" name="Changes" comment="Svenjas Fragen wieder in die Datenbank eingefügt">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="c99ab046-c786-42fb-aa16-aecda596b082" name="Changes" comment="Methoden für Storytellingtext (Into / Outro in jedem Raum) angelegt, Datenbank um Tabelle für Text erweitert, Testtexte für GraphicRoom angelegt - aktuell nur Ausgabe in der Konsole, Anbindung an Controller / View fehlt noch">
       <change beforePath="$PROJECT_DIR$/ExitGame.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/ExitGame.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/src/model/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/src/model/GameState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/src/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/src/model/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/src/model/QuizLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/src/model/QuizLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/src/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/src/model/Room.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -556,7 +551,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764742230089</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Methoden für Storytellingtext (Into / Outro in jedem Raum) angelegt, Datenbank um Tabelle für Text erweitert, Testtexte für GraphicRoom angelegt - aktuell nur Ausgabe in der Konsole, Anbindung an Controller / View fehlt noch">
+      <option name="closed" value="true" />
+      <created>1764746087801</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1764746087801</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -601,7 +604,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Test" />
     <MESSAGE value="Test 2" />
     <MESSAGE value="Testkommentar 2" />
     <MESSAGE value="Tippfehler ausgebessert, Null-Exception bei VirusBegin-Bild in StartView hinzugefügt - aus Versehen in Caros Branch !? (Sorry!)" />
@@ -626,6 +628,7 @@
     <MESSAGE value="Model aufgeräumt, Methode getRoombyTitle -&gt; getScreenbyTitle und in Gamestate verschoben" />
     <MESSAGE value="Alle Quizbuttons aktiviert, entsprechende Fragen werden geladen (aber erst wieder, wenn bei allen die Datenbank wieder synchronisiert)" />
     <MESSAGE value="Svenjas Fragen wieder in die Datenbank eingefügt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Svenjas Fragen wieder in die Datenbank eingefügt" />
+    <MESSAGE value="Methoden für Storytellingtext (Into / Outro in jedem Raum) angelegt, Datenbank um Tabelle für Text erweitert, Testtexte für GraphicRoom angelegt - aktuell nur Ausgabe in der Konsole, Anbindung an Controller / View fehlt noch" />
+    <option name="LAST_COMMIT_MESSAGE" value="Methoden für Storytellingtext (Into / Outro in jedem Raum) angelegt, Datenbank um Tabelle für Text erweitert, Testtexte für GraphicRoom angelegt - aktuell nur Ausgabe in der Konsole, Anbindung an Controller / View fehlt noch" />
   </component>
 </project>
