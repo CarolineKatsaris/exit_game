@@ -33,6 +33,24 @@ public class GameState {
         netRoom.setQuizzes(quizLoader.loadQuizzesForRoom(EnumScreen.NetRoom));
         cpuRoom.setQuizzes(quizLoader.loadQuizzesForRoom(EnumScreen.CPURoom));
 
+
+        // Into- / Outro-Texte
+        graphicRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.GraphicRoom));
+        graphicRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.GraphicRoom));
+
+        ramRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.RAMRoom));
+        ramRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.RAMRoom));
+
+        fileRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.FileRoom));
+        fileRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.FileRoom));
+
+        netRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.NetRoom));
+        netRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.NetRoom));
+
+        cpuRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.CPURoom));
+        cpuRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.CPURoom));
+
+
         // Räume zur Übersicht hinzufügen
         roomOverview.add(graphicRoom);
         roomOverview.add(ramRoom);
