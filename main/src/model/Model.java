@@ -112,6 +112,12 @@ public class Model {
         if (quiz == null) {
             return;
         }
+        if (quiz.isFinished()) {
+            System.out.println("Quiz " + quizIndex + " in Raum " + roomType
+                    + " ist bereits abgeschlossen und kann nicht neu gestartet werden.");
+            return;
+        }
+
         currentQuiz = quiz;
 
         // aktuelle Frage holen
@@ -148,6 +154,8 @@ public class Model {
             if (currentQuiz.isCompleted()) {
                 // aktuelle Frage ist die letzte → Quiz beenden
                 pcs.firePropertyChange("quizHidden", true, false);
+
+                currentQuiz.markFinished(); // Quiz wird als beendet markiert -> kann nicht nochmal gespielt werden
 
 
                 // Prüfen, ob das das letzte Quiz im Raum ist für Ourto

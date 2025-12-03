@@ -8,6 +8,9 @@ public class Quiz {
     private final List<Question> questions;
     private int currentIndex = 0;
 
+    private boolean finished = false;
+
+
     public Quiz() {
         this.questions = new ArrayList<>();
     }
@@ -21,7 +24,6 @@ public class Quiz {
     }
 
     public Question getCurrentQuestion() {
-        if (isCompleted()) return null;
 
         if (currentIndex >= 0 && currentIndex < questions.size()) {
             return questions.get(currentIndex);
@@ -40,4 +42,15 @@ public class Quiz {
             return currentIndex >= questions.size()-1;
         }
 
+    // Abfragen, ob das Quiz schon komplett gespielt wurde
+    public boolean isFinished() {
+        return finished;
     }
+
+    // Markiert das Quiz als komplett durchgespielt
+    public void markFinished() {
+        this.finished = true;
+    }
+
+
+}
