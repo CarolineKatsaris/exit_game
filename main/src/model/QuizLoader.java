@@ -53,7 +53,7 @@ public class QuizLoader {
                 int correctIndex = -1; //an welcher Position befindet sich die richtige Antwort
                 // zunächst noch keine richtige gefunden
 
-                // solange es Zeilen für das Resulat gibt: durchlaufen und ID zu der Frage holen
+                // solange es Zeilen für das Resultat gibt: durchlaufen und ID zu der Frage holen
                 while (rs.next()) {
                     int questionId = rs.getInt("question_id");
 

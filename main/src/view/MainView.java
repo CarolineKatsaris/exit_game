@@ -56,11 +56,15 @@ public class MainView extends JFrame {
         else {cardName = screen.getTitle().toString();}
         cards.show(root, cardName);
 
-        if(screen.isError()) {
-            JOptionPane.showMessageDialog(root, screen.getErrorMessage(),
-                    "Fehler", JOptionPane.ERROR_MESSAGE); //ToDo bessere Fehleranzeige als ein Popup
+// Fehlerbehandlung
+        if (screen.isError()) {
+       // loginView.errorLabel.setVisible(true);
+            JOptionPane.showMessageDialog(root, screen.getErrorMessage(), "Fehler", JOptionPane.ERROR_MESSAGE); //ToDo bessere Fehleranzeige als ein Popup
+
         }
-    }
+        }
+
+
     //
 // ─────────────────────────────────────────────────────────────────────────────
 //   START-VIEW BUTTONS
