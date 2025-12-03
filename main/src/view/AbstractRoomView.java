@@ -74,6 +74,7 @@ public abstract class AbstractRoomView extends JLayeredPane {
     public void setQuiz2Highlight(boolean on) { setHighlight(quiz2Btn, on); }
     public void setQuiz3Highlight(boolean on) { setHighlight(quiz3Btn, on); }
 
+    // Nach Setzten aller Buttons entweder Methode löschen oder Verfeinern
     private void setHighlight(JButton b, boolean on) {
         if (on) {
             b.setBorder(BorderFactory.createLineBorder(
