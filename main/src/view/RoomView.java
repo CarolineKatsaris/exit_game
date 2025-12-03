@@ -61,6 +61,11 @@ public class RoomView extends JLayeredPane {
 
    public JButton getBackButton() { return back; };
 
+    /**
+     * Färbt Buttons mit gelben Rand ein und ändert den Cursor
+     * @param b JButton
+     * @param on boolean
+     */
     private void setHighlight(JButton b, boolean on) {
         if (on) {
             b.setBorder(BorderFactory.createLineBorder(
