@@ -14,7 +14,7 @@ public class MainView extends JFrame {
     private StartView startView;
     private LoginView loginView;
     private HubView hubView;
-    private RoomView roomView;
+    private RoomView graphicsView;
     private QuizView quizView;
 
     public MainView() {
@@ -30,7 +30,7 @@ public class MainView extends JFrame {
         startView = new StartView();
         hubView = new HubView();
         loginView = new LoginView();
-        roomView = new RoomView();
+        graphicsView = new RoomView("/GraphicsCardRoomView_elements.png", new Rectangle[] {new Rectangle(400, 400, 120, 290), new Rectangle(1000, 330, 240, 180), new Rectangle(1130, 640, 260, 160) });
         quizView = new QuizView();
         // GlassPane setzen
         setGlassPane(quizView);
@@ -41,7 +41,7 @@ public class MainView extends JFrame {
         root.add(startView, EnumScreen.Start.toString());
         root.add(hubView, EnumScreen.Hub.toString());
         root.add(loginView, EnumScreen.Login.toString());
-        root.add(roomView, EnumScreen.Room.toString());
+        root.add(graphicsView, EnumScreen.GraphicRoom.toString());
 
         // Alles ins Fenster
         add(root, BorderLayout.CENTER);
@@ -120,10 +120,10 @@ public class MainView extends JFrame {
 //
 
     public RoomView getRoomView() {
-        return roomView;
+        return graphicsView;
     }
 
-    public JButton getBackButton() { return roomView.getBackButton(); };
+    public JButton getBackButton() { return graphicsView.getBackButton(); };
 
 
 
