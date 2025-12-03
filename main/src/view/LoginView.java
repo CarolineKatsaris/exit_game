@@ -13,6 +13,7 @@ public class LoginView extends JPanel {
     final JTextField nameField;
     final JComboBox<EnumDifficulty> difficultySelection;
     final JButton submitButton;
+    JLabel errorLabel;
 
     public LoginView() {
         // Hintergrundbild laden (Pfad anpassen!)
@@ -35,6 +36,14 @@ public class LoginView extends JPanel {
         nameLabel.setBackground(new Color(255, 255, 255, 150));
         nameLabel.setBounds(rectX + 20, rectY + 20, 80, 30); // Position innerhalb des Rechtecks
         add(nameLabel);
+
+        //Label für Fehlermeldung
+        JLabel errorLabel = new JLabel("Name eingeben!");
+        errorLabel.setForeground(Color.RED);
+        errorLabel.setVisible(false);
+        errorLabel.setBackground(new Color(255, 255, 255, 150));
+        errorLabel.setBounds(rectX + 330, rectY + 20, 80, 30);
+        add(errorLabel);
 
         // Textfeld für Namen eingeben
         nameField = new JTextField(20);
@@ -109,5 +118,16 @@ public class LoginView extends JPanel {
 
     public JButton getSubmitButton() {
         return submitButton;
+    }
+
+    // Methode zum Setzen der Fehlermeldung
+    public void setErrorMessageLabel(String message) {
+        errorLabel.setText(message);
+        errorLabel.setVisible(true); // Sichtbar machen
+    }
+
+    // Methode zum Ausblenden der Fehlermeldung
+    public void clearErrorMessageLabel() {
+        errorLabel.setVisible(false);
     }
 }

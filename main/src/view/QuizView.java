@@ -48,6 +48,7 @@ public class QuizView extends JPanel {
     }
 
     /**
+     * Methode, die den Text einer Frage und die Antwortmöglichkeiten (auf die buttons) einfügt
      * Wird vom Controller/View aufgerufen, wenn das Modell eine neue Frage liefert.
      */
     public void setQuestion(Question question) {
@@ -72,6 +73,9 @@ public class QuizView extends JPanel {
         return answerButtons;
     }
 
+    /**
+     *Setzt ein halbtransparentes schwarzes Overlay über den gesamten Raum
+     */
     @Override
     protected void paintComponent(Graphics g) {
         // Halbtransparentes Dunkel über den gesamten Raum legen
