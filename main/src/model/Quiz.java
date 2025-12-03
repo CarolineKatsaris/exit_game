@@ -21,6 +21,8 @@ public class Quiz {
     }
 
     public Question getCurrentQuestion() {
+        if (isCompleted()) return null;
+
         if (currentIndex >= 0 && currentIndex < questions.size()) {
             return questions.get(currentIndex);
         }

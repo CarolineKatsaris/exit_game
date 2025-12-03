@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c99ab046-c786-42fb-aa16-aecda596b082" name="Changes" comment="Methoden für Storytellingtext (Into / Outro in jedem Raum) angelegt, Datenbank um Tabelle für Text erweitert, Testtexte für GraphicRoom angelegt - aktuell nur Ausgabe in der Konsole, Anbindung an Controller / View fehlt noch">
-      <change beforePath="$PROJECT_DIR$/ExitGame.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/ExitGame.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -559,7 +559,23 @@
       <option name="project" value="LOCAL" />
       <updated>1764746087801</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Methoden für Storytellingtext (Into / Outro in jedem Raum) angelegt, Datenbank um Tabelle für Text erweitert, Testtexte für GraphicRoom angelegt - aktuell nur Ausgabe in der Konsole, Anbindung an Controller / View fehlt noch">
+      <option name="closed" value="true" />
+      <created>1764746446271</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1764746446271</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Methoden für Storytellingtext (Into / Outro in jedem Raum) angelegt, Datenbank um Tabelle für Text erweitert, Testtexte für GraphicRoom angelegt - aktuell nur Ausgabe in der Konsole, Anbindung an Controller / View fehlt noch">
+      <option name="closed" value="true" />
+      <created>1764746474408</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1764746474408</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
