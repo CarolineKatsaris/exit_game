@@ -87,7 +87,7 @@ public class Model {
             return;
         }
 
-        System.out.println("Quizzes im Raum " + roomType + ": " + foundRoom.getQuizzes().size());
+
 
 
         //  Intro-Text anzeigen, bevor das erste Quiz startet
@@ -103,7 +103,6 @@ public class Model {
 
             return;
         }
-
 
         // Quiz-Index setzen
         foundRoom.setCurrentQuizIndex(quizIndex);
