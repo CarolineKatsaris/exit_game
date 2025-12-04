@@ -1,6 +1,9 @@
 package controller;
 
-import model.*;
+import model.EnumScreen;
+import model.Model;
+import model.Room;
+import model.Screen;
 import view.MainView;
 
 import javax.swing.*;
@@ -36,6 +39,7 @@ public class Controller implements PropertyChangeListener {
 
     /**
      * Generische Methode, um Listener nur einmal zu registrieren.
+     *
      * @param button
      * @param action
      */
@@ -69,7 +73,7 @@ public class Controller implements PropertyChangeListener {
             default:
                 break;
         }
-        if(screen instanceof Room) { //Sonderfall: Screen ist Raum
+        if (screen instanceof Room) { //Sonderfall: Screen ist Raum
             registerRoomListeners();
         }
 
@@ -84,9 +88,9 @@ public class Controller implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         //nur für Events vom Typ "screen"
-        if(e.getPropertyName().equals("screen")) {
-           Screen screen = (Screen) e.getNewValue();
-           loadScreen(screen);
+        if (e.getPropertyName().equals("screen")) {
+            Screen screen = (Screen) e.getNewValue();
+            loadScreen(screen);
         }
     }
 
@@ -137,7 +141,7 @@ public class Controller implements PropertyChangeListener {
         );
 
         room.getBackButton().addActionListener(e ->
-            model.returnToHub());
+                model.returnToHub());
 
     }
 
@@ -158,8 +162,8 @@ public class Controller implements PropertyChangeListener {
         //   HOVER – Rahmen ein/aus
         hub.getGraphicsCardButton().addMouseListener(
                 new HoverAdapter(
-                        () ->hub.setGraphicsCardHighlight(true),
-                        () ->hub.setGraphicsCardHighlight(false)
+                        () -> hub.setGraphicsCardHighlight(true),
+                        () -> hub.setGraphicsCardHighlight(false)
                 )
         );
     }

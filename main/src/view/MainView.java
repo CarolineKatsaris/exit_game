@@ -48,21 +48,18 @@ public class MainView extends JFrame {
     }
 
     /**
-     * Zeigt den angegebenen Screen an (stateless). Dazu muss eine Card in root existieren, die mit dem Title von screen übereinstimmt. Sonderfall ist es, wenn es ein Raum ist, dann wird EnumScreen.Room verwendet.
+     * Zeigt den angegebenen Screen an (stateless). Dazu muss eine Card in root existieren, die mit dem Title von screen übereinstimmt.
      */
     public void showScreen(Screen screen) {
-        String cardName;
-        if(screen instanceof Room) {cardName = EnumScreen.Room.toString();}
-        else {cardName = screen.getTitle().toString();}
-        cards.show(root, cardName);
+        cards.show(root, screen.getTitle().toString());
 
-// Fehlerbehandlung
+        // Fehlerbehandlung
         if (screen.isError()) {
        // loginView.errorLabel.setVisible(true);
             JOptionPane.showMessageDialog(root, screen.getErrorMessage(), "Fehler", JOptionPane.ERROR_MESSAGE); //ToDo bessere Fehleranzeige als ein Popup
 
         }
-        }
+    }
 
 
     //
@@ -97,36 +94,33 @@ public class MainView extends JFrame {
         }
     }
     //
-// ─────────────────────────────────────────────────────────────────────────────
-//   HUB-VIEW
-// ─────────────────────────────────────────────────────────────────────────────
-//
-//  Dieser Button liegt als „unsichtbarer“ Hotspot über der Grafikkarten-Grafik
-//  im Hub-Bild. Der Controller nutzt ihn, um in den Graphics-Room zu wechseln.
-//
+    // ─────────────────────────────────────────────────────────────────────────────
+    //   HUB-VIEW
+    // ─────────────────────────────────────────────────────────────────────────────
+    //
+    //  Dieser Button liegt als „unsichtbarer“ Hotspot über der Grafikkarten-Grafik
+    //  im Hub-Bild. Der Controller nutzt ihn, um in den Graphics-Room zu wechseln.
+    //
     public HubView getHubView() {
         return hubView;
     }
-//
-// ─────────────────────────────────────────────────────────────────────────────
-//   ROOM-VIEW + BUTTONS
-// ─────────────────────────────────────────────────────────────────────────────
-//
-//  Drei unsichtbare Hotspots in der RoomView:
-//   • quiz1Button  → GPU/VRAM-Panel
-//   • quiz2Button  → rechter Störbildschirm
-//   • quiz3Button  → Framebuffer-Konsole
-//  Zusätzlich ein sichtbarer „Zurück zum Hub“-Button.
-//
 
+    //
+    // ─────────────────────────────────────────────────────────────────────────────
+    //   ROOM-VIEW + BUTTONS
+    // ─────────────────────────────────────────────────────────────────────────────
+    //
+    //  Drei unsichtbare Hotspots in der RoomView:
+    //   • quiz1Button  → GPU/VRAM-Panel
+    //   • quiz2Button  → rechter Störbildschirm
+    //   • quiz3Button  → Framebuffer-Konsole
+    //  Zusätzlich ein sichtbarer „Zurück zum Hub“-Button.
+    //
     public RoomView getRoomView() {
         return graphicsView;
     }
 
     public JButton getBackButton() { return graphicsView.getBackButton(); };
-
-
-
 
     public void showQuiz(Question q) {
         quizView.setQuestion(q);
