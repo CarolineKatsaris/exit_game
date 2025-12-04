@@ -20,6 +20,10 @@ public class Room extends Screen {
     private List<Quiz> quizzes = new ArrayList<>();
     private int currentQuizIndex = 0;
 
+    // bis zu welchem Quiz-Index ist freigeschaltet?
+    private int highestUnlockedQuizIndex = 0; // 0 = nur erstes Quiz erlaubt
+
+
     public Room(EnumScreen roomTitle, boolean open) {
         super(roomTitle); //roomTitle an Elternklasse Screen übergeben und dort als title speichern
         this.open = open;
@@ -56,6 +60,17 @@ public class Room extends Screen {
 
     public void setOutroShown(boolean outroShown) {
         this.outroShown = outroShown;
+    }
+
+    public int getHighestUnlockedQuizIndex() {
+        return highestUnlockedQuizIndex;
+    }
+
+    // nächstes Quiz freischalten (falls vorhanden)
+    public void unlockNextQuiz() {
+        if (highestUnlockedQuizIndex < quizzes.size() - 1) {
+            highestUnlockedQuizIndex++;
+        }
     }
 
 

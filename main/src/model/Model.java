@@ -67,6 +67,11 @@ public class Model {
         return null;
     }
 
+    // Methode ersetzt {BENUTZERNAME} im Storytext
+    private String personalize(String text) {
+        return text.replace("{BENUTZERNAME}", gameState.getUsername());
+    }
+
 
     // Methoden für Quiz
 
@@ -99,8 +104,15 @@ public class Model {
 
             // an die View melden
             // pcs.firePropertyChange("storyText", null, foundRoom.getIntroText());
-            System.out.println("INTRO for " + roomType + ": " + foundRoom.getIntroText());
+            System.out.println("INTRO for " + roomType + ": " + personalize(foundRoom.getIntroText()));
 
+            return;
+        }
+
+        // Quizze nur in der erlaubten Reihenfolge spielen lassen
+        if (quizIndex > foundRoom.getHighestUnlockedQuizIndex()) {
+            System.out.println("Quiz " + quizIndex + " ist noch gesperrt! "
+                    + "Freigeschaltet bis: " + foundRoom.getHighestUnlockedQuizIndex());
             return;
         }
 
@@ -150,7 +162,7 @@ public class Model {
                 return;
             }
 
-            // *** WICHTIG: war das schon die letzte Frage? ***
+            // war das schon die letzte Frage?
             if (currentQuiz.isCompleted()) {
                 // aktuelle Frage ist die letzte → Quiz beenden
                 pcs.firePropertyChange("quizHidden", true, false);
@@ -163,6 +175,16 @@ public class Model {
                 if (room != null) {
                     List<Quiz> quizzesInRoom = room.getQuizzes();
                     int quizIndex = quizzesInRoom.indexOf(currentQuiz);
+
+                    // nächstes Quiz freischalten, je nachdem welches da höchste aktuell freigeschaltene ist
+                    if (quizIndex == room.getHighestUnlockedQuizIndex()
+                            && quizIndex < quizzesInRoom.size() - 1) {
+
+                        room.unlockNextQuiz();
+                        System.out.println("Quiz " + (quizIndex + 1) + " wurde freigeschaltet!");
+                    }
+
+
                     boolean isLastQuizInRoom = (quizIndex == quizzesInRoom.size() - 1);
 
                     if (isLastQuizInRoom) {
@@ -177,7 +199,9 @@ public class Model {
 
                             room.setOutroShown(true);
 
-                            System.out.println("OUTRO for " + currentQuizRoomType + ": " + room.getOutroText());
+                            System.out.println("OUTRO for " + currentQuizRoomType + ": "
+                                    + personalize(room.getOutroText()));
+
 
                             // pcs.firePropertyChange("storyText", null, room.getOutroText());
                         }
