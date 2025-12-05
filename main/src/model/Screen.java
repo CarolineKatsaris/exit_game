@@ -6,6 +6,12 @@ public class Screen {
     private boolean isError = false; //Fehler trat auf
     private boolean isListenersRegistered = false; //Listeners wurden schon registriert?
 
+    private String introText;
+    private String outroText;
+    private boolean introShown = false;
+    private boolean outroShown = false;
+
+    /** Erstellt einen Screen mit dem gegebenen Titel. */
     public Screen(EnumScreen title) {
         this.title = title;
     } // public oder private?
@@ -42,4 +48,47 @@ public class Screen {
     public EnumScreen getTitle() {
         return title;
     }
+
+    /**
+     * Verwaltung des Intro-Storytexts dieses Screens.
+     * Der Introtext wird nur einmal beim ersten Betreten angezeigt.
+     */
+
+    public String getIntroText() {
+        return introText;
+    }
+
+    public void setIntroText(String introText) {
+        this.introText = introText;
+    }
+
+    public boolean isIntroShown() {
+        return introShown;
+    }
+
+    public void setIntroShown(boolean introShown) {
+        this.introShown = introShown;
+    }
+
+    /**
+     * Verwaltung des Outro-Storytexts dieses Screens.
+     * Der Outrotext wird angezeigt, wenn der Screen abgeschlossen wurde.
+     */
+
+    public String getOutroText() {
+        return outroText;
+    }
+
+    public void setOutroText(String outroText) {
+        this.outroText = outroText;
+    }
+
+    public boolean isOutroShown() {
+        return outroShown;
+    }
+
+    public void setOutroShown(boolean outroShown) {
+        this.outroShown = outroShown;
+    }
+
 }
