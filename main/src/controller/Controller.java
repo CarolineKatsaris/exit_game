@@ -1,6 +1,9 @@
 package controller;
 
-import model.*;
+import model.EnumScreen;
+import model.Model;
+import model.Room;
+import model.Screen;
 import view.MainView;
 
 import javax.swing.*;
@@ -36,6 +39,7 @@ public class Controller implements PropertyChangeListener {
 
     /**
      * Generische Methode, um Listener nur einmal zu registrieren.
+     *
      * @param button
      * @param action
      */
@@ -69,8 +73,8 @@ public class Controller implements PropertyChangeListener {
             default:
                 break;
         }
-        if(screen instanceof Room) { //Sonderfall: Screen ist Raum
-            registerRoomListeners();
+        if (screen instanceof Room) { //Sonderfall: Screen ist Raum
+            registerRoomListeners((Room) screen);
         }
 
     }
@@ -84,60 +88,58 @@ public class Controller implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         //nur für Events vom Typ "screen"
-        if(e.getPropertyName().equals("screen")) {
-           Screen screen = (Screen) e.getNewValue();
-           loadScreen(screen);
+        if (e.getPropertyName().equals("screen")) {
+            Screen screen = (Screen) e.getNewValue();
+            loadScreen(screen);
         }
     }
 
     // ToDo: Generischere Methode finden
-    private void registerRoomListeners() {
 
-        if (roomListenersRegistered) return;
-        roomListenersRegistered = true;
+    /**
+     * Registiert die Actionlistener für die Schaltflächen im Raum wenn sie noch nicht vorhanden sind.
+     * @param room
+     */
+    private void registerRoomListeners(Room room) {
 
-        var room = view.getRoomView();
+        if (room.isListenersRegistered()) return; //wird im room Objekt gespeichert
+        room.setListenersRegistered(true);
+
+        var roomView = view.getRoomView(); //ToDo getRoomView erweitern, dass es die richtige View für den Raum automatisch zurück gibt, sonst funktioniert das nicht mit mehreren Räumen
 
         // -------------------
         // QUIZ-BUTTON CLICKS ->  model.nextScreen() als Platzhalter
         // -------------------
-        room.getQuiz1Button().addActionListener(
-                e -> model.startQuizForRoom(EnumScreen.GraphicRoom, 0)
-        );
-        room.getQuiz2Button().addActionListener(
-                e -> model.startQuizForRoom(EnumScreen.GraphicRoom, 1)
-        );
-        room.getQuiz3Button().addActionListener(
-                e -> model.startQuizForRoom(EnumScreen.GraphicRoom, 2)
-        );
-
+        registerListener(roomView.getQuiz1Button(), e -> model.startQuizForRoom(EnumScreen.GraphicRoom, 0));
+        registerListener(roomView.getQuiz2Button(), e -> model.startQuizForRoom(EnumScreen.GraphicRoom, 1));
+        registerListener(roomView.getQuiz3Button(), e -> model.startQuizForRoom(EnumScreen.GraphicRoom, 2));
 
         // -------------------
         // HOVER-EFFEKTE
         // -------------------
-        room.getQuiz1Button().addMouseListener(
+        roomView.getQuiz1Button().addMouseListener(
                 new HoverAdapter(
-                        () -> room.setQuiz1Highlight(true),
-                        () -> room.setQuiz1Highlight(false)
+                        () -> roomView.setQuiz1Highlight(true),
+                        () -> roomView.setQuiz1Highlight(false)
                 )
         );
 
-        room.getQuiz2Button().addMouseListener(
+        roomView.getQuiz2Button().addMouseListener(
                 new HoverAdapter(
-                        () -> room.setQuiz2Highlight(true),
-                        () -> room.setQuiz2Highlight(false)
+                        () -> roomView.setQuiz2Highlight(true),
+                        () -> roomView.setQuiz2Highlight(false)
                 )
         );
 
-        room.getQuiz3Button().addMouseListener(
+        roomView.getQuiz3Button().addMouseListener(
                 new HoverAdapter(
-                        () -> room.setQuiz3Highlight(true),
-                        () -> room.setQuiz3Highlight(false)
+                        () -> roomView.setQuiz3Highlight(true),
+                        () -> roomView.setQuiz3Highlight(false)
                 )
         );
 
-        room.getBackButton().addActionListener(e ->
-            model.returnToHub());
+        roomView.getBackButton().addActionListener(e ->
+                model.returnToHub());
 
     }
 
@@ -158,8 +160,8 @@ public class Controller implements PropertyChangeListener {
         //   HOVER – Rahmen ein/aus
         hub.getGraphicsCardButton().addMouseListener(
                 new HoverAdapter(
-                        () ->hub.setGraphicsCardHighlight(true),
-                        () ->hub.setGraphicsCardHighlight(false)
+                        () -> hub.setGraphicsCardHighlight(true),
+                        () -> hub.setGraphicsCardHighlight(false)
                 )
         );
     }
