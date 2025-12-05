@@ -2,37 +2,39 @@
 package view;
 
 import javax.swing.*;
+import java.awt.*;
+
+import static java.lang.Integer.valueOf;
 
 public class RoomView extends JLayeredPane {
 
     private final JLabel background;
-    private final JButton quiz1Btn; // GPU -> VRAM
-    private final JButton quiz2Btn; // Framebuffer
-    private final JButton quiz3Btn; // gestörter Screen
+    final JButton[] quizButtons;
     private final JButton back;
+    final String bgImagePath;
+    final Rectangle[] quizBtnsBounds;
 
-    public RoomView() {
+    public RoomView(String bgImagePath, Rectangle[] quizBtnsBounds) {
+        this.bgImagePath = bgImagePath;
+        this.quizBtnsBounds = quizBtnsBounds;
+        this.quizButtons = new JButton[quizBtnsBounds.length]; //initialize Array to length of quizBtnsBounds
         setLayout(null);
 
-        ImageIcon bg = new ImageIcon(getClass().getResource("/GraphicsCardRoomView_elements.png"));
+        ImageIcon bg = new ImageIcon(getClass().getResource(bgImagePath));
         background = new JLabel(bg);
         background.setBounds(0, 0, bg.getIconWidth(), bg.getIconHeight());
-        add(background, Integer.valueOf(0)); // unterste Ebene
+        add(background, valueOf(0)); // unterste Ebene
 
-        // Koordinaten ggf. anpassen!
-        quiz1Btn = makeInvisibleButton(400, 400, 120, 290, "quiz_1");
-        quiz2Btn = makeInvisibleButton(1000, 330, 240, 180, "quiz_2");
-        quiz3Btn = makeInvisibleButton(1130, 640, 260, 160, "quiz_3");
-
-        add(quiz1Btn, Integer.valueOf(1));
-        add(quiz2Btn, Integer.valueOf(1));
-        add(quiz3Btn, Integer.valueOf(1));
+        for(int i = 0; i < quizBtnsBounds.length; i++) { //Buttons in Schleife erstellen
+            quizButtons[i] = makeInvisibleButton(quizBtnsBounds[i].x, quizBtnsBounds[i].y, quizBtnsBounds[i].width, quizBtnsBounds[i].height, "quiz_"+valueOf(i).toString());
+            add(quizButtons[i], valueOf(1));
+        }
 
         setPreferredSize(background.getPreferredSize());
 
         back = new JButton("Zurück");
         back.setBounds(20,20,100,30);
-        add(back, Integer.valueOf(2)); //auf oberste Ebene legen
+        add(back, valueOf(2)); //auf oberste Ebene legen
     }
 
     private JButton makeInvisibleButton(int x, int y, int w, int h, String cmd) {
@@ -51,13 +53,13 @@ public class RoomView extends JLayeredPane {
 
     // --- Passive View: nur Zugriff + Optik ändern ---
 
-    public JButton getQuiz1Button() { return quiz1Btn; }
-    public JButton getQuiz2Button() { return quiz2Btn; }
-    public JButton getQuiz3Button() { return quiz3Btn; }
+    public JButton getQuiz1Button() { return quizButtons[0]; }
+    public JButton getQuiz2Button() { return quizButtons[1]; }
+    public JButton getQuiz3Button() { return quizButtons[2]; }
 
-    public void setQuiz1Highlight(boolean on) { setHighlight(quiz1Btn, on); }
-    public void setQuiz2Highlight(boolean on) { setHighlight(quiz2Btn, on); }
-    public void setQuiz3Highlight(boolean on) { setHighlight(quiz3Btn, on); }
+    public void setQuiz1Highlight(boolean on) { setHighlight(quizButtons[0], on); }
+    public void setQuiz2Highlight(boolean on) { setHighlight(quizButtons[1], on); }
+    public void setQuiz3Highlight(boolean on) { setHighlight(quizButtons[2], on); }
 
    public JButton getBackButton() { return back; };
 
@@ -69,13 +71,13 @@ public class RoomView extends JLayeredPane {
     private void setHighlight(JButton b, boolean on) {
         if (on) {
             b.setBorder(BorderFactory.createLineBorder(
-                    new java.awt.Color(255, 255, 0), 3)); // gelber Rand
+                    new Color(255, 255, 0), 3)); // gelber Rand
             b.setBorderPainted(true);
-            b.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            b.setCursor(new Cursor(Cursor.HAND_CURSOR));
         } else {
             b.setBorder(BorderFactory.createEmptyBorder());
             b.setBorderPainted(false);
-            b.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+            b.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
         // NICHT: setOpaque(true) oder setContentAreaFilled(true)
         repaint();

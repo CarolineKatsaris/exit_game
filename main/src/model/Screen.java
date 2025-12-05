@@ -4,10 +4,19 @@ public class Screen {
     private final EnumScreen title;
     private String errorMessage; //generische Fehlermeldung, die auf allen Screens angezeigt werden kann
     private boolean isError = false; //Fehler trat auf
+    private boolean isListenersRegistered = false; //Listeners wurden schon registriert?
 
     public Screen(EnumScreen title) {
         this.title = title;
     } // public oder private?
+
+    public boolean isListenersRegistered() {
+        return isListenersRegistered;
+    }
+
+    public void setListenersRegistered(boolean listenersRegistered) {
+        isListenersRegistered = listenersRegistered;
+    }
 
     public boolean isError() {
         return isError;

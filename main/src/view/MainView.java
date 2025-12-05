@@ -14,7 +14,7 @@ public class MainView extends JFrame {
     private StartView startView;
     private LoginView loginView;
     private HubView hubView;
-    private RoomView roomView;
+    private RoomView graphicsView;
     private QuizView quizView;
 
     public MainView() {
@@ -30,7 +30,7 @@ public class MainView extends JFrame {
         startView = new StartView();
         hubView = new HubView();
         loginView = new LoginView();
-        roomView = new RoomView();
+        graphicsView = new RoomView("/GraphicsCardRoomView_elements.png", new Rectangle[] {new Rectangle(400, 400, 120, 290), new Rectangle(1000, 330, 240, 180), new Rectangle(1130, 640, 260, 160) });
         quizView = new QuizView();
         // GlassPane setzen
         setGlassPane(quizView);
@@ -41,28 +41,25 @@ public class MainView extends JFrame {
         root.add(startView, EnumScreen.Start.toString());
         root.add(hubView, EnumScreen.Hub.toString());
         root.add(loginView, EnumScreen.Login.toString());
-        root.add(roomView, EnumScreen.Room.toString());
+        root.add(graphicsView, EnumScreen.GraphicRoom.toString());
 
         // Alles ins Fenster
         add(root, BorderLayout.CENTER);
     }
 
     /**
-     * Zeigt den angegebenen Screen an (stateless). Dazu muss eine Card in root existieren, die mit dem Title von screen übereinstimmt. Sonderfall ist es, wenn es ein Raum ist, dann wird EnumScreen.Room verwendet.
+     * Zeigt den angegebenen Screen an (stateless). Dazu muss eine Card in root existieren, die mit dem Title von screen übereinstimmt.
      */
     public void showScreen(Screen screen) {
-        String cardName;
-        if(screen instanceof Room) {cardName = EnumScreen.Room.toString();}
-        else {cardName = screen.getTitle().toString();}
-        cards.show(root, cardName);
+        cards.show(root, screen.getTitle().toString());
 
-// Fehlerbehandlung
+        // Fehlerbehandlung
         if (screen.isError()) {
        // loginView.errorLabel.setVisible(true);
             JOptionPane.showMessageDialog(root, screen.getErrorMessage(), "Fehler", JOptionPane.ERROR_MESSAGE); //ToDo bessere Fehleranzeige als ein Popup
 
         }
-        }
+    }
 
 
     //
@@ -97,36 +94,33 @@ public class MainView extends JFrame {
         }
     }
     //
-// ─────────────────────────────────────────────────────────────────────────────
-//   HUB-VIEW
-// ─────────────────────────────────────────────────────────────────────────────
-//
-//  Dieser Button liegt als „unsichtbarer“ Hotspot über der Grafikkarten-Grafik
-//  im Hub-Bild. Der Controller nutzt ihn, um in den Graphics-Room zu wechseln.
-//
+    // ─────────────────────────────────────────────────────────────────────────────
+    //   HUB-VIEW
+    // ─────────────────────────────────────────────────────────────────────────────
+    //
+    //  Dieser Button liegt als „unsichtbarer“ Hotspot über der Grafikkarten-Grafik
+    //  im Hub-Bild. Der Controller nutzt ihn, um in den Graphics-Room zu wechseln.
+    //
     public HubView getHubView() {
         return hubView;
     }
-//
-// ─────────────────────────────────────────────────────────────────────────────
-//   ROOM-VIEW + BUTTONS
-// ─────────────────────────────────────────────────────────────────────────────
-//
-//  Drei unsichtbare Hotspots in der RoomView:
-//   • quiz1Button  → GPU/VRAM-Panel
-//   • quiz2Button  → rechter Störbildschirm
-//   • quiz3Button  → Framebuffer-Konsole
-//  Zusätzlich ein sichtbarer „Zurück zum Hub“-Button.
-//
 
+    //
+    // ─────────────────────────────────────────────────────────────────────────────
+    //   ROOM-VIEW + BUTTONS
+    // ─────────────────────────────────────────────────────────────────────────────
+    //
+    //  Drei unsichtbare Hotspots in der RoomView:
+    //   • quiz1Button  → GPU/VRAM-Panel
+    //   • quiz2Button  → rechter Störbildschirm
+    //   • quiz3Button  → Framebuffer-Konsole
+    //  Zusätzlich ein sichtbarer „Zurück zum Hub“-Button.
+    //
     public RoomView getRoomView() {
-        return roomView;
+        return graphicsView;
     }
 
-    public JButton getBackButton() { return roomView.getBackButton(); };
-
-
-
+    public JButton getBackButton() { return graphicsView.getBackButton(); };
 
     public void showQuiz(Question q) {
         quizView.setQuestion(q);
