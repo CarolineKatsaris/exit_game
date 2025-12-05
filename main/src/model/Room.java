@@ -12,11 +12,6 @@ public class Room extends Screen {
     private boolean open;
     private boolean completed;
 
-    private String introText;
-    private String outroText;
-    private boolean introShown = false;
-    private boolean outroShown = false;
-
     private List<Quiz> quizzes = new ArrayList<>();
     private int currentQuizIndex = 0;
 
@@ -27,39 +22,6 @@ public class Room extends Screen {
     public Room(EnumScreen roomTitle, boolean open) {
         super(roomTitle); //roomTitle an Elternklasse Screen übergeben und dort als title speichern
         this.open = open;
-    }
-
-    // Methoden, um Text anzuzeigen
-    public String getIntroText() {
-        return introText;
-    }
-
-    public void setIntroText(String introText) {
-        this.introText = introText;
-    }
-
-    public String getOutroText() {
-        return outroText;
-    }
-
-    public void setOutroText(String outroText) {
-        this.outroText = outroText;
-    }
-
-    public boolean isIntroShown() {
-        return introShown;
-    }
-
-    public void setIntroShown(boolean introShown) {
-        this.introShown = introShown;
-    }
-
-    public boolean isOutroShown() {
-        return outroShown;
-    }
-
-    public void setOutroShown(boolean outroShown) {
-        this.outroShown = outroShown;
     }
 
     public int getHighestUnlockedQuizIndex() {
