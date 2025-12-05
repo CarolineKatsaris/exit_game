@@ -11,7 +11,7 @@ public class Screen {
     private boolean introShown = false;
     private boolean outroShown = false;
 
-
+    /** Erstellt einen Screen mit dem gegebenen Titel. */
     public Screen(EnumScreen title) {
         this.title = title;
     } // public oder private?
@@ -48,7 +48,11 @@ public class Screen {
     public EnumScreen getTitle() {
         return title;
     }
-    // Intro-Text
+
+    /**
+     * Verwaltung des Intro-Storytexts dieses Screens.
+     * Der Introtext wird nur einmal beim ersten Betreten angezeigt.
+     */
 
     public String getIntroText() {
         return introText;
@@ -66,7 +70,10 @@ public class Screen {
         this.introShown = introShown;
     }
 
-    // Outro-Text
+    /**
+     * Verwaltung des Outro-Storytexts dieses Screens.
+     * Der Outrotext wird angezeigt, wenn der Screen abgeschlossen wurde.
+     */
 
     public String getOutroText() {
         return outroText;
