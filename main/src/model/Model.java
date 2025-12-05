@@ -40,12 +40,44 @@ public class Model {
     /**
      * Methode um Räume zu öffen, später evtl. überarbeiten (locked/unlocked)
      * Nutzt die Reihenfolge in availableScreens: Start -> Login -> Hub -> (erster Raum) -> ...
+     * Öffnet einen Raum anhand seines Titels.
+     * Zeigt beim ersten Betreten den Intro-Storytext des Raums an
+     * und schaltet dann zum nächsten Screen weiter.
+     *
+     * @param roomTitle Titel des Raums (EnumScreen.name())
      */
     public void enterRoom(String roomTitle) {
+
+            //Raum anhand des Titels suchen
+            Room room = null;
+            for (Room r : gameState.getRoomOverview()) {
+                if (r.getTitle().name().equals(roomTitle)) {
+                    room = r;
+                    break;
+                }
+            }
+
+            // Introtext einmalig anzeigen
+            if (!room.isIntroShown()
+                    && room.getIntroText() != null
+                    && !room.getIntroText().isBlank()) {
+
+                room.setIntroShown(true);
+
+                String text = personalize(room.getIntroText());
+                System.out.println("INTRO for " + room.getTitle() + ": " + text);
+                // Event für die View
+                //pcs.firePropertyChange("storyText", null, text);
+            }
+
         nextScreen(); //ToDo Raum basierend auf Titel mit changeScreen öffnen, falls es erlaubt ist
     }
 
-    //mit dieser Methode kann einfach zur HubAnsicht gewechselt werden, geht einfach bei available Screens wieder eins zurück
+    /**
+     * Wechselt zurück zur Hub-Ansicht.
+     * Dazu wird in der Liste der verfügbaren Screens ein Schritt
+     * zurückgegangen. Am Anfang der Liste passiert nichts.
+     */
     public void returnToHub() {
         var screens = gameState.getAvailableScreens();
         var current = gameState.getCurrentScreen();
@@ -57,7 +89,12 @@ public class Model {
         changeScreen(previous);
     }
 
-    // Hilfsmethode, um einen Raum anhand seines EnumScreen zu finden
+    /**
+     * Sucht in der Room-Übersicht den Raum mit dem angegebenen EnumScreen-Typ.
+     *
+     * @param roomType der gesuchte Raumtyp (EnumScreen)
+     * @return der passende Room oder null, falls keiner gefunden wurde
+     */
     private Room findRoomByType(EnumScreen roomType) {
         for (Room r : gameState.getRoomOverview()) {
             if (r.getTitle() == roomType) {
@@ -67,10 +104,26 @@ public class Model {
         return null;
     }
 
+    /**
+     * Ersetzt Platzhalter im Storytext durch spielerspezifische Daten.
+     * Momentan wird nur {BENUTZERNAME} durch den im Spiel gesetzten Benutzernamen ersetzt.
+     *
+     * @param text der ursprüngliche Storytext mit Platzhaltern
+     * @return der personalisierte Text
+     */
+    private String personalize(String text) {
+        return text.replace("{BENUTZERNAME}", gameState.getUsername());
+    }
 
-    // Methoden für Quiz
 
-    // Methode, die den passenden Raum in GameState sucht
+    /**
+     * Startet ein Quiz in einem bestimmten Raum.
+     * Prüft, ob das Quiz freigeschaltet ist und noch nicht beendet wurde.
+     * Informiert die View über die anzuzeigende Frage per "quizShown".
+     *
+     * @param roomType   der Raum, zu dem das Quiz gehört
+     * @param quizIndex  Index des Quizzes im Raum
+     */
     public void startQuizForRoom(EnumScreen roomType, int quizIndex) {
         currentQuizRoomType = roomType;
 
@@ -87,20 +140,10 @@ public class Model {
             return;
         }
 
-
-
-
-        //  Intro-Text anzeigen, bevor das erste Quiz startet
-        if (!foundRoom.isIntroShown()
-                && foundRoom.getIntroText() != null
-                && !foundRoom.getIntroText().isBlank()) {
-
-            foundRoom.setIntroShown(true);
-
-            // an die View melden
-            // pcs.firePropertyChange("storyText", null, foundRoom.getIntroText());
-            System.out.println("INTRO for " + roomType + ": " + foundRoom.getIntroText());
-
+        // Quizze nur in der erlaubten Reihenfolge spielen lassen
+        if (quizIndex > foundRoom.getHighestUnlockedQuizIndex()) {
+            System.out.println("Quiz " + quizIndex + " ist noch gesperrt! "
+                    + "Freigeschaltet bis: " + foundRoom.getHighestUnlockedQuizIndex());
             return;
         }
 
@@ -130,9 +173,14 @@ public class Model {
         pcs.firePropertyChange("quizShown", null, currentQuestion);
     }
 
-
-
-    // Auf Antwortbutton reagieren und Weiterschalten der Fragen
+    /**
+     * Verarbeitet einen Klick auf eine Quiz-Antwort.
+     * Prüft, ob die Antwort korrekt ist, schaltet ggf. zur nächsten Frage
+     * oder beendet das Quiz. Schaltet bei Quiz-Ende das nächste Quiz frei
+     * und zeigt ggf. den Outro-Text an.
+     *
+     * @param actionCommand ActionCommand des Antwort-Buttons (z.B. "QUIZ_ANSWER_0")
+     */
     public void handleQuizAnswer(String actionCommand) {
         // z.B. "QUIZ_ANSWER_0" -> Index extrahieren
         int chosenIndex = Integer.parseInt(
@@ -150,7 +198,7 @@ public class Model {
                 return;
             }
 
-            // *** WICHTIG: war das schon die letzte Frage? ***
+            // war das schon die letzte Frage?
             if (currentQuiz.isCompleted()) {
                 // aktuelle Frage ist die letzte → Quiz beenden
                 pcs.firePropertyChange("quizHidden", true, false);
@@ -163,6 +211,16 @@ public class Model {
                 if (room != null) {
                     List<Quiz> quizzesInRoom = room.getQuizzes();
                     int quizIndex = quizzesInRoom.indexOf(currentQuiz);
+
+                    // nächstes Quiz freischalten, je nachdem welches da höchste aktuell freigeschaltene ist
+                    if (quizIndex == room.getHighestUnlockedQuizIndex()
+                            && quizIndex < quizzesInRoom.size() - 1) {
+
+                        room.unlockNextQuiz();
+                        System.out.println("Quiz " + (quizIndex + 1) + " wurde freigeschaltet!");
+                    }
+
+
                     boolean isLastQuizInRoom = (quizIndex == quizzesInRoom.size() - 1);
 
                     if (isLastQuizInRoom) {
@@ -177,7 +235,9 @@ public class Model {
 
                             room.setOutroShown(true);
 
-                            System.out.println("OUTRO for " + currentQuizRoomType + ": " + room.getOutroText());
+                            System.out.println("OUTRO for " + currentQuizRoomType + ": "
+                                    + personalize(room.getOutroText()));
+
 
                             // pcs.firePropertyChange("storyText", null, room.getOutroText());
                         }
@@ -205,15 +265,17 @@ public class Model {
         }
     }
 
-
-    // Diese Methode markiert den Raum als abgeschlossen und prüft, ob ALLE Räume fertig sind
+    /**
+     * Markiert einen Raum als abgeschlossen und löst ein Event aus.
+     * Prüft anschließend, ob alle Räume beendet wurden.
+     *
+     * @param room der abgeschlossene Raum
+     */
     void completeRoom(Room room) {
         room.setCompleted(true);
         pcs.firePropertyChange("roomCompleted", null, room);
         gameState.checkForGameCompletion();
     }
-
-
     public void setStartState() {
         changeScreen(getGameState().getAvailableScreens().get(0));
     }
@@ -232,7 +294,14 @@ public class Model {
         changeScreen(gameState.getCurrentScreen());
     }
 
-
+    /**
+     * Validiert die Login-Eingaben (Benutzername + Schwierigkeitsgrad).
+     * Speichert die Daten im GameState, legt einen neuen Spieler in der Datenbank an
+     * und wechselt zum nächsten Screen. Zeigt bei leerem Namen einen Fehler an.
+     *
+     * @param username   eingegebener Benutzername
+     * @param difficulty ausgewählte Schwierigkeitsstufe
+     */
     public void validateLogin(String username, EnumDifficulty difficulty) {
         if (!username.isBlank()) {
             gameState.setUsername(username);
