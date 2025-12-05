@@ -42,6 +42,29 @@ public class Model {
      * Nutzt die Reihenfolge in availableScreens: Start -> Login -> Hub -> (erster Raum) -> ...
      */
     public void enterRoom(String roomTitle) {
+
+            //Raum anhand des Titels suchen
+            Room room = null;
+            for (Room r : gameState.getRoomOverview()) {
+                if (r.getTitle().name().equals(roomTitle)) {
+                    room = r;
+                    break;
+                }
+            }
+
+            // Introtext einmalig anzeigen
+            if (!room.isIntroShown()
+                    && room.getIntroText() != null
+                    && !room.getIntroText().isBlank()) {
+
+                room.setIntroShown(true);
+
+                String text = personalize(room.getIntroText());
+                System.out.println("INTRO for " + room.getTitle() + ": " + text);
+                // Event für die View
+                //pcs.firePropertyChange("storyText", null, text);
+            }
+
         nextScreen(); //ToDo Raum basierend auf Titel mit changeScreen öffnen, falls es erlaubt ist
     }
 
@@ -93,21 +116,6 @@ public class Model {
         }
 
 
-
-
-        //  Intro-Text anzeigen, bevor das erste Quiz startet
-        if (!foundRoom.isIntroShown()
-                && foundRoom.getIntroText() != null
-                && !foundRoom.getIntroText().isBlank()) {
-
-            foundRoom.setIntroShown(true);
-
-            // an die View melden
-            // pcs.firePropertyChange("storyText", null, foundRoom.getIntroText());
-            System.out.println("INTRO for " + roomType + ": " + personalize(foundRoom.getIntroText()));
-
-            return;
-        }
 
         // Quizze nur in der erlaubten Reihenfolge spielen lassen
         if (quizIndex > foundRoom.getHighestUnlockedQuizIndex()) {
