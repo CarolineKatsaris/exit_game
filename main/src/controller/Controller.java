@@ -91,7 +91,13 @@ public class Controller implements PropertyChangeListener {
         if (e.getPropertyName().equals("screen")) {
             Screen screen = (Screen) e.getNewValue();
             loadScreen(screen);
-        }
+        }else if (e.getPropertyName().equals("incorrectAnswer")) {
+            int chosenIndex = (int) e.getNewValue();
+
+            // Färbe den entsprechenden Button in der QuizView rot
+            view.highlightIncorrectAnswer(chosenIndex);
+
+            }
     }
 
     // ToDo: Generischere Methode finden

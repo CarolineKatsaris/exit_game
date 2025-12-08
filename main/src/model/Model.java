@@ -261,6 +261,7 @@ public class Model {
         } else {
             // falsche Antwort → Quiz offen lassen, nur Feedback
             System.out.println("Falsche Antwort!");
+            pcs.firePropertyChange("incorrectAnswer", null, chosenIndex);
 
         }
     }

@@ -86,4 +86,5 @@ public class QuizView extends JPanel {
 
         super.paintComponent(g);
     }
+
 }
