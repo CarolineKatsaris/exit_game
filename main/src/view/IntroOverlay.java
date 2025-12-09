@@ -14,7 +14,7 @@ public class IntroOverlay extends JPanel {
         this.onFinished = onFinished;
 
         // halbtransparentes Overlay
-        setOpaque(true);
+        setOpaque(false); //false = transparent
         setBackground(new Color(0, 0, 0, 180));
         setLayout(new GridBagLayout());
 
