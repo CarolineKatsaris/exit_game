@@ -88,4 +88,38 @@ public class QuizView extends JPanel {
         super.paintComponent(g);
     }
 
+    public void highlightIncorrectQuizAnswer(int buttonIndex) {
+        if (buttonIndex < 0 || buttonIndex >= getAnswerButtons().length) {
+            return; // Überprüfen, ob der Index gültig ist
+        }
+        JButton[] answerButtons = getAnswerButtons();
+        JButton buttonToHighlight = answerButtons[buttonIndex];
+        buttonToHighlight.setOpaque(true);
+        buttonToHighlight.setBackground(Color.RED); // Button rot färben
+
+        // Timer, um die Farbe nach 2 Sekunden zurückzusetzen
+        Timer timer = new Timer(500, e -> {
+            buttonToHighlight.setBackground(null); // Hintergrundfarbe zurücksetzen
+        });
+        timer.setRepeats(false); // Timer soll nur einmal ablaufen
+        timer.start(); // Timer starten
+    }
+
+    public void highlightCorrectQuizAnswer(int buttonIndex) {
+        if (buttonIndex < 0 || buttonIndex >= getAnswerButtons().length) {
+            return; // Überprüfen, ob der Index gültig ist
+        }
+        JButton[] answerButtons = getAnswerButtons();
+        JButton buttonToHighlight = answerButtons[buttonIndex];
+        buttonToHighlight.setOpaque(true);
+        buttonToHighlight.setBackground(Color.GREEN); // Button rot färben
+
+        // Timer, um die Farbe nach 2 Sekunden zurückzusetzen
+        Timer timer = new Timer(50, e -> {
+            buttonToHighlight.setBackground(null); // Hintergrundfarbe zurücksetzen
+        });
+        timer.setRepeats(false); // Timer soll nur einmal ablaufen
+        timer.start(); // Timer starten
+    }
+
 }
