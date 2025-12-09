@@ -191,6 +191,7 @@ public class Model {
 
         if (correct) {
             System.out.println("Richtige Antwort!");
+            pcs.firePropertyChange("correctAnswer", null, chosenIndex);
 
             // Sicherheitsnetz: falls irgendwas schief ist
             if (currentQuiz == null) {
@@ -261,6 +262,7 @@ public class Model {
         } else {
             // falsche Antwort → Quiz offen lassen, nur Feedback
             System.out.println("Falsche Antwort!");
+            pcs.firePropertyChange("incorrectAnswer", null, chosenIndex);
 
         }
     }
