@@ -34,6 +34,14 @@ public class Model {
     // hier werden die Screens auch direkt gewechselt
     void changeScreen(Screen newScreen) {
         gameState.changeScreen(newScreen);
+
+        // Introtext einmalig anzeigen
+        if (!newScreen.isIntroShown()
+                && newScreen.getIntroText() != null
+                && !newScreen.getIntroText().isBlank()) {
+            String text = personalize(newScreen.getIntroText());
+            newScreen.setShowIntro(true);
+        }
         pcs.firePropertyChange("screen", null, newScreen);
     }
 
@@ -57,18 +65,7 @@ public class Model {
                 }
             }
 
-            // Introtext einmalig anzeigen
-            if (!room.isIntroShown()
-                    && room.getIntroText() != null
-                    && !room.getIntroText().isBlank()) {
 
-                room.setIntroShown(true);
-
-                String text = personalize(room.getIntroText());
-                System.out.println("INTRO for " + room.getTitle() + ": " + text);
-                // Event für die View
-                //pcs.firePropertyChange("storyText", null, text);
-            }
 
         nextScreen(); //ToDo Raum basierend auf Titel mit changeScreen öffnen, falls es erlaubt ist
     }
