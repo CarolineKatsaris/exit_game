@@ -38,12 +38,13 @@ public class QuizController implements PropertyChangeListener {
             case "incorrectAnswer" ->  {
                int chosenIndex = (int) evt.getNewValue();
                 view.highlightIncorrectAnswer(chosenIndex);
+                view.requestFocus();
             }
             case "correctAnswer" ->  {
                 int chosenIndex = (int) evt.getNewValue();
                 view.highlightCorrectAnswer(chosenIndex);
+                view.requestFocus();
             }
-                // Färbe den entsprechenden Button in der QuizView rot
 
         }
     }
