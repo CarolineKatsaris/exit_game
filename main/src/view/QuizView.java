@@ -51,6 +51,7 @@ public class QuizView extends JPanel {
      * Methode, die den Text einer Frage und die Antwortmöglichkeiten (auf die buttons) einfügt
      * Wird vom Controller/View aufgerufen, wenn das Modell eine neue Frage liefert.
      */
+
     public void setQuestion(Question question) {
         if (question == null) {
             questionLabel.setText("");

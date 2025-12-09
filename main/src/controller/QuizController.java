@@ -35,6 +35,12 @@ public class QuizController implements PropertyChangeListener {
             }
             case "quizHidden" -> view.hideQuiz();
             // andere Events: Screen-Wechsel usw.
+            case "incorrectAnswer" ->  {
+               int chosenIndex = (int) evt.getNewValue();
+                view.highlightIncorrectAnswer(chosenIndex);
+            }
+                // Färbe den entsprechenden Button in der QuizView rot
+
         }
     }
 }

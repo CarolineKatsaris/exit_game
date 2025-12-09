@@ -139,10 +139,11 @@ public class MainView extends JFrame {
         }
         JButton[] answerButtons = getQuizAnswerButtons();
         JButton buttonToHighlight = answerButtons[buttonIndex];
+        buttonToHighlight.setOpaque(true);
         buttonToHighlight.setBackground(Color.RED); // Button rot färben
 
         // Timer, um die Farbe nach 2 Sekunden zurückzusetzen
-        Timer timer = new Timer(2000, e -> {
+        Timer timer = new Timer(500, e -> {
             buttonToHighlight.setBackground(null); // Hintergrundfarbe zurücksetzen
         });
         timer.setRepeats(false); // Timer soll nur einmal ablaufen
