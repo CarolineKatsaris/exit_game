@@ -6,7 +6,7 @@ import java.awt.*;
 
 import static java.lang.Integer.valueOf;
 
-public class RoomView extends JLayeredPane {
+public class RoomView extends JLayeredView {
 
     private final JLabel background;
     final JButton[] quizButtons;

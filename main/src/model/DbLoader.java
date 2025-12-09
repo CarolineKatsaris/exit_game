@@ -111,11 +111,11 @@ public class DbLoader {
 
     // läd Into- / Outrotexte aus der Datenbank
 
-    public String loadIntroTextForScreen(EnumScreen screen) {
+    public String loadIntroText(EnumScreen screen) {
         return loadStoryText(screen, "INTRO");
     }
 
-    public String loadOutroTextForScreen(EnumScreen screen) {
+    public String loadOutroText(EnumScreen screen) {
         return loadStoryText(screen, "OUTRO");
     }
 

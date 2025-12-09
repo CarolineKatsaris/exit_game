@@ -31,7 +31,10 @@ public class Model {
         pcs.removePropertyChangeListener(listener);
     }
 
-    // hier werden die Screens auch direkt gewechselt
+    /**
+     * Wechselt zum angegebenen Screen. Prüft, ob Introtext angezeigt werden soll.
+     * @param newScreen
+     */
     void changeScreen(Screen newScreen) {
         gameState.changeScreen(newScreen);
 
@@ -55,19 +58,14 @@ public class Model {
      * @param roomTitle Titel des Raums (EnumScreen.name())
      */
     public void enterRoom(String roomTitle) {
-
-            //Raum anhand des Titels suchen
-            Room room = null;
-            for (Room r : gameState.getRoomOverview()) {
-                if (r.getTitle().name().equals(roomTitle)) {
-                    room = r;
-                    break;
-                }
+        Room room = null;
+        for (Room r : gameState.getRoomOverview()) { //Raum anhand des Titels suchen
+            if (r.getTitle().name().equals(roomTitle)) {
+                room = r;
+                break;
             }
-
-
-
-        nextScreen(); //ToDo Raum basierend auf Titel mit changeScreen öffnen, falls es erlaubt ist
+        }
+        changeScreen(room);
     }
 
     /**

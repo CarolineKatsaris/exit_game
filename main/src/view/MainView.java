@@ -59,6 +59,10 @@ public class MainView extends JFrame {
             JOptionPane.showMessageDialog(root, screen.getErrorMessage(), "Fehler", JOptionPane.ERROR_MESSAGE); //ToDo bessere Fehleranzeige als ein Popup
 
         }
+
+        if (screen.isShowIntro()) {
+            //ToDo: xView Object Referenz finden und showIntro() aufrufen
+        }
     }
 
 

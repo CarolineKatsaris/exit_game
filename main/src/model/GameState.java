@@ -27,6 +27,7 @@ public class GameState {
         this.dbLoader = new DbLoader("jdbc:sqlite:ExitGame.sqlite");
 
         // >>> Quizze aus der Datenbank laden <<<
+        //ToDo generischer in SCchleife
         graphicRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.GraphicRoom));
         ramRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.RAMRoom));
         fileRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.FileRoom));
@@ -35,20 +36,20 @@ public class GameState {
 
 
         // Into- / Outro-Texte
-        graphicRoom.setIntroText(dbLoader.loadIntroTextForScreen(EnumScreen.GraphicRoom));
-        graphicRoom.setOutroText(dbLoader.loadOutroTextForScreen(EnumScreen.GraphicRoom));
+        graphicRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.GraphicRoom));
+        graphicRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.GraphicRoom));
 
-        ramRoom.setIntroText(dbLoader.loadIntroTextForScreen(EnumScreen.RAMRoom));
-        ramRoom.setOutroText(dbLoader.loadOutroTextForScreen(EnumScreen.RAMRoom));
+        ramRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.RAMRoom));
+        ramRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.RAMRoom));
 
-        fileRoom.setIntroText(dbLoader.loadIntroTextForScreen(EnumScreen.FileRoom));
-        fileRoom.setOutroText(dbLoader.loadOutroTextForScreen(EnumScreen.FileRoom));
+        fileRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.FileRoom));
+        fileRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.FileRoom));
 
-        netRoom.setIntroText(dbLoader.loadIntroTextForScreen(EnumScreen.NetRoom));
-        netRoom.setOutroText(dbLoader.loadOutroTextForScreen(EnumScreen.NetRoom));
+        netRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.NetRoom));
+        netRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.NetRoom));
 
-        cpuRoom.setIntroText(dbLoader.loadIntroTextForScreen(EnumScreen.CPURoom));
-        cpuRoom.setOutroText(dbLoader.loadOutroTextForScreen(EnumScreen.CPURoom));
+        cpuRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.CPURoom));
+        cpuRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.CPURoom));
 
 
         // Räume zur Übersicht hinzufügen
