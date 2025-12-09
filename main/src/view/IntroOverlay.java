@@ -8,10 +8,15 @@ public class IntroOverlay extends JPanel {
     private final JLabel textLabel;
     private final JButton nextButton;
     private final Timer autoCloseTimer;
+    private final Timer typingTimer; // Timer für das Schreiben
+    private String fullText; // Vollständiger Text
+    private int currentCharIndex;//aktueller Index des Buchstabens
     private Runnable onFinished;
 
     public IntroOverlay(String text, Runnable onFinished) {
         this.onFinished = onFinished;
+        this.fullText = text; //Speichern des gesamten Textes
+        this.currentCharIndex = 0; //Startindex
 
         // halbtransparentes Overlay
         setOpaque(false); //false = transparent
@@ -41,8 +46,20 @@ public class IntroOverlay extends JPanel {
 
         add(box, new GridBagConstraints());
 
-        autoCloseTimer = new Timer(10_000, e -> close());
+        autoCloseTimer = new Timer(60_000, e -> close());
         autoCloseTimer.setRepeats(false);
+
+        //Timer für das SChreiben des Textes
+        typingTimer = new Timer (100, e -> typeText());
+    }
+
+    private void typeText() {
+        if (currentCharIndex < fullText.length()) {
+            textLabel.setText(fullText.substring(0, currentCharIndex +1));
+            currentCharIndex ++;
+        } else  {
+            typingTimer.stop(); //stoppe Timer, wenn gesamter Text angezeigt wurde
+        }
     }
 
     // Overlay auf einem JLayeredPane anzeigen
@@ -52,6 +69,7 @@ public class IntroOverlay extends JPanel {
         parent.revalidate();
         parent.repaint();
         autoCloseTimer.start();
+        typingTimer.start();
     }
 
     private void close() {
