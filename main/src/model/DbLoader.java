@@ -4,11 +4,11 @@ import java.sql.*;
 import java.util.List;
 
 
-public class QuizLoader {
+public class DbLoader {
 
     private final String dbUrl;
 
-    public QuizLoader(String dbUrl) {
+    public DbLoader(String dbUrl) {
         this.dbUrl = dbUrl;
     }
 
@@ -111,11 +111,11 @@ public class QuizLoader {
 
     // läd Into- / Outrotexte aus der Datenbank
 
-    public String loadIntroTextForScreen(EnumScreen screen) {
+    public String loadIntroText(EnumScreen screen) {
         return loadStoryText(screen, "INTRO");
     }
 
-    public String loadOutroTextForScreen(EnumScreen screen) {
+    public String loadOutroText(EnumScreen screen) {
         return loadStoryText(screen, "OUTRO");
     }
 

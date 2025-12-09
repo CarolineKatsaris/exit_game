@@ -6,7 +6,7 @@ import javax.swing.*;
 
 import java.awt.*;
 
-public class HubView extends JLayeredPane {
+public class HubView extends JLayeredView {
 
     private JLabel background;
 
@@ -29,24 +29,11 @@ public class HubView extends JLayeredPane {
 
     }
 
-    private void setButtonsEnabled(boolean enabled) {
+    void setButtonsEnabled(boolean enabled) {
         graphicsCardBtn.setEnabled(enabled);
         //if (networkBtn != null) networkBtn.setEnabled(enabled);
         //if (cpuBtn != null) cpuBtn.setEnabled(enabled);
         // ggf. weitere Buttons
-    }
-
-    public void showIntro() {
-       setButtonsEnabled(false);
-
-        String text =
-                "Tja, das war eine Falle!<br>" +
-                        "Jetzt bist du mein Gefangener und ich glaube nicht, " +
-                        "dass du es schaffst hier wieder rauszukommen –<br>" +
-                        "Ich werde jetzt die ganze Schule infizieren ...";
-
-        IntroOverlay overlay = new IntroOverlay(text, () -> setButtonsEnabled(true));
-        overlay.showOn(this);
     }
 
     private JButton makeInvisibleButton(int x, int y, int w, int h, String cmd) {
