@@ -42,7 +42,7 @@ public class Model {
         if (!newScreen.isIntroShown()
                 && newScreen.getIntroText() != null
                 && !newScreen.getIntroText().isBlank()) {
-            String text = personalize(newScreen.getIntroText());
+            newScreen.setIntroText(personalize(newScreen.getIntroText()));
             newScreen.setShowIntro(true);
         } else {newScreen.setShowIntro(false);}
 
