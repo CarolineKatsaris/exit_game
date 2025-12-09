@@ -10,47 +10,59 @@ public class IntroOverlay extends JPanel {
     private final Timer autoCloseTimer;
     private final Timer typingTimer; // Timer für das Schreiben
     private String fullText; // Vollständiger Text
-    private int currentCharIndex;//aktueller Index des Buchstabens
+    private int currentCharIndex; // Aktueller Index des Buchstabens
     private Runnable onFinished;
 
     public IntroOverlay(String text, Runnable onFinished) {
         this.onFinished = onFinished;
-        this.fullText = text; //Speichern des gesamten Textes
-        this.currentCharIndex = 0; //Startindex
+        this.fullText = text; // Speichern des gesamten Textes
+        this.currentCharIndex = 0; // Startindex
 
         // halbtransparentes Overlay
-        setOpaque(false); //false = transparent
+        setOpaque(false); // false = transparent
         setBackground(new Color(0, 0, 0, 180));
         setLayout(new GridBagLayout());
 
         // „Box“ in der Mitte
-        JPanel box = new JPanel();
+        JPanel box = new JPanel(new GridBagLayout());
         box.setOpaque(true);
         box.setBackground(Color.BLACK);
         box.setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));
-        //box.setPreferredSize(new Dimension(850, 300));
-        box.setLayout(new BorderLayout(10, 10));
 
         textLabel = new JLabel(
-                "<html><div style='text-align:left;'>" + text + "</div></html>"
+                "<html><div style='text-align:center;'>" + text + "</div></html>"
         );
         textLabel.setForeground(Color.WHITE);
         textLabel.setFont(new Font(textLabel.getFont().getName(), Font.BOLD, 25));
 
         nextButton = new JButton("Weiter");
         nextButton.setFont(new Font(nextButton.getFont().getName(), Font.BOLD, 25));
-        nextButton.addActionListener(e -> close());
+        nextButton.setPreferredSize(new Dimension(150, 50)); // Festlegen der Button-Größe
 
-        box.add(textLabel, BorderLayout.CENTER);
-        box.add(nextButton, BorderLayout.SOUTH);
+        //GridBagConstraints für das JLabel
+        GridBagConstraints gbcLabel = new GridBagConstraints();
+        gbcLabel.gridx = 0; // Spalte 0
+        gbcLabel.gridy = 0; // Zeile 0
+        gbcLabel.weightx = 1.0; // Füllt den verfügbaren Platz
+        gbcLabel.fill = GridBagConstraints.HORIZONTAL; // Füllt horizontal
+        box.add(textLabel, gbcLabel);
+
+        // GridBagConstraints für den Button
+        GridBagConstraints gbcButton = new GridBagConstraints();
+        gbcButton.gridx = 0; // Spalte 0
+        gbcButton.gridy = 1; // Zeile 1
+        gbcButton.weightx = 0; // Keine Gewichtung, Button hat feste Größe
+        gbcButton.fill = GridBagConstraints.NONE; // Button hat keine Füllung
+        nextButton.addActionListener(e -> close());
+        box.add(nextButton, gbcButton);
 
         add(box, new GridBagConstraints());
 
         autoCloseTimer = new Timer(60_000, e -> close());
         autoCloseTimer.setRepeats(false);
 
-        //Timer für das SChreiben des Textes
-        typingTimer = new Timer (100, e -> typeText());
+        // Timer für das Schreiben des Textes
+        typingTimer = new Timer(60, e -> typeText());
     }
 
     private void typeText() {
@@ -64,7 +76,7 @@ public class IntroOverlay extends JPanel {
             textLabel.setText(html);
 
             currentCharIndex++;
-        } else  {
+        } else {
             typingTimer.stop();
         }
     }
