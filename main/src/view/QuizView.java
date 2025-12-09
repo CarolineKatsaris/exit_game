@@ -18,24 +18,27 @@ public class QuizView extends JPanel {
 
 
         JPanel dialogPanel = new JPanel();
-        dialogPanel.setLayout(new BorderLayout(10, 10));
+        dialogPanel.setLayout(new BorderLayout(50, 50));
         dialogPanel.setBackground(new Color(20, 20, 20, 230)); // dunkles Overlay für das Kästchen
-        dialogPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        dialogPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
 
 
         // Frage
         questionLabel = new JLabel("Frage kommt aus dem Model");
         questionLabel.setForeground(Color.WHITE);
+        questionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Mehrzeilige Darstellung erlauben
-        questionLabel.setFont(questionLabel.getFont().deriveFont(Font.BOLD, 18f));
+        questionLabel.setFont(questionLabel.getFont().deriveFont(Font.BOLD, 30f));
         dialogPanel.add(questionLabel, BorderLayout.NORTH);
 
         // Antworten
-        JPanel answersPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        JPanel answersPanel = new JPanel(new GridLayout(2, 2, 50, 50));
+        answersPanel.setBackground(Color.BLACK);
         for (int i = 0; i < 4; i++) {
             JButton btn = new JButton("Antwort " + (i + 1));
+            btn.setFont(btn.getFont().deriveFont(Font.BOLD, 25f));
             btn.setActionCommand("QUIZ_ANSWER_" + i);
             answerButtons[i] = btn;
             answersPanel.add(btn);
@@ -62,11 +65,16 @@ public class QuizView extends JPanel {
         }
 
         // HTML-Wrapper, damit lange Fragen umbrechen
-        String htmlText = "<html><body style='width:400px'>" + question.getQuestion() + "</body></html>";
+        String htmlText = "<html><body style='width:400px,text-align:center;'>" + question.getQuestion() + "</body></html>";
         questionLabel.setText(htmlText);
 
         for (int i = 0; i < 4; i++) {
-            answerButtons[i].setText(question.getAnswers().get(i));
+            String answer = question.getAnswers().get(i);
+            String htmlAnswer =
+                    "<html><div style='width:250px; text-align:center;'>"
+                            + answer +
+                            "</div></html>";
+            answerButtons[i].setText(htmlAnswer);
         }
     }
 
