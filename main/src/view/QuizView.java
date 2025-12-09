@@ -26,6 +26,7 @@ public class QuizView extends JPanel {
         // Frage
         questionLabel = new JLabel("Frage kommt aus dem Model");
         questionLabel.setForeground(Color.WHITE);
+        questionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Mehrzeilige Darstellung erlauben
@@ -64,11 +65,16 @@ public class QuizView extends JPanel {
         }
 
         // HTML-Wrapper, damit lange Fragen umbrechen
-        String htmlText = "<html><body style='width:400px'>" + question.getQuestion() + "</body></html>";
+        String htmlText = "<html><body style='width:400px,text-align:center;'>" + question.getQuestion() + "</body></html>";
         questionLabel.setText(htmlText);
 
         for (int i = 0; i < 4; i++) {
-            answerButtons[i].setText(question.getAnswers().get(i));
+            String answer = question.getAnswers().get(i);
+            String htmlAnswer =
+                    "<html><div style='width:250px; text-align:center;'>"
+                            + answer +
+                            "</div></html>";
+            answerButtons[i].setText(htmlAnswer);
         }
     }
 
