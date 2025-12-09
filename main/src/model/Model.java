@@ -31,9 +31,21 @@ public class Model {
         pcs.removePropertyChangeListener(listener);
     }
 
-    // hier werden die Screens auch direkt gewechselt
+    /**
+     * Wechselt zum angegebenen Screen. Prüft, ob Introtext angezeigt werden soll.
+     * @param newScreen
+     */
     void changeScreen(Screen newScreen) {
         gameState.changeScreen(newScreen);
+
+        // Introtext einmalig anzeigen
+        if (!newScreen.isIntroShown()
+                && newScreen.getIntroText() != null
+                && !newScreen.getIntroText().isBlank()) {
+            newScreen.setIntroText(personalize(newScreen.getIntroText()));
+            newScreen.setShowIntro(true);
+        } else {newScreen.setShowIntro(false);}
+
         pcs.firePropertyChange("screen", null, newScreen);
     }
 
@@ -47,30 +59,14 @@ public class Model {
      * @param roomTitle Titel des Raums (EnumScreen.name())
      */
     public void enterRoom(String roomTitle) {
-
-            //Raum anhand des Titels suchen
-            Room room = null;
-            for (Room r : gameState.getRoomOverview()) {
-                if (r.getTitle().name().equals(roomTitle)) {
-                    room = r;
-                    break;
-                }
+        Room room = null;
+        for (Room r : gameState.getRoomOverview()) { //Raum anhand des Titels suchen
+            if (r.getTitle().name().equals(roomTitle)) {
+                room = r;
+                break;
             }
-
-            // Introtext einmalig anzeigen
-            if (!room.isIntroShown()
-                    && room.getIntroText() != null
-                    && !room.getIntroText().isBlank()) {
-
-                room.setIntroShown(true);
-
-                String text = personalize(room.getIntroText());
-                System.out.println("INTRO for " + room.getTitle() + ": " + text);
-                // Event für die View
-                //pcs.firePropertyChange("storyText", null, text);
-            }
-
-        nextScreen(); //ToDo Raum basierend auf Titel mit changeScreen öffnen, falls es erlaubt ist
+        }
+        changeScreen(room);
     }
 
     /**

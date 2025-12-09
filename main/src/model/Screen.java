@@ -10,11 +10,31 @@ public class Screen {
     private String outroText;
     private boolean introShown = false;
     private boolean outroShown = false;
+    private boolean showIntro = false; //Sagt der View, dass sie das Intro anzeigen soll
+    private boolean showOutro = false; //Sagt der View, dass sie das Outro anzeigen soll
 
-    /** Erstellt einen Screen mit dem gegebenen Titel. */
+    /**
+     * Erstellt einen Screen mit dem gegebenen Titel.
+     */
     public Screen(EnumScreen title) {
         this.title = title;
     } // public oder private?
+
+    public boolean isShowIntro() {
+        return showIntro;
+    }
+
+    public void setShowIntro(boolean showIntro) {
+        this.showIntro = showIntro;
+    }
+
+    public boolean isShowOutro() {
+        return showOutro;
+    }
+
+    public void setShowOutro(boolean showOutro) {
+        this.showOutro = showOutro;
+    }
 
     public boolean isListenersRegistered() {
         return isListenersRegistered;

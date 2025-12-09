@@ -11,44 +11,49 @@ public class GameState {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final List<Room> roomOverview = new ArrayList<>();
     private final List<Screen> availableScreens;
-    private final QuizLoader quizLoader;
+    private final DbLoader dbLoader;
     private Screen currentScreen;
     private String username;
     private EnumDifficulty difficulty;
 
     // Konstruktor - erzeugt die Räume, zunächst alle geschlossen
     public GameState() {
-        Room graphicRoom = new Room(EnumScreen.GraphicRoom, false);
+        Screen hubScreen = new Screen(EnumScreen.Hub);Room graphicRoom = new Room(EnumScreen.GraphicRoom, false);
+
         Room ramRoom     = new Room(EnumScreen.RAMRoom,     false);
         Room fileRoom    = new Room(EnumScreen.FileRoom,    false);
         Room netRoom     = new Room(EnumScreen.NetRoom,     false);
         Room cpuRoom     = new Room(EnumScreen.CPURoom,     false);
 
-        this.quizLoader = new QuizLoader ("jdbc:sqlite:ExitGame.sqlite");
+        this.dbLoader = new DbLoader("jdbc:sqlite:ExitGame.sqlite");
 
         // >>> Quizze aus der Datenbank laden <<<
-        graphicRoom.setQuizzes(quizLoader.loadQuizzesForRoom(EnumScreen.GraphicRoom));
-        ramRoom.setQuizzes(quizLoader.loadQuizzesForRoom(EnumScreen.RAMRoom));
-        fileRoom.setQuizzes(quizLoader.loadQuizzesForRoom(EnumScreen.FileRoom));
-        netRoom.setQuizzes(quizLoader.loadQuizzesForRoom(EnumScreen.NetRoom));
-        cpuRoom.setQuizzes(quizLoader.loadQuizzesForRoom(EnumScreen.CPURoom));
+        //ToDo generischer in SCchleife
+        graphicRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.GraphicRoom));
+        ramRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.RAMRoom));
+        fileRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.FileRoom));
+        netRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.NetRoom));
+        cpuRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.CPURoom));
 
 
         // Into- / Outro-Texte
-        graphicRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.GraphicRoom));
-        graphicRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.GraphicRoom));
+        hubScreen.setIntroText(dbLoader.loadIntroText(EnumScreen.Hub));
+        hubScreen.setOutroText(dbLoader.loadOutroText(EnumScreen.Hub));
 
-        ramRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.RAMRoom));
-        ramRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.RAMRoom));
+        graphicRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.GraphicRoom));
+        graphicRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.GraphicRoom));
 
-        fileRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.FileRoom));
-        fileRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.FileRoom));
+        ramRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.RAMRoom));
+        ramRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.RAMRoom));
 
-        netRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.NetRoom));
-        netRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.NetRoom));
+        fileRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.FileRoom));
+        fileRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.FileRoom));
 
-        cpuRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.CPURoom));
-        cpuRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.CPURoom));
+        netRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.NetRoom));
+        netRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.NetRoom));
+
+        cpuRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.CPURoom));
+        cpuRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.CPURoom));
 
 
         // Räume zur Übersicht hinzufügen
@@ -64,7 +69,7 @@ public class GameState {
         availableScreens = List.of(
                 new Screen(EnumScreen.Start),
                 new Screen(EnumScreen.Login),
-                new Screen(EnumScreen.Hub),
+                hubScreen,
                 //new Screen(EnumScreen.Room)?,
                 graphicRoom,
                 new Screen(EnumScreen.Hub),
