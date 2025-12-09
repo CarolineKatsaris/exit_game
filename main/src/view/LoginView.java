@@ -44,14 +44,14 @@ public class LoginView extends JPanel {
         errorLabel.setForeground(Color.RED);
         errorLabel.setVisible(false);
         errorLabel.setBackground(new Color(255, 255, 255, 150));
-        errorLabel.setBounds(rectX + 330, rectY + 20, 80, 30);
+        errorLabel.setBounds(rectX + 330, rectY + 10, 80, 30);
         add(errorLabel);
 
         // Textfeld für Namen eingeben
         nameField = new JTextField(20);
         nameField.setText("Tippe hier deinen Vornamen ein!");
         nameField.setForeground(Color.GRAY);
-        nameField.setBounds(rectX + 130, rectY + 10, 250, 40); // Position innerhalb des Rechtecks
+        nameField.setBounds(rectX + 130, rectY + 10, 250, 35); // Position innerhalb des Rechtecks
         add(nameField);
 
         // FocusListener hinzufügen
