@@ -33,7 +33,7 @@ public class RoomView extends JLayeredPane {
         setPreferredSize(background.getPreferredSize());
 
         back = new JButton("Zurück");
-        back.setBounds(20,20,100,30);
+        back.setBounds(20,20,100,50);
         add(back, valueOf(2)); //auf oberste Ebene legen
     }
 
