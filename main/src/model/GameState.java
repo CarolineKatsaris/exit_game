@@ -27,13 +27,6 @@ public class GameState {
 
         this.dbLoader = new DbLoader("jdbc:sqlite:ExitGame.sqlite");
 
-        // >>> Quizze aus der Datenbank laden <<<
-        //ToDo generischer in SCchleife
-        graphicRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.GraphicRoom));
-        ramRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.RAMRoom));
-        fileRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.FileRoom));
-        netRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.NetRoom));
-        cpuRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.CPURoom));
 
 
         // Into- / Outro-Texte
@@ -83,7 +76,24 @@ public class GameState {
                 new Screen(EnumScreen.End)
         );
     }
+    // >>> Quizze aus der Datenbank laden <<<
 
+
+    public void initQuizzesForDifficulty(EnumDifficulty difficulty) {
+        // Räume haben wir ja in roomOverview
+        for (Room room : roomOverview) {
+            EnumScreen roomTitle = room.getTitle();
+            switch (roomTitle) {
+                case GraphicRoom, RAMRoom, FileRoom, NetRoom, CPURoom -> {
+                    var quizzes = dbLoader.loadQuizzesForRoom(roomTitle, difficulty);
+                    room.setQuizzes(quizzes);
+                }
+                default -> {
+
+                }
+            }
+        }
+    }
 
 
     public List<Screen> getAvailableScreens() {
