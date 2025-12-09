@@ -125,6 +125,7 @@ public class MainView extends JFrame {
     public void showQuiz(Question q) {
         quizView.setQuestion(q);
         quizView.setVisible(true);
+        getBackButton().setVisible(false);
     }
 
     public void hideQuiz() {
