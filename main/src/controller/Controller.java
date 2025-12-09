@@ -69,6 +69,7 @@ public class Controller implements PropertyChangeListener {
                 break;
             case Hub:
                 registerHubListeners();
+                view.getHubView().showIntro();
                 break;
             default:
                 break;
