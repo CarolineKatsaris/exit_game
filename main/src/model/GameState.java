@@ -18,7 +18,8 @@ public class GameState {
 
     // Konstruktor - erzeugt die Räume, zunächst alle geschlossen
     public GameState() {
-        Room graphicRoom = new Room(EnumScreen.GraphicRoom, false);
+        Screen hubScreen = new Screen(EnumScreen.Hub);Room graphicRoom = new Room(EnumScreen.GraphicRoom, false);
+
         Room ramRoom     = new Room(EnumScreen.RAMRoom,     false);
         Room fileRoom    = new Room(EnumScreen.FileRoom,    false);
         Room netRoom     = new Room(EnumScreen.NetRoom,     false);
@@ -36,6 +37,9 @@ public class GameState {
 
 
         // Into- / Outro-Texte
+        hubScreen.setIntroText(dbLoader.loadIntroText(EnumScreen.Hub));
+        hubScreen.setOutroText(dbLoader.loadOutroText(EnumScreen.Hub));
+
         graphicRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.GraphicRoom));
         graphicRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.GraphicRoom));
 
@@ -65,7 +69,7 @@ public class GameState {
         availableScreens = List.of(
                 new Screen(EnumScreen.Start),
                 new Screen(EnumScreen.Login),
-                new Screen(EnumScreen.Hub),
+                hubScreen,
                 //new Screen(EnumScreen.Room)?,
                 graphicRoom,
                 new Screen(EnumScreen.Hub),

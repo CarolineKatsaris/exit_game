@@ -44,7 +44,8 @@ public class Model {
                 && !newScreen.getIntroText().isBlank()) {
             String text = personalize(newScreen.getIntroText());
             newScreen.setShowIntro(true);
-        }
+        } else {newScreen.setShowIntro(false);}
+
         pcs.firePropertyChange("screen", null, newScreen);
     }
 

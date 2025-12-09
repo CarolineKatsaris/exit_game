@@ -8,14 +8,8 @@ import javax.swing.*;
 class JLayeredView extends JLayeredPane {
     JLayeredView() {}
 
-    void showIntro() {
+    void showIntro(String text) {
         setButtonsEnabled(false);
-
-        String text =
-                "Tja, das war eine Falle!<br>" +
-                        "Jetzt bist du mein Gefangener und ich glaube nicht, " +
-                        "dass du es schaffst hier wieder rauszukommen –<br>" +
-                        "Ich werde jetzt die ganze Schule infizieren ...";
 
         IntroOverlay overlay = new IntroOverlay(text, () -> setButtonsEnabled(true));
         overlay.showOn(this);
