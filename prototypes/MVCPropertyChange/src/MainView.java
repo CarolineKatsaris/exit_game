@@ -51,6 +51,8 @@ public class MainView extends JFrame implements PropertyChangeListener {
     }
 
 
+
+    // Wenn wir uns für das Overlay entscheiden, brauchen wir das nicht mehr
     class IntroPanel extends JPanel {
         private Image backgroundImage;
 
