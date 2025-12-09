@@ -93,7 +93,9 @@ public class Controller implements PropertyChangeListener {
             Screen screen = (Screen) e.getNewValue();
             loadScreen(screen);
         }
-    }
+
+            }
+
 
     // ToDo: Generischere Methode finden
 
