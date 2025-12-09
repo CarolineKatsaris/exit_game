@@ -65,10 +65,10 @@ public class MainView extends JFrame {
             // Bestimme den aktuellen Screen-Typ und rufe showIntro() auf
             if (screen.getTitle() == EnumScreen.Hub) {
                 hubView.showIntro(screen.getIntroText());
-                screen.isIntroShown(); //ToDo View sollte per Event Modell benachrichtigen, wenn Intro vorbei ist, so dass die dann isIntroShown aufrufen kann und das aktualisierte Screen Objekt per property change erneut an die View senden kann
+                screen.setIntroShown(true); //ToDo View sollte per Event Modell benachrichtigen, wenn Intro vorbei ist, so dass die dann isIntroShown aufrufen kann und das aktualisierte Screen Objekt per property change erneut an die View senden kann
             } else if (screen.getTitle() == EnumScreen.GraphicRoom) {
                 graphicsView.showIntro(screen.getIntroText());
-                screen.isIntroShown();
+                screen.setIntroShown(true);
             }
             // Für zukünftige Räume (RAMRoom, FileRoom, etc.) müssen entsprechende Views hinzugefügt werden oder in Map Title -> xViewObjekt generalisiseren, so dass man über den Title eine Referenz auf das spezifische Room Objekt bekommt
         }
