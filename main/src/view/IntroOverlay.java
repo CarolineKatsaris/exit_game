@@ -8,10 +8,15 @@ public class IntroOverlay extends JPanel {
     private final JLabel textLabel;
     private final JButton nextButton;
     private final Timer autoCloseTimer;
+    private final Timer typingTimer; // Timer für das Schreiben
+    private String fullText; // Vollständiger Text
+    private int currentCharIndex;//aktueller Index des Buchstabens
     private Runnable onFinished;
 
     public IntroOverlay(String text, Runnable onFinished) {
         this.onFinished = onFinished;
+        this.fullText = text; //Speichern des gesamten Textes
+        this.currentCharIndex = 0; //Startindex
 
         // halbtransparentes Overlay
         setOpaque(false); //false = transparent
@@ -23,11 +28,11 @@ public class IntroOverlay extends JPanel {
         box.setOpaque(true);
         box.setBackground(Color.BLACK);
         box.setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));
-        box.setPreferredSize(new Dimension(900, 300));
+        //box.setPreferredSize(new Dimension(850, 300));
         box.setLayout(new BorderLayout(10, 10));
 
         textLabel = new JLabel(
-                "<html><div style='text-align:center;'>" + text + "</div></html>"
+                "<html><div style='text-align:left;'>" + text + "</div></html>"
         );
         textLabel.setForeground(Color.WHITE);
         textLabel.setFont(new Font(textLabel.getFont().getName(), Font.BOLD, 25));
@@ -41,8 +46,27 @@ public class IntroOverlay extends JPanel {
 
         add(box, new GridBagConstraints());
 
-        autoCloseTimer = new Timer(10_000, e -> close());
+        autoCloseTimer = new Timer(60_000, e -> close());
         autoCloseTimer.setRepeats(false);
+
+        //Timer für das SChreiben des Textes
+        typingTimer = new Timer (100, e -> typeText());
+    }
+
+    private void typeText() {
+        if (currentCharIndex < fullText.length()) {
+            String partial = fullText.substring(0, currentCharIndex + 1);
+
+            // Falls du \n als Zeilenumbruch benutzt:
+            partial = partial.replace("\n", "<br>");
+
+            String html = "<html><div style='text-align:center;'>" + partial + "</div></html>";
+            textLabel.setText(html);
+
+            currentCharIndex++;
+        } else  {
+            typingTimer.stop();
+        }
     }
 
     // Overlay auf einem JLayeredPane anzeigen
@@ -52,6 +76,7 @@ public class IntroOverlay extends JPanel {
         parent.revalidate();
         parent.repaint();
         autoCloseTimer.start();
+        typingTimer.start();
     }
 
     private void close() {
