@@ -23,12 +23,17 @@ public class IntroOverlay extends JPanel {
         box.setOpaque(true);
         box.setBackground(Color.BLACK);
         box.setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));
+        box.setPreferredSize(new Dimension(900, 300));
         box.setLayout(new BorderLayout(10, 10));
 
-        textLabel = new JLabel("<html>" + text + "</html>");
+        textLabel = new JLabel(
+                "<html><div style='text-align:center;'>" + text + "</div></html>"
+        );
         textLabel.setForeground(Color.WHITE);
+        textLabel.setFont(new Font(textLabel.getFont().getName(), Font.BOLD, 25));
 
         nextButton = new JButton("Weiter");
+        nextButton.setFont(new Font(nextButton.getFont().getName(), Font.BOLD, 25));
         nextButton.addActionListener(e -> close());
 
         box.add(textLabel, BorderLayout.CENTER);
