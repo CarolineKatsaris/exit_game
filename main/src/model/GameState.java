@@ -11,7 +11,7 @@ public class GameState {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final List<Room> roomOverview = new ArrayList<>();
     private final List<Screen> availableScreens;
-    private final QuizLoader quizLoader;
+    private final DbLoader dbLoader;
     private Screen currentScreen;
     private String username;
     private EnumDifficulty difficulty;
@@ -24,31 +24,31 @@ public class GameState {
         Room netRoom     = new Room(EnumScreen.NetRoom,     false);
         Room cpuRoom     = new Room(EnumScreen.CPURoom,     false);
 
-        this.quizLoader = new QuizLoader ("jdbc:sqlite:ExitGame.sqlite");
+        this.dbLoader = new DbLoader("jdbc:sqlite:ExitGame.sqlite");
 
         // >>> Quizze aus der Datenbank laden <<<
-        graphicRoom.setQuizzes(quizLoader.loadQuizzesForRoom(EnumScreen.GraphicRoom));
-        ramRoom.setQuizzes(quizLoader.loadQuizzesForRoom(EnumScreen.RAMRoom));
-        fileRoom.setQuizzes(quizLoader.loadQuizzesForRoom(EnumScreen.FileRoom));
-        netRoom.setQuizzes(quizLoader.loadQuizzesForRoom(EnumScreen.NetRoom));
-        cpuRoom.setQuizzes(quizLoader.loadQuizzesForRoom(EnumScreen.CPURoom));
+        graphicRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.GraphicRoom));
+        ramRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.RAMRoom));
+        fileRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.FileRoom));
+        netRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.NetRoom));
+        cpuRoom.setQuizzes(dbLoader.loadQuizzesForRoom(EnumScreen.CPURoom));
 
 
         // Into- / Outro-Texte
-        graphicRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.GraphicRoom));
-        graphicRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.GraphicRoom));
+        graphicRoom.setIntroText(dbLoader.loadIntroTextForScreen(EnumScreen.GraphicRoom));
+        graphicRoom.setOutroText(dbLoader.loadOutroTextForScreen(EnumScreen.GraphicRoom));
 
-        ramRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.RAMRoom));
-        ramRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.RAMRoom));
+        ramRoom.setIntroText(dbLoader.loadIntroTextForScreen(EnumScreen.RAMRoom));
+        ramRoom.setOutroText(dbLoader.loadOutroTextForScreen(EnumScreen.RAMRoom));
 
-        fileRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.FileRoom));
-        fileRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.FileRoom));
+        fileRoom.setIntroText(dbLoader.loadIntroTextForScreen(EnumScreen.FileRoom));
+        fileRoom.setOutroText(dbLoader.loadOutroTextForScreen(EnumScreen.FileRoom));
 
-        netRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.NetRoom));
-        netRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.NetRoom));
+        netRoom.setIntroText(dbLoader.loadIntroTextForScreen(EnumScreen.NetRoom));
+        netRoom.setOutroText(dbLoader.loadOutroTextForScreen(EnumScreen.NetRoom));
 
-        cpuRoom.setIntroText(quizLoader.loadIntroTextForScreen(EnumScreen.CPURoom));
-        cpuRoom.setOutroText(quizLoader.loadOutroTextForScreen(EnumScreen.CPURoom));
+        cpuRoom.setIntroText(dbLoader.loadIntroTextForScreen(EnumScreen.CPURoom));
+        cpuRoom.setOutroText(dbLoader.loadOutroTextForScreen(EnumScreen.CPURoom));
 
 
         // Räume zur Übersicht hinzufügen
