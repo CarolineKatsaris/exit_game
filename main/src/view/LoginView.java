@@ -25,16 +25,18 @@ public class LoginView extends JPanel {
 
         // Rechteck für Eingabefelder
         int rectX = 50;
-        int rectY = 200;
+        int rectY = 300;
         int rectWidth = 400;
         int rectHeight = 150;
 
         // Label für den Namen
         JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        nameLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         nameLabel.setForeground(Color.BLACK);
         nameLabel.setOpaque(true);
         nameLabel.setBackground(new Color(255, 255, 255, 150));
-        nameLabel.setBounds(rectX + 20, rectY + 20, 80, 30); // Position innerhalb des Rechtecks
+        nameLabel.setBounds(rectX + 20, rectY + 10, 80, 35);// Position innerhalb des Rechtecks
         add(nameLabel);
 
         //Label für Fehlermeldung
@@ -42,14 +44,14 @@ public class LoginView extends JPanel {
         errorLabel.setForeground(Color.RED);
         errorLabel.setVisible(false);
         errorLabel.setBackground(new Color(255, 255, 255, 150));
-        errorLabel.setBounds(rectX + 330, rectY + 20, 80, 30);
+        errorLabel.setBounds(rectX + 330, rectY + 10, 80, 30);
         add(errorLabel);
 
         // Textfeld für Namen eingeben
         nameField = new JTextField(20);
         nameField.setText("Tippe hier deinen Vornamen ein!");
         nameField.setForeground(Color.GRAY);
-        nameField.setBounds(rectX + 110, rectY + 20, 200, 30); // Position innerhalb des Rechtecks
+        nameField.setBounds(rectX + 130, rectY + 10, 250, 35); // Position innerhalb des Rechtecks
         add(nameField);
 
         // FocusListener hinzufügen
@@ -73,23 +75,25 @@ public class LoginView extends JPanel {
 
         // Auswahl der Schwierigkeit
         JLabel difficultyLabel = new JLabel("Schwierigkeitsstufe:");
+        difficultyLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        difficultyLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         difficultyLabel.setForeground(Color.BLACK);
         difficultyLabel.setOpaque(true);
         difficultyLabel.setBackground(new Color(255, 255, 255, 150));
-        difficultyLabel.setBounds(rectX + 20, rectY + 60, 150, 30); // Position innerhalb des Rechtecks
+        difficultyLabel.setBounds(rectX + 20, rectY + 50, 200, 35);// Position innerhalb des Rechtecks
         add(difficultyLabel);
 
         EnumDifficulty[] difficulties = {EnumDifficulty.Unterstufe, EnumDifficulty.Mittelstufe, EnumDifficulty.Oberstufe};
         difficultySelection = new JComboBox<>(difficulties);
-        difficultySelection.setBounds(rectX + 180, rectY + 60, 130, 30); // Position innerhalb des Rechtecks
+        difficultySelection.setBounds(rectX + 220, rectY + 50, 200, 40);// Position innerhalb des Rechtecks
         add(difficultySelection);
 
         // Bestätigen Button
         submitButton = new JButton("Starten");
         submitButton.setBackground(new Color(0, 120, 215));
         submitButton.setForeground(Color.BLACK);
-        submitButton.setFont(new Font("SansSerif", Font.BOLD, 14));
-        submitButton.setBounds(rectX + 100, rectY + 100, 200, 30); // Position innerhalb des Rechtecks
+        submitButton.setFont(new Font("SansSerif", Font.BOLD, 16));
+        submitButton.setBounds(rectX + 90, rectY + 95, 230, 40);// Position innerhalb des Rechtecks
         add(submitButton);
     }
 
@@ -105,15 +109,33 @@ public class LoginView extends JPanel {
 
         // Rechteck hinter den Eingabefeldern zeichnen
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(new Color(255, 255, 255, 200)); // Weiß mit etwas Transparenz
 
-        // Berechnung der Position und Größe des Rechtecks
-        int rectX = 50; // X-Position des Rechtecks
-        int rectY = 200; // Y-Position des Rechtecks
-        int rectWidth = 400; // Breite des Rechtecks
-        int rectHeight = 150; // Höhe des Rechtecks
+        int rectX = 40;    // deine aktuellen Werte hier lassen!
+        int rectY = 260;
+        int rectWidth = 450;
+        int rectHeight = 200;
 
-        g2d.fillRoundRect(rectX, rectY, rectWidth, rectHeight, 20, 20); // Rechteck mit abgerundeten Ecken
+// 1. Schatten (leicht versetzt, dunkel & transparent)
+        g2d.setColor(new Color(0, 0, 0, 70)); // schwarz, transparent
+        g2d.fillRoundRect(rectX + 6, rectY + 6, rectWidth, rectHeight, 20, 20);
+
+// 2. Hauptfeld (hellgrün)
+        g2d.setColor(new Color(210, 255, 210, 230)); // dein Hellgrün
+        g2d.fillRoundRect(rectX, rectY, rectWidth, rectHeight, 20, 20);
+
+// 3. „Glow“-Rahmen: mehrere leicht transparente Ränder
+        for (int i = 0; i < 3; i++) {
+            float alpha = 0.5f - i * 0.15f; // nach außen schwächer
+            g2d.setColor(new Color(140, 220, 140, (int) (alpha * 255)));
+            g2d.setStroke(new BasicStroke(2f + i)); // etwas dicker nach außen
+
+            g2d.drawRoundRect(
+                    rectX - i, rectY - i,
+                    rectWidth + 2 * i, rectHeight + 2 * i,
+                    20 + i * 2, 20 + i * 2
+            );
+        }
+        // Rechteck mit abgerundeten Ecken
     }
 
     public JButton getSubmitButton() {
