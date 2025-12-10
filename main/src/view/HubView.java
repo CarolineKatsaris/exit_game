@@ -7,15 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class HubView extends JLayeredView {
-
-    private JLabel background;
-
     private JButton graphicsCardBtn;
     private JButton ramBtn;
 
     public HubView() {
+        super(); //Konstruktor der JLayeredView zuerst aufrufen
 
-        setLayout(null);
 
         ImageIcon img = new ImageIcon(getClass().getResource("/HubViewBackground.png"));
         background = new JLabel(img);

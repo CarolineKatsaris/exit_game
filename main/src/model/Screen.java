@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.*;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -25,6 +24,7 @@ public class Screen {
     private String introImagePath;
     private Rectangle[] quizBtnsBounds; //Array aus Rechtecken für Klickbuttons
     private String outroImagePath; //Outro-Ansicht hat keinen Klickbuttons
+    private String backgroundImagePath; //Model muss festlegen, welches Bild als Hintergrund verwendet werden soll, nur dieses wird von View angezeigt
 
     /**
      * Erstellt einen Screen mit dem gegebenen Titel.
@@ -32,6 +32,14 @@ public class Screen {
     public Screen(EnumScreen title) {
         this.title = title;
     } // public oder private?
+
+    public String getBackgroundImagePath() {
+        return backgroundImagePath;
+    }
+
+    public void setBackgroundImagePath(String backgroundImagePath) {
+        this.backgroundImagePath = backgroundImagePath;
+    }
 
     public String getIntroImagePath() {
         return introImagePath;

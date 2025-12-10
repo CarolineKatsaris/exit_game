@@ -51,6 +51,7 @@ public class DbLoader {
 
                         // Pfad für Intro-Hintergrund setzen
                         screen.setIntroImagePath(introImage);
+                        screen.setBackgroundImagePath(introImage); //Background auf IntroImage setzen
 
                         // Quiz-Buttons parsen
                         Rectangle[] bounds = screen.parseQuizButtonBounds(quizButtonsJson);

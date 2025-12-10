@@ -36,12 +36,15 @@ public class MainView extends JFrame {
         startView = new StartView();
         hubView = new HubView();
         loginView = new LoginView();
-        graphicsView = new RoomView("/GraphicsCardRoomView_elements.png", new Rectangle[] {new Rectangle(400, 400, 120, 290), new Rectangle(1000, 330, 240, 180), new Rectangle(1130, 640, 260, 160) });
-        ramView = new RoomView("/RAM_DataLeak.png",new Rectangle[] {
-                new Rectangle(545, 128, 420, 80), // TODO: richtige Werte
-                new Rectangle(545, 738, 200, 180), // TODO
-                new Rectangle(1041, 229, 300, 130) // TODO
-        });
+        graphicsView = new RoomView();
+        ramView = new RoomView();
+
+//        graphicsView = new RoomView("/GraphicsCardRoomView_elements.png", new Rectangle[] {new Rectangle(400, 400, 120, 290), new Rectangle(1000, 330, 240, 180), new Rectangle(1130, 640, 260, 160) });
+//        ramView = new RoomView("/RAM_DataLeak.png",new Rectangle[] {
+//                new Rectangle(545, 128, 420, 80), // TODO: richtige Werte
+//                new Rectangle(545, 738, 200, 180), // TODO
+//                new Rectangle(1041, 229, 300, 130) // TODO
+//        });
         // später andere Räume
         quizView = new QuizView();
         // GlassPane setzen
@@ -69,6 +72,18 @@ public class MainView extends JFrame {
      * Zeigt den angegebenen Screen an (stateless). Dazu muss eine Card in root existieren, die mit dem Title von screen übereinstimmt.
      */
     public void showScreen(Screen screen) {
+        RoomView view;
+
+        if(screen instanceof Room){ //Wenn Room, dann setze Hintergrundimage
+           view = roomViews.get(screen.getTitle());
+           view.setBackground(screen.getBackgroundImagePath());
+           view.setKlickButtons(screen.getQuizBtnsBounds());
+        }
+
+        if(screen.getTitle() == EnumScreen.Hub){ //Wenn Hub, dann setze Hintergrundimage
+            hubView.setBackground(screen.getBackgroundImagePath());
+        }
+
         cards.show(root, screen.getTitle().toString());
 
         // Fehlerbehandlung
