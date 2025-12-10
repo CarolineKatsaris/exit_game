@@ -37,11 +37,7 @@ public class MainView extends JFrame {
         hubView = new HubView();
         loginView = new LoginView();
         graphicsView = new RoomView("/GraphicsCardRoomView_elements.png", new Rectangle[] {new Rectangle(400, 400, 120, 290), new Rectangle(1000, 330, 240, 180), new Rectangle(1130, 640, 260, 160) });
-        ramView = new RoomView("/RAM_DataLeak.png",new Rectangle[] {
-                new Rectangle(545, 128, 420, 80), // TODO: richtige Werte
-                new Rectangle(545, 738, 200, 180), // TODO
-                new Rectangle(1041, 229, 300, 130) // TODO
-        });
+        ramView = new RoomView("/RAM_DataLeak.png",new Rectangle[] { new Rectangle(545, 128, 420, 80), new Rectangle(545, 738, 200, 180), new Rectangle(1041, 229, 300, 130)});
         // später andere Räume
         quizView = new QuizView();
         // GlassPane setzen
