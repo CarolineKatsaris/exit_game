@@ -15,6 +15,8 @@ public class GameState {
     private Screen currentScreen;
     private String username;
     private EnumDifficulty difficulty;
+    private int totalWrongAnswers = 0; // Gesamtzahl der falschen Antworten
+
 
     // Konstruktor - erzeugt die Räume, zunächst alle geschlossen
     public GameState() {
@@ -80,7 +82,17 @@ public class GameState {
             }
         }
     }
+    public void incrementWrongAnswers() {
+        totalWrongAnswers++;
+    }
 
+    public int getTotalWrongAnswers() {
+        return totalWrongAnswers;
+    }
+
+    public void resetWrongAnswers() {
+        totalWrongAnswers = 0;
+    }
 
     public List<Screen> getAvailableScreens() {
         return availableScreens;
@@ -139,10 +151,14 @@ public class GameState {
         return true;
     }
 
+
+//ToDo: Ist 7 der Endscreen?
     void checkForGameCompletion(){
         if (allRoomsCompleted()){
             changeScreen(getAvailableScreens().get(7));
             pcs.firePropertyChange("gameCompleted", false, true);
+            //Gesamtzahl falscher Antworten in der Konsole ausgeben
+            System.out.println("Gesamtzahl falscher Antworten: " + totalWrongAnswers);
         }
     }
 }
