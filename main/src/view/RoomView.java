@@ -33,6 +33,7 @@ public class RoomView extends JLayeredView {
         setPreferredSize(background.getPreferredSize());
 
         back = new JButton("Zurück");
+        back.setFont(new Font("SansSerif", Font.BOLD, 16));
         back.setBounds(20,20,100,50);
         add(back, valueOf(2)); //auf oberste Ebene legen
     }
