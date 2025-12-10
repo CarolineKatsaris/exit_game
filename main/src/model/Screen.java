@@ -1,6 +1,11 @@
 package model;
 
 import java.awt.*;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Screen ist Elternklasse für Room, so können Räume und Screens wie Start, Login, Hub im restlichen Code einheitlich verwendet werden.
@@ -143,4 +148,35 @@ public class Screen {
         this.outroShown = outroShown;
     }
 
+    /**
+     * Parst einen JSON-String wie "[[400,400,120,290],[1000,330,240,180],[1130,640,260,160]]"
+     * in ein Rectangle[] Array ohne externe Libraries
+     */
+    Rectangle[] parseQuizButtonBounds(String jsonString) {
+        if (jsonString == null || jsonString.isBlank()) {
+            return new Rectangle[0];
+        }
+
+        try {
+            List<Rectangle> rectangles = new ArrayList<>();
+
+            // Pattern findet alle [Zahl,Zahl,Zahl,Zahl] Kombinationen
+            Pattern pattern = Pattern.compile("\\[(\\d+),(\\d+),(\\d+),(\\d+)\\]");
+            Matcher matcher = pattern.matcher(jsonString);
+
+            while (matcher.find()) {
+                int x = Integer.parseInt(matcher.group(1));
+                int y = Integer.parseInt(matcher.group(2));
+                int width = Integer.parseInt(matcher.group(3));
+                int height = Integer.parseInt(matcher.group(4));
+                rectangles.add(new Rectangle(x, y, width, height));
+            }
+
+            return rectangles.toArray(new Rectangle[0]);
+        } catch (Exception e) {
+            System.err.println("Fehler beim Parsen der Quiz-Button-Bounds: " + jsonString);
+            e.printStackTrace();
+            return new Rectangle[0];
+        }
+    }
 }
