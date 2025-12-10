@@ -20,17 +20,11 @@ public class QuizController implements PropertyChangeListener {
         // Quiz-Buttons registrieren
         for (JButton btn : view.getQuizAnswerButtons()) {
             btn.addActionListener(e ->
-                    model.handleQuizAnswer(e.getActionCommand()));
-
-
+                    model.handleQuizAnswer(e.getActionCommand())
+            );
         }
-        view.getQuizStopButton().addActionListener(e ->model.cancelQuiz());
-
-
-        this.model.addPropertyChangeListener(this);
+        model.addPropertyChangeListener(this);
     }
-
-
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -38,8 +32,7 @@ public class QuizController implements PropertyChangeListener {
             case "quizShown" -> {
                 Question q = (Question) evt.getNewValue();
                 view.showQuiz(q);
-            break;}
-
+            }
             case "quizHidden" -> view.hideQuiz();
             // andere Events: Screen-Wechsel usw.
             case "incorrectAnswer" ->  {
