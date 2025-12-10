@@ -9,6 +9,10 @@ import java.awt.*;
 public class HubView extends JLayeredView {
     private JButton graphicsCardBtn;
     private JButton ramBtn;
+    private JButton fileBtn;
+    private JButton networkBtn;
+    private JButton cpuBtn;
+
 
     public HubView() {
         super(); //Konstruktor der JLayeredView zuerst aufrufen
@@ -23,8 +27,15 @@ public class HubView extends JLayeredView {
 
         graphicsCardBtn = makeInvisibleButton(80, 200, 250, 300, EnumScreen.GraphicRoom.toString());
         ramBtn = makeInvisibleButton(230, 540, 230, 140, EnumScreen.RAMRoom.toString());
+        fileBtn = makeInvisibleButton(610, 245, 220, 110, EnumScreen.FileRoom.toString());
+        networkBtn = makeInvisibleButton(1044, 250, 330, 90, EnumScreen.NetRoom.toString());
+        cpuBtn = makeInvisibleButton(1244, 560, 204, 190, EnumScreen.CPURoom.toString());
         add(graphicsCardBtn, Integer.valueOf(1)); // eine Ebene drüber
         add(ramBtn, Integer.valueOf(1));
+        add(fileBtn, Integer.valueOf(1));
+        add(networkBtn, Integer.valueOf(1));
+        add(cpuBtn, Integer.valueOf(1));
+
 
     }
 
@@ -45,7 +56,6 @@ public class HubView extends JLayeredView {
         b.setFocusPainted(false);
         b.setActionCommand(cmd);
         return b;
-
     }
 
 
@@ -73,5 +83,7 @@ public class HubView extends JLayeredView {
         return graphicsCardBtn;
     }
     public JButton getRamButton() { return ramBtn; }
-
+    public JButton getFileBtn() {return fileBtn; }
+    public JButton getNetworkBtn() {return networkBtn;}
+    public JButton getCpuBtn() {return cpuBtn;}
 }
