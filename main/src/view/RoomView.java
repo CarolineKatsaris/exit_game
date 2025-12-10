@@ -13,6 +13,8 @@ public class RoomView extends JLayeredView {
     private final JButton back;
     final String bgImagePath;
     final Rectangle[] quizBtnsBounds;
+    private final JProgressBar progressBar;
+
 
     public RoomView(String bgImagePath, Rectangle[] quizBtnsBounds) {
         this.bgImagePath = bgImagePath;
@@ -36,6 +38,20 @@ public class RoomView extends JLayeredView {
         back.setFont(new Font("SansSerif", Font.BOLD, 16));
         back.setBounds(20,20,100,50);
         add(back, valueOf(2)); //auf oberste Ebene legen
+
+        progressBar = new JProgressBar(0, 15);
+        progressBar.setValue(0);
+        progressBar.setStringPainted(true);
+        progressBar.setForeground(new Color(0, 100, 0));
+        progressBar.setOpaque(true);
+        progressBar.setBackground(Color.WHITE);
+        progressBar.setBounds(20, 750,      // 40px vom unteren Rand
+                250,       // links/rechts 20px Abstand
+                20
+        );
+        progressBar.setStringPainted(true);
+        progressBar.setBorderPainted(false);
+        add(progressBar, Integer.valueOf(3)); // über Background, unter Buttons oder wie du willst
     }
 
     private JButton makeInvisibleButton(int x, int y, int w, int h, String cmd) {
@@ -81,5 +97,12 @@ public class RoomView extends JLayeredView {
             b.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
         repaint();
+    }
+
+    /*
+    Updatet ProgressBar, dabei wird der Wert vom Model an den Quizcontroller weitergegeben (immer um 1 erhöht, weil die Bar von 0-15 geht)
+     */
+    public void updateProgressBar(int value){
+    progressBar.setValue(value);
     }
 }
