@@ -278,6 +278,10 @@ public class Model {
         changeScreen(getGameState().getAvailableScreens().get(0));
     }
 
+    public void cancelQuiz(){
+        pcs.firePropertyChange("quizHidden", false, true);
+    }
+
     /**
      * Schaltet zum nächsten Screen aus der Liste availableScreens in gameState. Dazu wird currentScreen in der Liste gesucht und dann der nächste Screen ermittelt.
      */
