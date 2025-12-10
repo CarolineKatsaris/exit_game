@@ -5,6 +5,7 @@ import model.Model;
 import model.Room;
 import model.Screen;
 import view.MainView;
+import view.RoomView;
 
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
@@ -107,7 +108,7 @@ public class Controller implements PropertyChangeListener {
         if (room.isListenersRegistered()) return; //wird im room Objekt gespeichert
         room.setListenersRegistered(true);
 
-        var roomView = view.getRoomView(); //ToDo getRoomView erweitern, dass es die richtige View für den Raum automatisch zurück gibt, sonst funktioniert das nicht mit mehreren Räumen
+        RoomView roomView = view.getRoomView(room); //ToDo getRoomView erweitern, dass es die richtige View für den Raum automatisch zurück gibt, sonst funktioniert das nicht mit mehreren Räumen
 
         // -------------------
         // QUIZ-BUTTON CLICKS ->  model.nextScreen() als Platzhalter
@@ -159,11 +160,25 @@ public class Controller implements PropertyChangeListener {
             model.enterRoom(e.getActionCommand()); //ActionCommand == Screen.Title
         });
 
+        // CLICK – RAM-Raum öffnen
+        hub.getRamButton().addActionListener(e ->
+                model.enterRoom(e.getActionCommand())
+        );
+
+
         //   HOVER – Rahmen ein/aus
         hub.getGraphicsCardButton().addMouseListener(
                 new HoverAdapter(
-                        () -> hub.setGraphicsCardHighlight(true),
-                        () -> hub.setGraphicsCardHighlight(false)
+                        () -> hub.setButtonHighlight(hub.getGraphicsCardButton(), true),
+                        () -> hub.setButtonHighlight(hub.getGraphicsCardButton(), false)
+                )
+        );
+
+        // HOVER – Rahmen ein/aus für RAM-Button
+        hub.getRamButton().addMouseListener(
+                new HoverAdapter(
+                        () -> hub.setButtonHighlight(hub.getRamButton(), true),
+                        () -> hub.setButtonHighlight(hub.getRamButton(), false)
                 )
         );
     }
