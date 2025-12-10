@@ -4,17 +4,23 @@ import model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.EnumMap;
+import java.util.Map;
 
 public class MainView extends JFrame {
 
     private CardLayout cards;
     private JPanel root;
 
+
     // Referenzen auf einzelne Screens:
     private StartView startView;
     private LoginView loginView;
     private HubView hubView;
+    private Map<EnumScreen, RoomView> roomViews = new EnumMap<>(EnumScreen.class);
     private RoomView graphicsView;
+    private RoomView ramView;
+    // später andere Räume: private Roomview filesView;
     private QuizView quizView;
 
     public MainView() {
@@ -31,6 +37,12 @@ public class MainView extends JFrame {
         hubView = new HubView();
         loginView = new LoginView();
         graphicsView = new RoomView("/GraphicsCardRoomView_elements.png", new Rectangle[] {new Rectangle(400, 400, 120, 290), new Rectangle(1000, 330, 240, 180), new Rectangle(1130, 640, 260, 160) });
+        ramView = new RoomView("/RAM_DataLeak.png",new Rectangle[] {
+                new Rectangle(545, 128, 420, 80), // TODO: richtige Werte
+                new Rectangle(545, 738, 200, 180), // TODO
+                new Rectangle(1041, 229, 300, 130) // TODO
+        });
+        // später andere Räume
         quizView = new QuizView();
         // GlassPane setzen
         setGlassPane(quizView);
@@ -42,6 +54,12 @@ public class MainView extends JFrame {
         root.add(hubView, EnumScreen.Hub.toString());
         root.add(loginView, EnumScreen.Login.toString());
         root.add(graphicsView, EnumScreen.GraphicRoom.toString());
+        root.add(ramView, EnumScreen.RAMRoom.toString());
+// später: root.add(fileView, EnumScreen.FileRoom.toString());
+
+        // RoomViews in Map registrieren
+        roomViews.put(EnumScreen.GraphicRoom, graphicsView);
+        roomViews.put(EnumScreen.RAMRoom, ramView);
 
         // Alles ins Fenster
         add(root, BorderLayout.CENTER);
@@ -129,18 +147,32 @@ public class MainView extends JFrame {
     //   • quiz3Button  → Framebuffer-Konsole
     //  Zusätzlich ein sichtbarer „Zurück zum Hub“-Button.
     //
-    public RoomView getRoomView() {
-        return graphicsView;
+    //Methode: direkt mit Room aus dem Model
+    public RoomView getRoomView(Room room) {
+        return roomViews.get(room.getTitle());
     }
+   /** kann man auch direkt in den Controller machen
+    public JButton getBackButton(Room room) {
+        return getRoomView(room).getBackButton();
+    } */
 
     public JButton getBackButton() { return graphicsView.getBackButton(); };
     public JButton getStopButton(){return quizView.getQuizStopButton();}
 
-    public void showQuiz(Question q) {
-        quizView.setQuestion(q);
-        quizView.setVisible(true);
-        getBackButton().setVisible(false);
-    }
+    // ─────────────────────────────────────────────────────────────────────────────
+    //   QUIZ-VIEW + BUTTONS
+    // ─────────────────────────────────────────────────────────────────────────────
+   public void showQuiz(Question q) {
+       quizView.setQuestion(q);
+       quizView.setVisible(true);
+       // Hide back button in current room view
+       for (RoomView view : roomViews.values()) {
+           if (view.isVisible()) {
+               view.getBackButton().setVisible(false);
+               break;
+           }
+       }
+   }
 
     public void hideQuiz() {
         quizView.setVisible(false);
