@@ -240,9 +240,8 @@ public class Model {
 
                             System.out.println("OUTRO for " + currentQuizRoomType + ": "
                                     + personalize(room.getOutroText()));
-
-
-                            // pcs.firePropertyChange("storyText", null, room.getOutroText());
+                            room.setBackgroundImagePath(room.getOutroImagePath()); // Outro-Bild als Hintergrund setzen
+                            changeScreen(room);
                         }
                     }
                 }
