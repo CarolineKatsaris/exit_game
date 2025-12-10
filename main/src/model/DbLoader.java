@@ -12,8 +12,16 @@ public class DbLoader {
         this.dbUrl = dbUrl;
     }
 
+    private String difficultyToCode(EnumDifficulty diff) {
+        return switch (diff) {
+            case Unterstufe -> "US";
+            case Mittelstufe -> "MS";
+            case Oberstufe -> "OS";
+        };
+    }
+
     // Lädt alle Quizze für einen Raum aus der DB
-    public List<Quiz> loadQuizzesForRoom(EnumScreen roomScreen) {
+    public List<Quiz> loadQuizzesForRoom(EnumScreen roomScreen, EnumDifficulty difficulty) {
 
         // quizNr als Schlüssel, Maps sortiert jede Zeile dem richtigen Quiz zu
         // geht mit einer HashMap besser als mit List
@@ -32,6 +40,7 @@ public class DbLoader {
                 FROM question q
                 JOIN answer a ON a.question_id = q.id
                 WHERE q.room = ?
+                AND q.difficulty = ?
                 ORDER BY q.quiz_nr, q.id, a.answer_index
                 """;
 
@@ -41,6 +50,7 @@ public class DbLoader {
 
             // hier wird der Raum festgelegt
             ps.setString(1, roomScreen.name());
+            ps.setString(2, difficultyToCode(difficulty));
 
             // Ergebnis wird zurückgegeben
             try (ResultSet rs = ps.executeQuery()) {
