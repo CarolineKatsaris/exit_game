@@ -27,13 +27,27 @@ class JLayeredView extends JLayeredPane {
 
     void setButtonsEnabled(boolean enabled) {};
 
+    /**
+     * Setzt den Hintergrund des Views. Ersetzt den alten Hintergrund, falls vorhanden.
+     * @param bgImagePath
+     */
     void setBackground(String bgImagePath){
         this.bgImagePath = bgImagePath;
         ImageIcon bg = new ImageIcon(getClass().getResource(bgImagePath));
+
+        // Alten Hintergrund entfernen, falls vorhanden
+        if (background != null) {
+            remove(background);
+        }
+
+        // Neuen Hintergrund erstellen
         background = new JLabel(bg);
         background.setBounds(0, 0, bg.getIconWidth(), bg.getIconHeight());
-        try {remove(background);} catch (Exception ignored) {} //remove old background if present
-        add(background, valueOf(0)); // unterste Ebene
+        add(background, Integer.valueOf(0)); // unterste Ebene
+
         setPreferredSize(background.getPreferredSize());
+        revalidate();
+        repaint();
     }
+
 }
