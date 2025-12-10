@@ -2,6 +2,8 @@ package model;
 
 import java.sql.*;
 import java.util.List;
+import java.awt.Rectangle;
+
 
 
 public class DbLoader {
@@ -19,6 +21,62 @@ public class DbLoader {
             case Oberstufe -> "OS";
         };
     }
+
+    public void loadBackgroundForScreen(Screen screen) {
+
+        String sqlIntro = """
+        SELECT image_path, quizButtons
+        FROM background_images
+        WHERE screen = ? AND kind = 'INTRO'
+        LIMIT 1
+        """;
+
+        String sqlOutro = """
+        SELECT image_path
+        FROM background_images
+        WHERE screen = ? AND kind = 'OUTRO'
+        LIMIT 1
+        """;
+
+        try (Connection conn = DriverManager.getConnection(dbUrl)) {
+
+            // --- INTRO laden: Bild + Quiz-Buttons ---
+            try (PreparedStatement psIntro = conn.prepareStatement(sqlIntro)) {
+                psIntro.setString(1, screen.getTitle().name());
+
+                try (ResultSet rs = psIntro.executeQuery()) {
+                    if (rs.next()) {
+                        String introImage = rs.getString("image_path");
+                        String quizButtonsJson = rs.getString("quizButtons");
+
+                        // Pfad für Intro-Hintergrund setzen
+                        screen.setIntroImagePath(introImage);
+
+                        // Quiz-Buttons parsen
+                        Rectangle[] bounds = screen.parseQuizButtonBounds(quizButtonsJson);
+                        screen.setQuizBtnsBounds(bounds);
+                    }
+                }
+            }
+
+            // --- OUTRO laden: nur Bild ---
+            try (PreparedStatement psOutro = conn.prepareStatement(sqlOutro)) {
+                psOutro.setString(1, screen.getTitle().name());
+
+                try (ResultSet rs = psOutro.executeQuery()) {
+                    if (rs.next()) {
+                        String outroImage = rs.getString("image_path");
+                        screen.setOutroImagePath(outroImage);
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     // Lädt alle Quizze für einen Raum aus der DB
     public List<Quiz> loadQuizzesForRoom(EnumScreen roomScreen, EnumDifficulty difficulty) {
