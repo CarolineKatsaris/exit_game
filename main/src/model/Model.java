@@ -261,6 +261,7 @@ public class Model {
             System.out.println("Falsche Antwort!");
             pcs.firePropertyChange("incorrectAnswer", null, chosenIndex);
 
+            gameState.incrementWrongAnswers();
         }
     }
 
@@ -272,6 +273,10 @@ public class Model {
      */
     void completeRoom(Room room) {
         room.setCompleted(true);
+
+        System.out.println("Bisherige Gesamtzahl falscher Antworten: "
+                + gameState.getTotalWrongAnswers());
+
         pcs.firePropertyChange("roomCompleted", null, room);
         gameState.checkForGameCompletion();
     }
@@ -311,6 +316,8 @@ public class Model {
             gameState.setDifficulty(difficulty);
             gameState.getCurrentScreen().clearErrorMessage();
             gameState.initQuizzesForDifficulty(difficulty);
+            // Fehlversuchszähler für ein neues Spiel zurücksetzen
+            gameState.resetWrongAnswers();
 
             // Load and register the SQLite JDBC driver
             try {
