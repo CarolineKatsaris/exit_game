@@ -6,12 +6,11 @@ import java.awt.*;
 public class IntroOverlay extends JPanel {
 
     private final JTextArea textArea; // TextArea anstelle von JLabel
-    private final JButton nextButton;
     private final Timer autoCloseTimer;
     private final Timer typingTimer; // Timer für das Schreiben
-    private String fullText; // Vollständiger Text
+    private final String fullText; // Vollständiger Text
     private int currentCharIndex; // Aktueller Index des Buchstabens
-    private Runnable onFinished;
+    private final Runnable onFinished;
 
     public IntroOverlay(String text, Runnable onFinished) {
         this.onFinished = onFinished;
@@ -59,7 +58,7 @@ public class IntroOverlay extends JPanel {
         gbcButton.gridy = 1; // Zeile 1
         gbcButton.weightx = 0; // Keine Gewichtung, Button hat feste Größe
         gbcButton.fill = GridBagConstraints.NONE; // Button hat keine Füllung
-        nextButton = new JButton("Weiter");
+        JButton nextButton = new JButton("Weiter");
         nextButton.setFont(new Font(nextButton.getFont().getName(), Font.BOLD, 25));
         nextButton.setPreferredSize(new Dimension(150, 50)); // Festlegen der Button-Größe
         nextButton.addActionListener(e -> close());
