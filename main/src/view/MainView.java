@@ -134,6 +134,7 @@ public class MainView extends JFrame {
     }
 
     public JButton getBackButton() { return graphicsView.getBackButton(); };
+    public JButton getStopButton(){return quizView.getQuizStopButton();}
 
     public void showQuiz(Question q) {
         quizView.setQuestion(q);
@@ -168,6 +169,9 @@ public class MainView extends JFrame {
 
     public JButton[] getQuizAnswerButtons() {
         return quizView.getAnswerButtons();
+    }
+    public JButton getQuizStopButton(){
+        return quizView.getQuizStopButton();
     }
 }
 

@@ -10,6 +10,7 @@ public class QuizView extends JPanel {
 
     private JLabel questionLabel;
     private JButton[] answerButtons = new JButton[4];
+    private JButton quizStopButton;
 
     public QuizView() {
         // Hintergrund: wir malen selbst halbtransparent
@@ -44,11 +45,16 @@ public class QuizView extends JPanel {
             answersPanel.add(btn);
         }
 
-        dialogPanel.add(answersPanel, BorderLayout.CENTER);
+        quizStopButton = new JButton("Abbrechen");
+        quizStopButton.setForeground(Color.RED);
+        quizStopButton.setFont(quizStopButton.getFont().deriveFont(Font.BOLD, 25f));
 
+        dialogPanel.add(answersPanel, BorderLayout.CENTER);
+        dialogPanel.add(quizStopButton, BorderLayout.SOUTH);
         // DialogPanel zentriert in diesem Overlay
         add(dialogPanel);
     }
+
 
     /**
      * Methode, die den Text einer Frage und die Antwortmöglichkeiten (auf die buttons) einfügt
@@ -81,6 +87,8 @@ public class QuizView extends JPanel {
     public JButton[] getAnswerButtons() {
         return answerButtons;
     }
+
+    public JButton getQuizStopButton() {return quizStopButton;};
 
     /**
      *Setzt ein halbtransparentes schwarzes Overlay über den gesamten Raum
