@@ -5,13 +5,12 @@ import java.awt.*;
 
 public class IntroOverlay extends JPanel {
 
-    private final JLabel textLabel;
-    private final JButton nextButton;
+    private final JTextArea textArea; // TextArea anstelle von JLabel
     private final Timer autoCloseTimer;
     private final Timer typingTimer; // Timer für das Schreiben
-    private String fullText; // Vollständiger Text
+    private final String fullText; // Vollständiger Text
     private int currentCharIndex; // Aktueller Index des Buchstabens
-    private Runnable onFinished;
+    private final Runnable onFinished;
 
     public IntroOverlay(String text, Runnable onFinished) {
         this.onFinished = onFinished;
@@ -27,25 +26,31 @@ public class IntroOverlay extends JPanel {
         JPanel box = new JPanel(new GridBagLayout());
         box.setOpaque(true);
         box.setBackground(Color.BLACK);
-        box.setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));
+        box.setBorder(BorderFactory.createEmptyBorder(5, 24, 16, 24));
 
-        textLabel = new JLabel(
-                "<html><div style='text-align:center;'>" + text + "</div></html>"
-        );
-        textLabel.setForeground(Color.WHITE);
-        textLabel.setFont(new Font(textLabel.getFont().getName(), Font.BOLD, 25));
+        // JTextArea erstellen
+        textArea = new JTextArea();
+        textArea.setLineWrap(true); // Aktiviert Zeilenumbrüche
+        textArea.setWrapStyleWord(true); // Bricht an Wortgrenzen um
+        textArea.setOpaque(false); // Hintergrund transparent
+        textArea.setForeground(Color.WHITE);
+        textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 20));
+        textArea.setEditable(false); // TextArea nicht bearbeitbar
 
-        nextButton = new JButton("Weiter");
-        nextButton.setFont(new Font(nextButton.getFont().getName(), Font.BOLD, 25));
-        nextButton.setPreferredSize(new Dimension(150, 50)); // Festlegen der Button-Größe
+        // ScrollPane für JTextArea
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(600, 500)); // HIER NOCH: Bevorzugte Größe einstellen
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false); // Hintergrund des Viewports transparent
 
-        //GridBagConstraints für das JLabel
-        GridBagConstraints gbcLabel = new GridBagConstraints();
-        gbcLabel.gridx = 0; // Spalte 0
-        gbcLabel.gridy = 0; // Zeile 0
-        gbcLabel.weightx = 1.0; // Füllt den verfügbaren Platz
-        gbcLabel.fill = GridBagConstraints.HORIZONTAL; // Füllt horizontal
-        box.add(textLabel, gbcLabel);
+
+        // GridBagConstraints für das JScrollPane
+        GridBagConstraints gbcTextArea = new GridBagConstraints();
+        gbcTextArea.gridx = 0; // Spalte 0
+        gbcTextArea.gridy = 0; // Zeile 0
+        gbcTextArea.weightx = 1.0; // Füllt den verfügbaren Platz
+        gbcTextArea.fill = GridBagConstraints.BOTH; // Füllt sowohl horizontal als auch vertikal
+        box.add(scrollPane, gbcTextArea); // JScrollPane hinzufügen
 
         // GridBagConstraints für den Button
         GridBagConstraints gbcButton = new GridBagConstraints();
@@ -53,6 +58,9 @@ public class IntroOverlay extends JPanel {
         gbcButton.gridy = 1; // Zeile 1
         gbcButton.weightx = 0; // Keine Gewichtung, Button hat feste Größe
         gbcButton.fill = GridBagConstraints.NONE; // Button hat keine Füllung
+        JButton nextButton = new JButton("Weiter");
+        nextButton.setFont(new Font(nextButton.getFont().getName(), Font.BOLD, 25));
+        nextButton.setPreferredSize(new Dimension(150, 50)); // Festlegen der Button-Größe
         nextButton.addActionListener(e -> close());
         box.add(nextButton, gbcButton);
 
@@ -62,7 +70,7 @@ public class IntroOverlay extends JPanel {
         autoCloseTimer.setRepeats(false);
 
         // Timer für das Schreiben des Textes
-        typingTimer = new Timer(60, e -> typeText());
+        typingTimer = new Timer(10, e -> typeText());
     }
 
     private void typeText() {
@@ -70,10 +78,9 @@ public class IntroOverlay extends JPanel {
             String partial = fullText.substring(0, currentCharIndex + 1);
 
             // Falls du \n als Zeilenumbruch benutzt:
-            partial = partial.replace("\n", "<br>");
+            partial = partial.replace("\n", "\n");
 
-            String html = "<html><div style='text-align:center;'>" + partial + "</div></html>";
-            textLabel.setText(html);
+            textArea.setText(partial); // TextArea aktualisieren
 
             currentCharIndex++;
         } else {

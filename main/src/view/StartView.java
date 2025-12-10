@@ -32,12 +32,12 @@ public class StartView extends JPanel {
         // 2) Deine Text-Elemente
         JLabel introText = new JLabel("Ein Virus verbreitet sich in deiner Schule und diesmal ist es nicht Corona…");
         introText.setHorizontalAlignment(SwingConstants.CENTER);
-        introText.setFont(new Font("OCR A Extended", Font.BOLD, 20));
+        introText.setFont(new Font("SansSerif", Font.BOLD, 25));
         introText.setForeground(Color.WHITE);
 
         JLabel subText = new JLabel("Kannst du helfen es zu stoppen?");
         subText.setHorizontalAlignment(SwingConstants.CENTER);
-        subText.setFont(new Font("OCR A Extended", Font.PLAIN, 16));
+        subText.setFont(new Font("SansSerif", Font.BOLD, 25));
         subText.setForeground(Color.WHITE);
 
         // 3) Textpanel wie von dir gebaut
@@ -48,12 +48,12 @@ public class StartView extends JPanel {
 
         // 4) Button bauen
         startButton = new JButton("Virus stoppen");
-        startButton.setFont(new Font("OCR A Extended", Font.BOLD, 16));
-        startButton.setForeground(Color.BLACK);
+        startButton.setFont(new Font("SansSerif", Font.BOLD, 20));
+        startButton.setForeground(Color.WHITE);
         startButton.setBackground(new Color(10, 10, 10, 160)); // leicht transparent dunkel
         startButton.setOpaque(true);
         startButton.setFocusPainted(false);
-        startButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        startButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 
         // 5) Button-Panel für unten
         JPanel bottomPanel = new JPanel();

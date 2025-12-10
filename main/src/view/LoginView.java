@@ -36,7 +36,7 @@ public class LoginView extends JPanel {
         nameLabel.setForeground(Color.BLACK);
         nameLabel.setOpaque(true);
         nameLabel.setBackground(new Color(255, 255, 255, 150));
-        nameLabel.setBounds(rectX + 20, rectY + 10, 80, 35);// Position innerhalb des Rechtecks
+        nameLabel.setBounds(rectX + 20, rectY + 10, 200, 35);// Position innerhalb des Rechtecks
         add(nameLabel);
 
         //Label für Fehlermeldung
@@ -49,16 +49,17 @@ public class LoginView extends JPanel {
 
         // Textfeld für Namen eingeben
         nameField = new JTextField(20);
-        nameField.setText("Tippe hier deinen Vornamen ein!");
+        nameField.setText("Name eingeben!");
         nameField.setForeground(Color.GRAY);
-        nameField.setBounds(rectX + 130, rectY + 10, 250, 35); // Position innerhalb des Rechtecks
+        nameField.setBounds(rectX + 220, rectY + 10, 200, 35); // Position innerhalb des Rechtecks
+        nameField.setFont(new Font("SansSerif", Font.BOLD, 16));
         add(nameField);
 
         // FocusListener hinzufügen
         nameField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (nameField.getText().equals("Tippe hier deinen Vornamen ein!")) {
+                if (nameField.getText().equals("Name eingeben!")) {
                     nameField.setText(""); // Platzhaltertext entfernen
                     nameField.setForeground(Color.BLACK); // Schriftfarbe ändern
                 }
@@ -68,7 +69,7 @@ public class LoginView extends JPanel {
             public void focusLost(FocusEvent e) {
                 if (nameField.getText().isEmpty()) {
                     nameField.setForeground(Color.GRAY); // Farbe zurücksetzen
-                    nameField.setText("Tippe hier deinen Vornamen ein!"); // Platzhaltertext zurücksetzen
+                    nameField.setText("Name eingeben!"); // Platzhaltertext zurücksetzen
                 }
             }
         });
@@ -86,6 +87,7 @@ public class LoginView extends JPanel {
         EnumDifficulty[] difficulties = {EnumDifficulty.Unterstufe, EnumDifficulty.Mittelstufe, EnumDifficulty.Oberstufe};
         difficultySelection = new JComboBox<>(difficulties);
         difficultySelection.setBounds(rectX + 220, rectY + 50, 200, 40);// Position innerhalb des Rechtecks
+       difficultySelection.setFont(new Font("SansSerif", Font.BOLD, 16));
         add(difficultySelection);
 
         // Bestätigen Button
