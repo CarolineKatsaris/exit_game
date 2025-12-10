@@ -40,7 +40,7 @@ public class LoginView extends JPanel {
         add(nameLabel);
 
         //Label für Fehlermeldung
-        JLabel errorLabel = new JLabel("Name eingeben!");
+        errorLabel = new JLabel("Ungültiger Benutzername!");
         errorLabel.setForeground(Color.RED);
         errorLabel.setVisible(false);
         errorLabel.setBackground(new Color(255, 255, 255, 150));
