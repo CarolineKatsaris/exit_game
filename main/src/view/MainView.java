@@ -55,7 +55,7 @@ public class MainView extends JFrame {
 
         // Fehlerbehandlung
         if (screen.isError()) {
-       // loginView.errorLabel.setVisible(true);
+       //loginView.errorLabel.setVisible(true);
             JOptionPane.showMessageDialog(root, screen.getErrorMessage(), "Fehler", JOptionPane.ERROR_MESSAGE); //ToDo bessere Fehleranzeige als ein Popup
 
         }
@@ -100,7 +100,7 @@ public class MainView extends JFrame {
     }
 
     public String getLoginUsername() {
-        if (loginView.nameField.getText().equals("Tippe hier deinen Vornamen ein!")) { //Default Value filtern
+        if (loginView.nameField.getText().equals("Name eingeben!")) { //Default Value filtern
             return "";
         } else {
             return loginView.nameField.getText();
