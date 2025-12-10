@@ -291,8 +291,8 @@ public class Model {
         changeScreen(gameState.getAvailableScreens().get(nextIdx));
     }
 
-    void showError(String errorMessage) {
-        gameState.getCurrentScreen().setErrorMessage(errorMessage);
+    void showError() {
+        gameState.getCurrentScreen().setErrorMessage("Ungültiger Benutzername");
         changeScreen(gameState.getCurrentScreen());
     }
 
@@ -332,7 +332,7 @@ public class Model {
 
             nextScreen();
         } else {
-            showError("Ungültiger Benutzername");
+            showError();
         }
     }
 }
