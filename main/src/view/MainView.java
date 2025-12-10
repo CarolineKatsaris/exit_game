@@ -20,7 +20,9 @@ public class MainView extends JFrame {
     private Map<EnumScreen, RoomView> roomViews = new EnumMap<>(EnumScreen.class);
     private RoomView graphicsView;
     private RoomView ramView;
-    // später andere Räume: private Roomview filesView;
+    private RoomView fileView;
+    private RoomView networkView;
+    private RoomView cpuView;
     private QuizView quizView;
 
     public MainView() {
@@ -37,12 +39,10 @@ public class MainView extends JFrame {
         hubView = new HubView();
         loginView = new LoginView();
         graphicsView = new RoomView("/GraphicsCardRoomView_elements.png", new Rectangle[] {new Rectangle(400, 400, 120, 290), new Rectangle(1000, 330, 240, 180), new Rectangle(1130, 640, 260, 160) });
-        ramView = new RoomView("/RAM_DataLeak.png",new Rectangle[] {
-                new Rectangle(545, 128, 420, 80), // TODO: richtige Werte
-                new Rectangle(545, 738, 200, 180), // TODO
-                new Rectangle(1041, 229, 300, 130) // TODO
-        });
-        // später andere Räume
+        ramView = new RoomView("/RAM_DataLeak.png",new Rectangle[] {new Rectangle(545, 128, 420, 80), new Rectangle(545, 738, 200, 180), new Rectangle(1041, 229, 300, 130)  });
+        fileView = new RoomView("/files_virus.png",new Rectangle[] {new Rectangle(545, 128, 420, 80), new Rectangle(545, 738, 200, 180), new Rectangle(1041, 229, 300, 130)  });
+        networkView = new RoomView("/Network_virus.png",new Rectangle[] {new Rectangle(545, 128, 420, 80), new Rectangle(545, 738, 200, 180), new Rectangle(1041, 229, 300, 130)  });
+        cpuView = new RoomView("/CPU_virus.png",new Rectangle[] {new Rectangle(545, 128, 420, 80), new Rectangle(545, 738, 200, 180), new Rectangle(1041, 229, 300, 130)  });
         quizView = new QuizView();
         // GlassPane setzen
         setGlassPane(quizView);
@@ -55,11 +55,16 @@ public class MainView extends JFrame {
         root.add(loginView, EnumScreen.Login.toString());
         root.add(graphicsView, EnumScreen.GraphicRoom.toString());
         root.add(ramView, EnumScreen.RAMRoom.toString());
-// später: root.add(fileView, EnumScreen.FileRoom.toString());
+        root.add(fileView, EnumScreen.FileRoom.toString());
+        root.add(networkView, EnumScreen.NetRoom.toString());
+        root.add(cpuView, EnumScreen.CPURoom.toString());
 
         // RoomViews in Map registrieren
         roomViews.put(EnumScreen.GraphicRoom, graphicsView);
         roomViews.put(EnumScreen.RAMRoom, ramView);
+        roomViews.put(EnumScreen.FileRoom, fileView);
+        roomViews.put(EnumScreen.NetRoom,networkView);
+        roomViews.put(EnumScreen.CPURoom,cpuView);
 
         // Alles ins Fenster
         add(root, BorderLayout.CENTER);
