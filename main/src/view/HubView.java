@@ -17,14 +17,7 @@ public class HubView extends JLayeredView {
     public HubView() {
         super(); //Konstruktor der JLayeredView zuerst aufrufen
 
-
-        ImageIcon img = new ImageIcon(getClass().getResource("/HubViewBackground.png"));
-        background = new JLabel(img);
-        background.setBounds(0, 0, img.getIconWidth(), img.getIconHeight());
-        add(background, Integer.valueOf(0));  // unterste Ebene
-
         // Invisible Button zum Panel hinzufügen
-
         graphicsCardBtn = makeInvisibleButton(80, 200, 250, 300, EnumScreen.GraphicRoom.toString());
         ramBtn = makeInvisibleButton(230, 540, 230, 140, EnumScreen.RAMRoom.toString());
         fileBtn = makeInvisibleButton(610, 245, 220, 110, EnumScreen.FileRoom.toString());
@@ -35,8 +28,6 @@ public class HubView extends JLayeredView {
         add(fileBtn, Integer.valueOf(1));
         add(networkBtn, Integer.valueOf(1));
         add(cpuBtn, Integer.valueOf(1));
-
-
     }
 
     void setButtonsEnabled(boolean enabled) {
