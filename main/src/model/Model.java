@@ -11,6 +11,7 @@ public class Model {
     private Question currentQuestion;
     private EnumScreen currentQuizRoomType;
     private Quiz currentQuiz;
+    private int progress = 0;
 
     public Model() {
         this.gameState = new GameState();
@@ -198,6 +199,10 @@ public class Model {
 
             // war das schon die letzte Frage?
             if (currentQuiz.isCompleted()) {
+               //Hier muss der Fortschritt erhöht werden
+                pcs.firePropertyChange("progress", progress, progress+1);
+                progress = progress+1;
+
                 // aktuelle Frage ist die letzte → Quiz beenden
                 pcs.firePropertyChange("quizHidden", true, false);
 

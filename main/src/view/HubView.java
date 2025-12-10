@@ -46,7 +46,6 @@ public class HubView extends JLayeredView {
         b.setFocusPainted(false);
         b.setActionCommand(cmd);
         return b;
-
     }
 
     // Hover-Highlight (Rand)

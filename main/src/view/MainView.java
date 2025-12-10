@@ -173,5 +173,9 @@ public class MainView extends JFrame {
     public JButton getQuizStopButton(){
         return quizView.getQuizStopButton();
     }
+
+    public void updateProgress(int value){
+        graphicsView.updateProgressBar(value);
+    }
 }
 

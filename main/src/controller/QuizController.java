@@ -48,6 +48,9 @@ public class QuizController implements PropertyChangeListener {
                 view.highlightIncorrectAnswer(chosenIndex);
                 view.requestFocus();
             }
+            case "progress" -> {
+               view.updateProgress((int) evt.getNewValue());
+            }
             case "correctAnswer" ->  {
                 int chosenIndex = (int) evt.getNewValue();
                 view.highlightCorrectAnswer(chosenIndex);
