@@ -39,10 +39,10 @@ public class MainView extends JFrame {
         hubView = new HubView();
         loginView = new LoginView();
         graphicsView = new RoomView();
-        ramView = new RoomView("/RAM_DataLeak.png",new Rectangle[] {new Rectangle(545, 128, 420, 80), new Rectangle(545, 738, 200, 180), new Rectangle(1041, 229, 300, 130)  });
-        fileView = new RoomView("/files_virus.png",new Rectangle[] {new Rectangle(545, 128, 420, 80), new Rectangle(545, 738, 200, 180), new Rectangle(1041, 229, 300, 130)  });
-        networkView = new RoomView("/Network_virus.png",new Rectangle[] {new Rectangle(545, 128, 420, 80), new Rectangle(545, 738, 200, 180), new Rectangle(1041, 229, 300, 130)  });
-        cpuView = new RoomView("/CPU_virus.png",new Rectangle[] {new Rectangle(545, 128, 420, 80), new Rectangle(545, 738, 200, 180), new Rectangle(1041, 229, 300, 130)  });
+        ramView = new RoomView();
+        fileView = new RoomView();
+        networkView = new RoomView();
+        cpuView = new RoomView();
         quizView = new QuizView();
         // GlassPane setzen
         setGlassPane(quizView);
