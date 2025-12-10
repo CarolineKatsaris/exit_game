@@ -165,6 +165,21 @@ public class Controller implements PropertyChangeListener {
                 model.enterRoom(e.getActionCommand())
         );
 
+        // CLICK – Files-Raum öffnen
+        hub.getFileBtn().addActionListener(e ->
+                model.enterRoom(e.getActionCommand())
+        );
+
+        // CLICK – Network-Raum öffnen
+        hub.getNetworkBtn().addActionListener(e ->
+                model.enterRoom(e.getActionCommand())
+        );
+
+        // CLICK – CPU-Raum öffnen
+        hub.getCpuBtn().addActionListener(e ->
+                model.enterRoom(e.getActionCommand())
+        );
+
 
         //   HOVER – Rahmen ein/aus
         hub.getGraphicsCardButton().addMouseListener(
