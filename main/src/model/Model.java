@@ -305,6 +305,7 @@ public class Model {
             gameState.setUsername(username);
             gameState.setDifficulty(difficulty);
             gameState.getCurrentScreen().clearErrorMessage();
+            gameState.initQuizzesForDifficulty(difficulty);
 
             // Load and register the SQLite JDBC driver
             try {
