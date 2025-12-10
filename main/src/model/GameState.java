@@ -18,35 +18,15 @@ public class GameState {
 
     // Konstruktor - erzeugt die Räume, zunächst alle geschlossen
     public GameState() {
-        Screen hubScreen = new Screen(EnumScreen.Hub);Room graphicRoom = new Room(EnumScreen.GraphicRoom, false);
 
+        this.dbLoader = new DbLoader("jdbc:sqlite:ExitGame.sqlite");
+
+        Screen hubScreen = new Screen(EnumScreen.Hub);
+        Room graphicRoom = new Room(EnumScreen.GraphicRoom, false);
         Room ramRoom     = new Room(EnumScreen.RAMRoom,     false);
         Room fileRoom    = new Room(EnumScreen.FileRoom,    false);
         Room netRoom     = new Room(EnumScreen.NetRoom,     false);
         Room cpuRoom     = new Room(EnumScreen.CPURoom,     false);
-
-        this.dbLoader = new DbLoader("jdbc:sqlite:ExitGame.sqlite");
-
-
-
-        // Into- / Outro-Texte
-        hubScreen.setIntroText(dbLoader.loadIntroText(EnumScreen.Hub));
-        hubScreen.setOutroText(dbLoader.loadOutroText(EnumScreen.Hub));
-
-        graphicRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.GraphicRoom));
-        graphicRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.GraphicRoom));
-
-        ramRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.RAMRoom));
-        ramRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.RAMRoom));
-
-        fileRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.FileRoom));
-        fileRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.FileRoom));
-
-        netRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.NetRoom));
-        netRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.NetRoom));
-
-        cpuRoom.setIntroText(dbLoader.loadIntroText(EnumScreen.CPURoom));
-        cpuRoom.setOutroText(dbLoader.loadOutroText(EnumScreen.CPURoom));
 
 
         // Räume zur Übersicht hinzufügen
@@ -75,9 +55,15 @@ public class GameState {
                 cpuRoom,
                 new Screen(EnumScreen.End)
         );
+
+        for (Screen screeni : availableScreens) {
+            dbLoader.loadBackgroundForScreen(screeni);
+            screeni.setIntroText(dbLoader.loadIntroText(screeni.getTitle()));
+            screeni.setOutroText(dbLoader.loadOutroText(screeni.getTitle()));
+        }
+
     }
     // >>> Quizze aus der Datenbank laden <<<
-
 
     public void initQuizzesForDifficulty(EnumDifficulty difficulty) {
         // Räume haben wir ja in roomOverview
