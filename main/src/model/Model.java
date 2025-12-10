@@ -187,6 +187,7 @@ public class Model {
 
         if (correct) {
             System.out.println("Richtige Antwort!");
+
             pcs.firePropertyChange("correctAnswer", null, chosenIndex);
 
             // Sicherheitsnetz: falls irgendwas schief ist

@@ -79,7 +79,6 @@ public class RoomView extends JLayeredView {
             b.setBorderPainted(false);
             b.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
-        // NICHT: setOpaque(true) oder setContentAreaFilled(true)
         repaint();
     }
 }
