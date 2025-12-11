@@ -47,13 +47,13 @@ public class GameState {
                 hubScreen,
                 //new Screen(EnumScreen.Room)?,
                 graphicRoom,
-                new Screen(EnumScreen.Hub),
+                hubScreen,
                 ramRoom,
-                new Screen(EnumScreen.Hub),
+                hubScreen,
                 fileRoom,
-                new Screen(EnumScreen.Hub),
+                hubScreen,
                 netRoom,
-                new Screen(EnumScreen.Hub),
+                hubScreen,
                 cpuRoom,
                 new Screen(EnumScreen.End)
         );
