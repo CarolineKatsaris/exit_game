@@ -25,6 +25,22 @@ public class MainView extends JFrame {
     private RoomView cpuView;
     private QuizView quizView;
 
+    private int globalProgress = 0;
+
+
+    /**
+     * Gibt den aktuell sichtbaren RoomView zurück.
+     * @return der sichtbare RoomView oder {@code null}, falls keiner aktiv ist
+     */
+
+    private RoomView getActiveRoomView() {
+        for (RoomView rv : roomViews.values()) {
+            if (rv.isVisible()) return rv;
+        }
+        return null;
+    }
+
+
     public MainView() {
         setTitle("Exit Game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -190,10 +206,15 @@ public class MainView extends JFrame {
            }
        }
    }
+    /**
+     * Blendet das Quiz-Overlay aus und zeigt den Zurück-Button
+     * im aktuell aktiven Raum wieder an.
+     */
 
     public void hideQuiz() {
         quizView.setVisible(false);
-        getBackButton().setVisible(true);
+        RoomView rv = getActiveRoomView();
+        if (rv != null) rv.getBackButton().setVisible(true);
     }
 
 
@@ -223,8 +244,13 @@ public class MainView extends JFrame {
         return quizView.getQuizStopButton();
     }
 
-    public void updateProgress(int value){
-        graphicsView.updateProgressBar(value);
+
+    // Fortschritt über alle Räume hinweg
+    public void updateProgress(int value) {
+        for (RoomView rv : roomViews.values()) {
+            rv.updateProgressBar(value);
+        }
     }
+
 }
 
