@@ -1,9 +1,8 @@
 package model;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 public class Room extends Screen {
 
@@ -36,8 +35,11 @@ public class Room extends Screen {
     }
 
 
+    /**
+     * Raum ist abgeschlossen, wenn alle Quizzes abgeschlossen sind
+     * @return
+     */
     boolean isCompleted() {
-        //Raum ist abgeschlossen, wenn alle Quizzes abgeschlossen sind
         for (Quiz quiz : quizzes) {
             if (!quiz.isCompleted()) {
                 return false;
@@ -46,13 +48,14 @@ public class Room extends Screen {
         return true;
     }
 
-    //ersetzt den Setter, da hier der abgeschlossene Raum markiert wird
-    //es gibt ja in der Regel kein Zurück von abgeschlossen
-    void markAsCompleted() {
-        this.completed = true;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
-    //sollte der Raum bei einem Spielneustart doch zurückgesetzt werden müssen, dann über diese Methode
+
+    /**
+     * Sollte der Raum bei einem Spielneustart doch zurückgesetzt werden müssen, dann über diese Methode.
+     */
     void resetRoom() {
         this.open = false;
         this.completed = false;
@@ -66,7 +69,10 @@ public class Room extends Screen {
         this.open = open;
     }
 
-    //Beantwortet, welches Quiz gerade aktiv ist
+    /**
+     * Beantwortet, welches Quiz gerade aktiv ist
+     * @return
+     */
     Quiz getCurrentQuiz() {
         return quizzes.get(currentQuizIndex);
     }
@@ -77,20 +83,14 @@ public class Room extends Screen {
         }
     }
 
-    void setQuizzes(List<Quiz> quizzes) {
-        this.quizzes = new ArrayList<>(quizzes);
-    }
-
     //von hier bekommt man die Liste der im Raum vorhandenen Quizzes
     List<Quiz> getQuizzes() {
         return new ArrayList<>(quizzes);
     }
 
-    public void setCompleted(boolean completed) {
-        boolean old = this.completed;
-        this.completed = completed;
-        pcs.firePropertyChange("completed", old, completed);
-}
+    void setQuizzes(List<Quiz> quizzes) {
+        this.quizzes = new ArrayList<>(quizzes);
+    }
 }
 
 

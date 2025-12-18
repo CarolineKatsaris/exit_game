@@ -7,7 +7,7 @@ import java.util.List;
 // observable
 public class Model {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    private GameState gameState;
+    private final GameState gameState;
     private Question currentQuestion;
     private EnumScreen currentQuizRoomType;
     private Quiz currentQuiz;
@@ -16,6 +16,7 @@ public class Model {
     public Model() {
         this.gameState = new GameState();
     }
+
     public GameState getGameState() {
         return gameState;
     }
@@ -34,6 +35,7 @@ public class Model {
 
     /**
      * Wechselt zum angegebenen Screen. Prüft, ob Introtext angezeigt werden soll.
+     *
      * @param newScreen
      */
     void changeScreen(Screen newScreen) {
@@ -45,7 +47,9 @@ public class Model {
                 && !newScreen.getIntroText().isBlank()) {
             newScreen.setIntroText(personalize(newScreen.getIntroText()));
             newScreen.setShowIntro(true);
-        } else {newScreen.setShowIntro(false);}
+        } else {
+            newScreen.setShowIntro(false);
+        }
 
         pcs.firePropertyChange("screen", null, newScreen);
     }
@@ -118,8 +122,8 @@ public class Model {
      * Prüft, ob das Quiz freigeschaltet ist und noch nicht beendet wurde.
      * Informiert die View über die anzuzeigende Frage per "quizShown".
      *
-     * @param roomType   der Raum, zu dem das Quiz gehört
-     * @param quizIndex  Index des Quizzes im Raum
+     * @param roomType  der Raum, zu dem das Quiz gehört
+     * @param quizIndex Index des Quizzes im Raum
      */
     public void startQuizForRoom(EnumScreen roomType, int quizIndex) {
         currentQuizRoomType = roomType;
@@ -139,7 +143,7 @@ public class Model {
 
         // Quizze nur in der erlaubten Reihenfolge spielen lassen
         if (quizIndex > foundRoom.getHighestUnlockedQuizIndex()) {
-            System.out.println("Quiz " + quizIndex + " ist noch gesperrt! "
+            showError("Quiz " + quizIndex + " ist noch gesperrt! "
                     + "Freigeschaltet bis: " + foundRoom.getHighestUnlockedQuizIndex());
             return;
         }
@@ -153,7 +157,7 @@ public class Model {
             return;
         }
         if (quiz.isFinished()) {
-            System.out.println("Quiz " + quizIndex + " in Raum " + roomType
+            showError("Quiz " + quizIndex + " in Raum " + roomType
                     + " ist bereits abgeschlossen und kann nicht neu gestartet werden.");
             return;
         }
@@ -199,9 +203,9 @@ public class Model {
 
             // war das schon die letzte Frage?
             if (currentQuiz.isCompleted()) {
-               //Hier muss der Fortschritt erhöht werden
-                pcs.firePropertyChange("progress", progress, progress+1);
-                progress = progress+1;
+                //Hier muss der Fortschritt erhöht werden
+                pcs.firePropertyChange("progress", progress, progress + 1);
+                progress = progress + 1;
 
                 // aktuelle Frage ist die letzte → Quiz beenden
                 pcs.firePropertyChange("quizHidden", true, false);
@@ -220,7 +224,7 @@ public class Model {
                             && quizIndex < quizzesInRoom.size() - 1) {
 
                         room.unlockNextQuiz();
-                        System.out.println("Quiz " + (quizIndex + 1) + " wurde freigeschaltet!");
+                        System.out.println("Quiz " + (quizIndex + 1) + " wurde freigeschaltet!"); //ToDo Methode ähnlich zu showError um solche Meldungen anzuzeigen.
                     }
 
 
@@ -230,19 +234,6 @@ public class Model {
 
                         // Raum als abgeschlossen markieren + ggf. Spielende prüfen
                         completeRoom(room);
-
-                        // Outro-Text nur einmal anzeigen
-                        if (!room.isOutroShown()
-                                && room.getOutroText() != null
-                                && !room.getOutroText().isBlank()) {
-
-                            room.setOutroShown(true);
-
-                            System.out.println("OUTRO for " + currentQuizRoomType + ": "
-                                    + personalize(room.getOutroText()));
-                            room.setBackgroundImagePath(room.getOutroImagePath()); // Outro-Bild als Hintergrund setzen
-                            changeScreen(room);
-                        }
                     }
                 }
 
@@ -281,14 +272,24 @@ public class Model {
         System.out.println("Bisherige Gesamtzahl falscher Antworten: "
                 + gameState.getTotalWrongAnswers());
 
-        pcs.firePropertyChange("roomCompleted", null, room);
+        // Outro-Text anzeigen
+        if (!room.isOutroShown()
+                && room.getOutroText() != null
+                && !room.getOutroText().isBlank()) {
+            room.setShowOutro(true);
+            room.setOutroText(personalize(room.getOutroText()));
+            room.setBackgroundImagePath(room.getOutroImagePath()); // Outro-Bild als Hintergrund setzen
+            changeScreen(room);
+        }
+
         gameState.checkForGameCompletion();
     }
+
     public void setStartState() {
         changeScreen(getGameState().getAvailableScreens().get(0));
     }
 
-    public void cancelQuiz(){
+    public void cancelQuiz() {
         pcs.firePropertyChange("quizHidden", false, true);
     }
 
@@ -301,8 +302,8 @@ public class Model {
         changeScreen(gameState.getAvailableScreens().get(nextIdx));
     }
 
-    void showError() {
-        gameState.getCurrentScreen().setErrorMessage("Ungültiger Benutzername");
+    void showError(String sError) {
+        gameState.getCurrentScreen().setErrorMessage(sError);
         changeScreen(gameState.getCurrentScreen());
     }
 
@@ -344,7 +345,7 @@ public class Model {
 
             nextScreen();
         } else {
-            showError();
+            showError("Ungültiger Benutzername");
         }
     }
 }

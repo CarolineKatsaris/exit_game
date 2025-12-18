@@ -108,20 +108,27 @@ public class MainView extends JFrame {
         if (screen.isError()) {
        //loginView.errorLabel.setVisible(true);
             JOptionPane.showMessageDialog(root, screen.getErrorMessage(), "Fehler", JOptionPane.ERROR_MESSAGE); //ToDo bessere Fehleranzeige als ein Popup
-
+            screen.clearErrorMessage(); //Fehlermeldung zurücksetzen, da sie angezeigt wurde
         }
 
-
         if (screen.isShowIntro()) {
-            // Bestimme den aktuellen Screen-Typ und rufe showIntro() auf
             if (screen.getTitle() == EnumScreen.Hub) {
-                hubView.showIntro(screen.getIntroText());
+                hubView.showOverlay(screen.getIntroText());
                 screen.setIntroShown(true); //ToDo View sollte per Event Modell benachrichtigen, wenn Intro vorbei ist, so dass die dann isIntroShown aufrufen kann und das aktualisierte Screen Objekt per property change erneut an die View senden kann
-            } else if (screen.getTitle() == EnumScreen.GraphicRoom) {
-                graphicsView.showIntro(screen.getIntroText());
+            } else if (screen instanceof Room) { //generisch für alle Rooms
+                getRoomView((Room) screen).showOverlay(screen.getIntroText());
                 screen.setIntroShown(true);
             }
-            // Für zukünftige Räume (RAMRoom, FileRoom, etc.) müssen entsprechende Views hinzugefügt werden oder in Map Title -> xViewObjekt generalisiseren, so dass man über den Title eine Referenz auf das spezifische Room Objekt bekommt
+        }
+
+        if (screen.isShowOutro()) {
+            if (screen.getTitle() == EnumScreen.Hub) {
+                hubView.showOverlay(screen.getIntroText());
+                screen.setOutroShown(true); //ToDo View sollte per Event Modell benachrichtigen, wenn Intro vorbei ist, so dass die dann isIntroShown aufrufen kann und das aktualisierte Screen Objekt per property change erneut an die View senden kann
+            } else if (screen instanceof Room) { //generisch für alle Rooms
+                getRoomView((Room) screen).showOverlay(screen.getOutroText());
+                screen.setOutroShown(true);
+            }
         }
     }
 
