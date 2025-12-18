@@ -108,14 +108,18 @@ public class Controller implements PropertyChangeListener {
         if (room.isListenersRegistered()) return; //wird im room Objekt gespeichert
         room.setListenersRegistered(true);
 
-        RoomView roomView = view.getRoomView(room); //ToDo getRoomView erweitern, dass es die richtige View für den Raum automatisch zurück gibt, sonst funktioniert das nicht mit mehreren Räumen
+        RoomView roomView = view.getRoomView(room);
 
-        // -------------------
-        // QUIZ-BUTTON CLICKS ->  model.nextScreen() als Platzhalter
-        // -------------------
-        registerListener(roomView.getQuiz1Button(), e -> model.startQuizForRoom(EnumScreen.GraphicRoom, 0));
-        registerListener(roomView.getQuiz2Button(), e -> model.startQuizForRoom(EnumScreen.GraphicRoom, 1));
-        registerListener(roomView.getQuiz3Button(), e -> model.startQuizForRoom(EnumScreen.GraphicRoom, 2));
+        // Registriert die Quiz-Buttons eines Raums so, dass beim Klick
+        // das jeweils passende Quiz für genau diesen Raum gestartet wird.
+        // @param roomType Typ des Raums, aus dem das Quiz gestartet wird
+
+        EnumScreen roomType = room.getTitle();
+
+        registerListener(roomView.getQuiz1Button(), e -> model.startQuizForRoom(roomType, 0));
+        registerListener(roomView.getQuiz2Button(), e -> model.startQuizForRoom(roomType, 1));
+        registerListener(roomView.getQuiz3Button(), e -> model.startQuizForRoom(roomType, 2));
+
 
         // -------------------
         // HOVER-EFFEKTE
