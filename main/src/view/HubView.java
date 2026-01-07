@@ -12,6 +12,8 @@ public class HubView extends JLayeredView {
     private JButton fileBtn;
     private JButton networkBtn;
     private JButton cpuBtn;
+    private JLabel finalStatsLabel;
+    private JLabel storyLabel;
 
 
     public HubView() {
@@ -28,6 +30,53 @@ public class HubView extends JLayeredView {
         add(fileBtn, Integer.valueOf(1));
         add(networkBtn, Integer.valueOf(1));
         add(cpuBtn, Integer.valueOf(1));
+
+        // Felder für abschließende Botschaft und Gesamtfehlerzahl
+        int centerX = 1536 / 2;
+        int centerY = 1024 / 2;
+
+        storyLabel = new JLabel();
+        storyLabel.setBounds(centerX - 1450/2, centerY - 70, 1450, 40);
+        storyLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
+        storyLabel.setForeground(Color.WHITE);
+        storyLabel.setOpaque(true);
+        storyLabel.setBackground(new Color(0, 0, 0, 180));
+        storyLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        storyLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+        storyLabel.setVisible(false);
+        add(storyLabel, Integer.valueOf(5));
+
+        finalStatsLabel = new JLabel();
+        finalStatsLabel.setBounds(centerX - 600/2, centerY - 20, 600, 50);
+        finalStatsLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+        finalStatsLabel.setForeground(Color.RED);
+        finalStatsLabel.setOpaque(true);
+        finalStatsLabel.setBackground(new Color(0, 0, 0, 180));
+        finalStatsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        finalStatsLabel.setVisible(false);
+        add(finalStatsLabel, Integer.valueOf(5));
+
+
+    }
+    // abschließende Botschaft abhängig von Fehlerzahl im Hub (nach Rückkehr aus CPU)
+    public void showFinalStats(int wrongAnswers) {
+        String story;
+
+        if (wrongAnswers == 0) {
+            story = "Perfekt! Das System ist sauber – kein einziger Fehlklick.";
+        } else if (wrongAnswers <= 3) {
+            story = "Stark! Du hast den Virus fast ohne Umwege gestoppt.";
+        } else if (wrongAnswers <= 7) {
+            story = "Geschafft! Der Virus ist gestoppt – aber er hat dich ganz schön getestet.";
+        } else {
+            story = "Du hast es geschafft… knapp. Der Virus hat ordentlich Widerstand geleistet.";
+        }
+
+            storyLabel.setText(story);
+            finalStatsLabel.setText("Gesamtzahl falscher Antworten: " + wrongAnswers);
+
+            storyLabel.setVisible(true);
+            finalStatsLabel.setVisible(true);
     }
 
     void setButtonsEnabled(boolean enabled) {

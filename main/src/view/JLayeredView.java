@@ -13,6 +13,8 @@ class JLayeredView extends JLayeredPane {
     JLabel background;
     String bgImagePath;
     Rectangle[] buttonBounds;
+    private java.awt.event.ActionListener overlayClosedListener;
+
 
     JLayeredView() {
         setLayout(null);
@@ -24,10 +26,23 @@ class JLayeredView extends JLayeredPane {
      */
     void showOverlay(String text) {
         setButtonsEnabled(false);
-
-        TextOverlay overlay = new TextOverlay(text, () -> setButtonsEnabled(true));
+        TextOverlay overlay = new TextOverlay(text, () -> {
+            setButtonsEnabled(true);
+            fireOverlayClosed();
+        });
         overlay.showOn(this);
     }
+
+    public void setOverlayClosedListener(java.awt.event.ActionListener l) {
+        this.overlayClosedListener = l;
+    }
+
+    protected void fireOverlayClosed() {
+        if (overlayClosedListener != null) {
+            overlayClosedListener.actionPerformed(null);
+        }
+    }
+
 
     void setButtonsEnabled(boolean enabled) {};
 
