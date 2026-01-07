@@ -18,10 +18,14 @@ class JLayeredView extends JLayeredPane {
         setLayout(null);
     }
 
-    void showIntro(String text) {
+    /**
+     * Zeige Intro oder Outro Overlay an.
+     * @param text
+     */
+    void showOverlay(String text) {
         setButtonsEnabled(false);
 
-        IntroOverlay overlay = new IntroOverlay(text, () -> setButtonsEnabled(true));
+        TextOverlay overlay = new TextOverlay(text, () -> setButtonsEnabled(true));
         overlay.showOn(this);
     }
 

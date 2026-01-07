@@ -3,16 +3,19 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
-public class IntroOverlay extends JPanel {
+/**
+ * TextOverlay ist ein einfaches Overlay, das Text in einem JLayeredPane (Room, Hub) anzeigt. Es wird für Intros und Outros verwendet.
+ */
+public class TextOverlay extends JPanel {
 
     private final JTextArea textArea; // TextArea anstelle von JLabel
     private final Timer autoCloseTimer;
     private final Timer typingTimer; // Timer für das Schreiben
     private final String fullText; // Vollständiger Text
-    private int currentCharIndex; // Aktueller Index des Buchstabens
     private final Runnable onFinished;
+    private int currentCharIndex; // Aktueller Index des Buchstabens
 
-    public IntroOverlay(String text, Runnable onFinished) {
+    public TextOverlay(String text, Runnable onFinished) {
         this.onFinished = onFinished;
         this.fullText = text; // Speichern des gesamten Textes
         this.currentCharIndex = 0; // Startindex
@@ -73,6 +76,9 @@ public class IntroOverlay extends JPanel {
         typingTimer = new Timer(10, e -> typeText());
     }
 
+    /**
+     * Text mit einem Timer schreiben.
+     */
     private void typeText() {
         if (currentCharIndex < fullText.length()) {
             String partial = fullText.substring(0, currentCharIndex + 1);
@@ -88,7 +94,11 @@ public class IntroOverlay extends JPanel {
         }
     }
 
-    // Overlay auf einem JLayeredPane anzeigen
+    /**
+     * Overlay auf einem JLayeredPane anzeigen
+     *
+     * @param parent
+     */
     public void showOn(JLayeredPane parent) {
         setBounds(0, 0, parent.getWidth(), parent.getHeight());
         parent.add(this, JLayeredPane.POPUP_LAYER);
@@ -98,6 +108,9 @@ public class IntroOverlay extends JPanel {
         typingTimer.start();
     }
 
+    /**
+     * Overlay ausblenden.
+     */
     private void close() {
         autoCloseTimer.stop();
         Container parent = getParent();

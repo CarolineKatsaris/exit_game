@@ -133,6 +133,7 @@ public class Screen {
 
     public void setIntroShown(boolean introShown) {
         this.introShown = introShown;
+        if (introShown) showIntro = false; //showIntro zurücksetzen, wenn Intro angezeigt wurde
     }
 
     /**
@@ -154,6 +155,7 @@ public class Screen {
 
     public void setOutroShown(boolean outroShown) {
         this.outroShown = outroShown;
+        if (outroShown) showOutro = false; //showOutro zurücksetzen, wenn Outro angezeigt wurde
     }
 
     /**
