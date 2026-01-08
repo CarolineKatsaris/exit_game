@@ -12,6 +12,8 @@ public class Model {
     private EnumScreen currentQuizRoomType;
     private Quiz currentQuiz;
     private int progress = 0;
+    private boolean returnToHubAfterCpuOutro = false;
+
 
     public Model() {
         this.gameState = new GameState();
@@ -268,6 +270,9 @@ public class Model {
      */
     void completeRoom(Room room) {
         room.setCompleted(true);
+        if (room.getTitle() == EnumScreen.CPURoom) {
+            returnToHubAfterCpuOutro = true;
+        }
 
         System.out.println("Bisherige Gesamtzahl falscher Antworten: "
                 + gameState.getTotalWrongAnswers());
@@ -283,6 +288,18 @@ public class Model {
         }
 
         gameState.checkForGameCompletion();
+    }
+
+    public void overlayClosed() {
+        if (!returnToHubAfterCpuOutro) return;
+
+        returnToHubAfterCpuOutro = false;
+
+        // zurück zum Hub
+        changeScreen(gameState.getScreenByTitle(EnumScreen.Hub));
+
+        // Fehlerzahl an den Controller melden
+        pcs.firePropertyChange("gameCompleted", null, gameState.getTotalWrongAnswers());
     }
 
     public void setStartState() {

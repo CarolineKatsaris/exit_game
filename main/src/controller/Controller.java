@@ -60,6 +60,14 @@ public class Controller implements PropertyChangeListener {
      */
     void loadScreen(Screen screen) {
         view.showScreen(screen); //Screen anzeigen
+        // Overlay-Close (Weiter) an das Model melden
+        if (screen.getTitle() == EnumScreen.Hub) {
+            view.getHubView().setOverlayClosedListener(e -> model.overlayClosed());
+        }
+        if (screen instanceof Room) {
+            view.getRoomView((Room) screen).setOverlayClosedListener(e -> model.overlayClosed());
+        }
+
         switch (screen.getTitle()) { // ActionListener für Buttons Elemente hinzufügen
             case Start: //ToDo -> {} * eventuell Pfeil + Klammernschreibweise statt break
                 registerListener(view.getStartButton(), e -> model.nextScreen());
@@ -88,13 +96,19 @@ public class Controller implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent e) {
-        //nur für Events vom Typ "screen"
+
         if (e.getPropertyName().equals("screen")) {
             Screen screen = (Screen) e.getNewValue();
             loadScreen(screen);
+            return;
         }
 
-            }
+        if (e.getPropertyName().equals("gameCompleted")) {
+            int wrong = (int) e.getNewValue();
+            view.getHubView().showFinalStats(wrong);
+        }
+    }
+
 
 
     // ToDo: Generischere Methode finden
