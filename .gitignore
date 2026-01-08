@@ -10,7 +10,8 @@
 .idea/data_source_mapping.xml
 
 out/
-.idea/
+.idea/*
+!.idea/artifacts/
 .idea/dataSources/
 .idea/data_source*.xml
 *.iml
