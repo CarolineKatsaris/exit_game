@@ -40,11 +40,22 @@ public class RoomView extends JLayeredView {
      * Füge klickbare Buttons hinzu.
      * @param buttonBounds
      */
-    void setKlickButtons (Rectangle[] buttonBounds){
-        for(int i = 0; i < buttonBounds.length; i++) { //Buttons in Schleife erstellen
-            klickButtons[i] = makeInvisibleButton(buttonBounds[i].x, buttonBounds[i].y, buttonBounds[i].width, buttonBounds[i].height, "quiz_"+valueOf(i).toString());
-            try {remove(klickButtons[i]);} catch (Exception ignored) {} //remove old button if present
-            add(klickButtons[i], valueOf(1));
+    void setKlickButtons(Rectangle[] buttonBounds) {
+        for (int i = 0; i < buttonBounds.length; i++) {
+
+            // Button erstellen
+            if (klickButtons[i] == null) {
+                klickButtons[i] = makeInvisibleButton(0, 0, 0, 0, "quiz_" + i);
+                add(klickButtons[i], Integer.valueOf(1));
+            }
+
+            // Nur Bounds aktualisieren (Button bleibt derselbe)
+            klickButtons[i].setBounds(
+                    buttonBounds[i].x,
+                    buttonBounds[i].y,
+                    buttonBounds[i].width,
+                    buttonBounds[i].height
+            );
         }
     }
 
@@ -71,8 +82,7 @@ public class RoomView extends JLayeredView {
     public void setQuiz1Highlight(boolean on) { setHighlight(klickButtons[0], on); }
     public void setQuiz2Highlight(boolean on) { setHighlight(klickButtons[1], on); }
     public void setQuiz3Highlight(boolean on) { setHighlight(klickButtons[2], on); }
-
-   public JButton getBackButton() { return back; };
+    public JButton getBackButton() { return back; };
 
     /**
      * Färbt Buttons mit gelben Rand ein und ändert den Cursor
