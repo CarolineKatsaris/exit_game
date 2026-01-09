@@ -73,6 +73,12 @@ public class Model {
                 break;
             }
         }
+
+        if (!room.isOpen()) {
+            showError("Zugriff verweigert! Der Virus blockiert diesen Teil des Computers.");
+            return; // im Hub bleiben
+        }
+
         changeScreen(room);
     }
 
@@ -145,8 +151,8 @@ public class Model {
 
         // Quizze nur in der erlaubten Reihenfolge spielen lassen
         if (quizIndex > foundRoom.getHighestUnlockedQuizIndex()) {
-            showError("Quiz " + quizIndex + " ist noch gesperrt! "
-                    + "Freigeschaltet bis: " + foundRoom.getHighestUnlockedQuizIndex());
+            showError( "Zugriff verweigert! Der Virus blockiert dieses Modul. "
+                    + "Sichere zuerst die vorherige Einheit.");
             return;
         }
 
@@ -159,8 +165,8 @@ public class Model {
             return;
         }
         if (quiz.isFinished()) {
-            showError("Quiz " + quizIndex + " in Raum " + roomType
-                    + " ist bereits abgeschlossen und kann nicht neu gestartet werden.");
+            showError("Dieser Bereich des Computers wurde bereits erfolgreich vom Virus befreit. " +
+                    "Kümmere dich um den nächsten Bereich!");
             return;
         }
 
@@ -270,6 +276,14 @@ public class Model {
      */
     void completeRoom(Room room) {
         room.setCompleted(true);
+        // Nächsten Raum freischalten (Reihenfolge wie in roomOverview)
+        List<Room> rooms = gameState.getRoomOverview();
+        int idx = rooms.indexOf(room);
+
+        if (idx >= 0 && idx < rooms.size() - 1) {
+            rooms.get(idx + 1).setOpen(true);
+        }
+
         if (room.getTitle() == EnumScreen.CPURoom) {
             returnToHubAfterCpuOutro = true;
         }
@@ -338,6 +352,13 @@ public class Model {
             gameState.setDifficulty(difficulty);
             gameState.getCurrentScreen().clearErrorMessage();
             gameState.initQuizzesForDifficulty(difficulty);
+
+            // Räume resetten: alle zu, nur der erste offen
+            for (Room r : gameState.getRoomOverview()) {
+                r.setOpen(false);
+            }
+            gameState.getRoomOverview().get(0).setOpen(true); // z.B. erster Raum (GraphicRoom)
+
             // Fehlversuchszähler für ein neues Spiel zurücksetzen
             gameState.resetWrongAnswers();
 

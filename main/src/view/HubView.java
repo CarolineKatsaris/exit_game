@@ -6,6 +6,9 @@ import javax.swing.*;
 
 import java.awt.*;
 
+import javax.sound.sampled.*;
+
+
 public class HubView extends JLayeredView {
     private JButton graphicsCardBtn;
     private JButton ramBtn;
@@ -14,6 +17,16 @@ public class HubView extends JLayeredView {
     private JButton cpuBtn;
     private JLabel finalStatsLabel;
     private JLabel storyLabel;
+
+    private JLabel[] virusLabels;
+    private Timer virusTimer;
+
+    private int[] vx = {2, 1, 3}; // unterschiedliche Geschwindigkeiten
+    private int[] vy = {1, 2, 1};
+
+    private Clip teleportClip;
+
+
 
 
     public HubView() {
@@ -56,10 +69,93 @@ public class HubView extends JLayeredView {
         finalStatsLabel.setVisible(false);
         add(finalStatsLabel, Integer.valueOf(5));
 
+        // FlyingVirus-Spielerei
+        virusLabels = new JLabel[3];
+
+        int[] sizes = {60, 50, 40}; // groß, normal, klein
+        int[][] startPos = {
+                {200, 150},
+                {500, 300},
+                {800, 200}
+        };
+
+        for (int i = 0; i < virusLabels.length; i++) {
+            ImageIcon icon = new ImageIcon(getClass().getResource("/virus.png"));
+            Image scaled = icon.getImage().getScaledInstance(
+                    sizes[i], sizes[i], Image.SCALE_SMOOTH
+            );
+
+            int hit = 20; // extra Klickfläche (10px Rand rundum)
+
+            virusLabels[i] = new JLabel(new ImageIcon(scaled), SwingConstants.CENTER);
+
+            // Bounds größer, damit man leichter trifft (Bild bleibt zentriert)
+            virusLabels[i].setBounds(
+                    startPos[i][0] - hit / 2,
+                    startPos[i][1] - hit / 2,
+                    sizes[i] + hit,
+                    sizes[i] + hit
+            );
+
+
+            add(virusLabels[i], Integer.valueOf(4)); // unter UI, über Background
+
+            // Klickbar machen
+            virusLabels[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            virusLabels[i].addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    teleportVirus((JComponent) e.getSource());
+                    playTeleportSound();
+                }
+            });
+
+        }
+
+// ein Timer für alle Viren
+        virusTimer = new Timer(30, e -> moveViruses());
+        virusTimer.start();
+
+        loadTeleportSound();
 
     }
+
+    private void moveViruses() {
+        if (getWidth() == 0 || getHeight() == 0) return;
+
+        for (int i = 0; i < virusLabels.length; i++) {
+            JLabel v = virusLabels[i];
+
+            int x = v.getX() + vx[i];
+            int y = v.getY() + vy[i];
+
+            int maxX = getWidth() - v.getWidth();
+            int maxY = getHeight() - v.getHeight();
+
+            if (x <= 0 || x >= maxX) vx[i] = -vx[i];
+            if (y <= 0 || y >= maxY) vy[i] = -vy[i];
+
+            v.setLocation(
+                    Math.max(0, Math.min(x, maxX)),
+                    Math.max(0, Math.min(y, maxY))
+            );
+        }
+    }
+
+    private void hideViruses() {
+        if (virusTimer != null) virusTimer.stop();
+
+        if (virusLabels != null) {
+            for (JLabel v : virusLabels) {
+                if (v != null) v.setVisible(false);
+            }
+        }
+    }
+
     // abschließende Botschaft abhängig von Fehlerzahl im Hub (nach Rückkehr aus CPU)
     public void showFinalStats(int wrongAnswers) {
+        hideViruses();
+
         String story;
 
         if (wrongAnswers == 0) {
@@ -126,4 +222,36 @@ public class HubView extends JLayeredView {
     public JButton getFileBtn() {return fileBtn; }
     public JButton getNetworkBtn() {return networkBtn;}
     public JButton getCpuBtn() {return cpuBtn;}
+
+    private void loadTeleportSound() {
+    try (AudioInputStream ais = AudioSystem.getAudioInputStream(
+            getClass().getResource("/teleport.wav")
+    )) {
+        teleportClip = AudioSystem.getClip();
+        teleportClip.open(ais);
+    } catch (Exception e) {
+        e.printStackTrace(); // Debug: zeigt dir, wenn Datei nicht gefunden / Format falsch
+        teleportClip = null;
+    }
+}
+
+    private void playTeleportSound() {
+    if (teleportClip == null) return;
+
+    if (teleportClip.isRunning()) teleportClip.stop();
+    teleportClip.setFramePosition(0);
+    teleportClip.start();
+}
+
+    private void teleportVirus(JComponent v) {
+    int maxX = getWidth() - v.getWidth();
+    int maxY = getHeight() - v.getHeight();
+    if (maxX <= 0 || maxY <= 0) return;
+
+    int newX = (int) (Math.random() * maxX);
+    int newY = (int) (Math.random() * maxY);
+
+    v.setLocation(newX, newY);
+}
+
 }
