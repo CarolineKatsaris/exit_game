@@ -15,6 +15,13 @@ public class HubView extends JLayeredView {
     private JLabel finalStatsLabel;
     private JLabel storyLabel;
 
+    private JLabel[] virusLabels;
+    private Timer virusTimer;
+
+    private int[] vx = {2, 1, 3}; // unterschiedliche Geschwindigkeiten
+    private int[] vy = {1, 2, 1};
+
+
 
     public HubView() {
         super(); //Konstruktor der JLayeredView zuerst aufrufen
@@ -56,10 +63,76 @@ public class HubView extends JLayeredView {
         finalStatsLabel.setVisible(false);
         add(finalStatsLabel, Integer.valueOf(5));
 
+        // FlyingVirus-Spielerei
+        virusLabels = new JLabel[3];
+
+        int[] sizes = {60, 50, 40}; // groß, normal, klein
+        int[][] startPos = {
+                {200, 150},
+                {500, 300},
+                {800, 200}
+        };
+
+        for (int i = 0; i < virusLabels.length; i++) {
+            ImageIcon icon = new ImageIcon(getClass().getResource("/virus.png"));
+            Image scaled = icon.getImage().getScaledInstance(
+                    sizes[i], sizes[i], Image.SCALE_SMOOTH
+            );
+
+            virusLabels[i] = new JLabel(new ImageIcon(scaled));
+            virusLabels[i].setBounds(
+                    startPos[i][0],
+                    startPos[i][1],
+                    sizes[i],
+                    sizes[i]
+            );
+
+            add(virusLabels[i], Integer.valueOf(4)); // unter UI, über Background
+        }
+
+// ein Timer für alle Viren
+        virusTimer = new Timer(30, e -> moveViruses());
+        virusTimer.start();
+
 
     }
+
+    private void moveViruses() {
+        if (getWidth() == 0 || getHeight() == 0) return;
+
+        for (int i = 0; i < virusLabels.length; i++) {
+            JLabel v = virusLabels[i];
+
+            int x = v.getX() + vx[i];
+            int y = v.getY() + vy[i];
+
+            int maxX = getWidth() - v.getWidth();
+            int maxY = getHeight() - v.getHeight();
+
+            if (x <= 0 || x >= maxX) vx[i] = -vx[i];
+            if (y <= 0 || y >= maxY) vy[i] = -vy[i];
+
+            v.setLocation(
+                    Math.max(0, Math.min(x, maxX)),
+                    Math.max(0, Math.min(y, maxY))
+            );
+        }
+    }
+
+    private void hideViruses() {
+        if (virusTimer != null) virusTimer.stop();
+
+        if (virusLabels != null) {
+            for (JLabel v : virusLabels) {
+                if (v != null) v.setVisible(false);
+            }
+        }
+    }
+
     // abschließende Botschaft abhängig von Fehlerzahl im Hub (nach Rückkehr aus CPU)
     public void showFinalStats(int wrongAnswers) {
+        hideViruses();
+
         String story;
 
         if (wrongAnswers == 0) {
