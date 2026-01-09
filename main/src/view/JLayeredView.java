@@ -14,11 +14,31 @@ class JLayeredView extends JLayeredPane {
     String bgImagePath;
     Rectangle[] buttonBounds;
     private java.awt.event.ActionListener overlayClosedListener;
+    private JLabel errorBanner;
+    private Timer errorTimer;
+
 
 
     JLayeredView() {
         setLayout(null);
+        errorBanner = new JLabel();
+        errorBanner.setOpaque(true);
+        errorBanner.setBackground(new Color(120, 0, 0, 200)); // dunkelrot, leicht transparent
+        errorBanner.setForeground(Color.WHITE);
+        errorBanner.setFont(new Font("SansSerif", Font.BOLD, 20));
+        errorBanner.setHorizontalAlignment(SwingConstants.CENTER);
+        errorBanner.setVisible(false);
+
+        // oben mittig (für 1536x1024)
+        int w = 1300;
+        int h = 80;
+        errorBanner.setBounds((1536 - w) / 2, 250, w, h);
+
+        add(errorBanner, Integer.valueOf(20)); // sehr weit oben im Layer
+
     }
+
+
 
     /**
      * Zeige Intro oder Outro Overlay an.
@@ -68,5 +88,19 @@ class JLayeredView extends JLayeredPane {
         revalidate();
         repaint();
     }
+
+    public void showErrorBanner(String message) {
+        errorBanner.setText(message);
+        errorBanner.setVisible(true);
+
+        // alten Timer stoppen (falls noch einer läuft)
+        if (errorTimer != null) errorTimer.stop();
+
+        // 3000 ms = 3 Sekunden
+        errorTimer = new Timer(3000, e -> errorBanner.setVisible(false));
+        errorTimer.setRepeats(false);
+        errorTimer.start();
+    }
+
 
 }

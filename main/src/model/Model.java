@@ -145,8 +145,8 @@ public class Model {
 
         // Quizze nur in der erlaubten Reihenfolge spielen lassen
         if (quizIndex > foundRoom.getHighestUnlockedQuizIndex()) {
-            showError("Quiz " + quizIndex + " ist noch gesperrt! "
-                    + "Freigeschaltet bis: " + foundRoom.getHighestUnlockedQuizIndex());
+            showError( "Zugriff verweigert! Der Virus blockiert dieses Modul. "
+                    + "Sichere zuerst die vorherige Einheit.");
             return;
         }
 

@@ -106,10 +106,17 @@ public class MainView extends JFrame {
 
         // Fehlerbehandlung
         if (screen.isError()) {
-       //loginView.errorLabel.setVisible(true);
-            JOptionPane.showMessageDialog(root, screen.getErrorMessage(), "Fehler", JOptionPane.ERROR_MESSAGE); //ToDo bessere Fehleranzeige als ein Popup
-            screen.clearErrorMessage(); //Fehlermeldung zurücksetzen, da sie angezeigt wurde
+            String msg = screen.getErrorMessage();
+
+            if (screen.getTitle() == EnumScreen.Hub) {
+                hubView.showErrorBanner(msg);
+            } else if (screen instanceof Room) {
+                getRoomView((Room) screen).showErrorBanner(msg);
+            }
+
+            screen.clearErrorMessage();
         }
+
 
         if (screen.isShowIntro()) {
             if (screen.getTitle() == EnumScreen.Hub) {
