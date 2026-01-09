@@ -214,5 +214,27 @@ public class Controller implements PropertyChangeListener {
                         () -> hub.setButtonHighlight(hub.getRamButton(), false)
                 )
         );
+
+        hub.getFileBtn().addMouseListener(
+                new HoverAdapter(
+                        () -> hub.setButtonHighlight(hub.getFileBtn(), true),
+                        () -> hub.setButtonHighlight(hub.getFileBtn(), false)
+                )
+        );
+
+        hub.getNetworkBtn().addMouseListener(
+                new HoverAdapter(
+                        () -> hub.setButtonHighlight(hub.getNetworkBtn(), true),
+                        () -> hub.setButtonHighlight(hub.getNetworkBtn(), false)
+                )
+        );
+
+        hub.getCpuBtn().addMouseListener(
+                new HoverAdapter(
+                        () -> hub.setButtonHighlight(hub.getCpuBtn(), true),
+                        () -> hub.setButtonHighlight(hub.getCpuBtn(), false)
+                )
+        );
+
     }
 }
