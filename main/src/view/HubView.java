@@ -6,6 +6,9 @@ import javax.swing.*;
 
 import java.awt.*;
 
+import javax.sound.sampled.*;
+
+
 public class HubView extends JLayeredView {
     private JButton graphicsCardBtn;
     private JButton ramBtn;
@@ -20,6 +23,9 @@ public class HubView extends JLayeredView {
 
     private int[] vx = {2, 1, 3}; // unterschiedliche Geschwindigkeiten
     private int[] vy = {1, 2, 1};
+
+    private Clip teleportClip;
+
 
 
 
@@ -79,21 +85,38 @@ public class HubView extends JLayeredView {
                     sizes[i], sizes[i], Image.SCALE_SMOOTH
             );
 
-            virusLabels[i] = new JLabel(new ImageIcon(scaled));
+            int hit = 20; // extra Klickfläche (10px Rand rundum)
+
+            virusLabels[i] = new JLabel(new ImageIcon(scaled), SwingConstants.CENTER);
+
+            // Bounds größer, damit man leichter trifft (Bild bleibt zentriert)
             virusLabels[i].setBounds(
-                    startPos[i][0],
-                    startPos[i][1],
-                    sizes[i],
-                    sizes[i]
+                    startPos[i][0] - hit / 2,
+                    startPos[i][1] - hit / 2,
+                    sizes[i] + hit,
+                    sizes[i] + hit
             );
 
+
             add(virusLabels[i], Integer.valueOf(4)); // unter UI, über Background
+
+            // Klickbar machen
+            virusLabels[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            virusLabels[i].addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    teleportVirus((JComponent) e.getSource());
+                    playTeleportSound();
+                }
+            });
+
         }
 
 // ein Timer für alle Viren
         virusTimer = new Timer(30, e -> moveViruses());
         virusTimer.start();
 
+        loadTeleportSound();
 
     }
 
@@ -199,4 +222,36 @@ public class HubView extends JLayeredView {
     public JButton getFileBtn() {return fileBtn; }
     public JButton getNetworkBtn() {return networkBtn;}
     public JButton getCpuBtn() {return cpuBtn;}
+
+    private void loadTeleportSound() {
+    try (AudioInputStream ais = AudioSystem.getAudioInputStream(
+            getClass().getResource("/teleport.wav")
+    )) {
+        teleportClip = AudioSystem.getClip();
+        teleportClip.open(ais);
+    } catch (Exception e) {
+        e.printStackTrace(); // Debug: zeigt dir, wenn Datei nicht gefunden / Format falsch
+        teleportClip = null;
+    }
+}
+
+    private void playTeleportSound() {
+    if (teleportClip == null) return;
+
+    if (teleportClip.isRunning()) teleportClip.stop();
+    teleportClip.setFramePosition(0);
+    teleportClip.start();
+}
+
+    private void teleportVirus(JComponent v) {
+    int maxX = getWidth() - v.getWidth();
+    int maxY = getHeight() - v.getHeight();
+    if (maxX <= 0 || maxY <= 0) return;
+
+    int newX = (int) (Math.random() * maxX);
+    int newY = (int) (Math.random() * maxY);
+
+    v.setLocation(newX, newY);
+}
+
 }
