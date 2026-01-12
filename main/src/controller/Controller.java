@@ -11,20 +11,32 @@ import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/**
+ * Zentraler Controller (MVC), der Model und View verbindet.
+ * <p>
+ * Aufgaben:
+ * <ul>
+ *   <li>Reagiert auf Model-Events via {@link PropertyChangeListener}</li>
+ *   <li>Lädt den aktuellen {@link Screen} in die {@link MainView}</li>
+ *   <li>Registriert Action-/Mouse-Listener (einmalig) für Hub und Räume</li>
+ *   <li>Steuert view-spezifische Effekte beim Screenwechsel (z.B. Fog im CPU-Raum)</li>
+ * </ul>
+ */
+
 public class Controller implements PropertyChangeListener {
 
     private final MainView view;
     private final Model model;
+
     private boolean hubListenersRegistered;
-    private boolean roomListenersRegistered;
+
 
     /**
-     * Constructs a Controller instance that connects the given Model and MainView.
-     * The Controller observes the Model for property changes and initializes the
-     * application's starting state. It also makes the MainView visible.
+     * Erstellt den Controller, registriert ihn als Listener am Model,
+     * setzt den Startzustand und zeigt die View an.
      *
-     * @param model The Model instance to be controlled and observed.
-     * @param view  The MainView instance to be interacted with and controlled.
+     * @param model Model-Instanz (Observable)
+     * @param view  MainView-Instanz (UI)
      */
     public Controller(Model model, MainView view) {
         this.model = model;
@@ -60,6 +72,22 @@ public class Controller implements PropertyChangeListener {
      */
     void loadScreen(Screen screen) {
         view.showScreen(screen); //Screen anzeigen
+
+        if (screen instanceof Room room) {
+            RoomView rv = view.getRoomView(room);
+
+            boolean isCpuRoom = room.getTitle() == EnumScreen.CPURoom;
+
+            // Outro erkennen: aktuelles Background-Bild ist das Outro-Bild
+            boolean isOutroBackground =
+                    room.getBackgroundImagePath() != null
+                            && room.getOutroImagePath() != null
+                            && room.getBackgroundImagePath().equals(room.getOutroImagePath());
+
+            rv.enableFog(isCpuRoom && !isOutroBackground);
+        }
+
+
         // Overlay-Close (Weiter) an das Model melden
         if (screen.getTitle() == EnumScreen.Hub) {
             view.getHubView().setOverlayClosedListener(e -> model.overlayClosed());
@@ -89,7 +117,7 @@ public class Controller implements PropertyChangeListener {
     }
 
     /**
-     * Event handler für Änderungen aus dem Modell
+     * Eventhandler für Änderungen aus dem Model
      *
      * @param e A PropertyChangeEvent object describing the event source
      *          and the property that has changed.
@@ -165,7 +193,6 @@ public class Controller implements PropertyChangeListener {
     }
 
 
-    // Hier müssen später die HubButtons Listener eingefügt werden
     private void registerHubListeners() {
 
         // Listener dürfen nur EINMAL registriert werden
