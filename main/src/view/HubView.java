@@ -8,13 +8,21 @@ import java.awt.*;
 
 import javax.sound.sampled.*;
 
-
+/**
+ * HubView ist die zentrale Hub-Ansicht (Layered UI) des Spiels.
+ * <p>
+ * Sie enthält unsichtbare Klickbereiche (Buttons) zum Wechseln in die einzelnen Räume
+ * sowie eine kleine "FlyingVirus"-Spielerei, bei der Viren über den Bildschirm fliegen
+ * und bei Klick teleportieren (inkl. Sound).
+ * </p>
+ */
 public class HubView extends JLayeredView {
     private JButton graphicsCardBtn;
     private JButton ramBtn;
     private JButton fileBtn;
     private JButton networkBtn;
     private JButton cpuBtn;
+
     private JLabel finalStatsLabel;
     private JLabel storyLabel;
 
@@ -26,9 +34,10 @@ public class HubView extends JLayeredView {
 
     private Clip teleportClip;
 
-
-
-
+    /**
+     * Erstellt die HubView, setzt unsichtbare Buttons, Labels für End-Infos
+     * sowie die fliegenden Viren inkl. Timer und Teleport-Sound.
+     */
     public HubView() {
         super(); //Konstruktor der JLayeredView zuerst aufrufen
 
@@ -38,6 +47,7 @@ public class HubView extends JLayeredView {
         fileBtn = makeInvisibleButton(610, 245, 220, 110, EnumScreen.FileRoom.toString());
         networkBtn = makeInvisibleButton(1044, 250, 330, 90, EnumScreen.NetRoom.toString());
         cpuBtn = makeInvisibleButton(1244, 560, 204, 190, EnumScreen.CPURoom.toString());
+
         add(graphicsCardBtn, Integer.valueOf(1)); // eine Ebene drüber
         add(ramBtn, Integer.valueOf(1));
         add(fileBtn, Integer.valueOf(1));
@@ -97,7 +107,6 @@ public class HubView extends JLayeredView {
                     sizes[i] + hit
             );
 
-
             add(virusLabels[i], Integer.valueOf(4)); // unter UI, über Background
 
             // Klickbar machen
@@ -109,10 +118,9 @@ public class HubView extends JLayeredView {
                     playTeleportSound();
                 }
             });
-
         }
 
-// ein Timer für alle Viren
+        // ein Timer für alle Viren
         virusTimer = new Timer(30, e -> moveViruses());
         virusTimer.start();
 
@@ -120,6 +128,9 @@ public class HubView extends JLayeredView {
 
     }
 
+    /**
+     * Bewegt alle Viren und lässt sie an den Kanten abprallen.
+     */
     private void moveViruses() {
         if (getWidth() == 0 || getHeight() == 0) return;
 
@@ -142,6 +153,9 @@ public class HubView extends JLayeredView {
         }
     }
 
+    /**
+     * Stoppt den Viren-Timer und blendet alle Viren aus.
+     */
     private void hideViruses() {
         if (virusTimer != null) virusTimer.stop();
 
@@ -152,20 +166,25 @@ public class HubView extends JLayeredView {
         }
     }
 
-    // abschließende Botschaft abhängig von Fehlerzahl im Hub (nach Rückkehr aus CPU)
+    /**
+     * Zeigt die abschließende Botschaft abhängig von der Gesamtzahl falscher Antworten,
+     * typischerweise nach Rückkehr aus dem CPU-Raum.
+     *
+     * @param wrongAnswers Gesamtzahl der falschen Antworten
+     */
     public void showFinalStats(int wrongAnswers) {
         hideViruses();
 
         String story;
 
         if (wrongAnswers == 0) {
-            story = "Perfekt! Das System ist sauber – kein einziger Fehlklick.";
+            story = "Perfekt! Das System ist sauber – kein einziger Fehlklick. Eine tolle Leistung!";
         } else if (wrongAnswers <= 3) {
-            story = "Stark! Du hast den Virus fast ohne Umwege gestoppt.";
+            story = "Stark! Du hast das Virus fast ohne Umwege gestoppt.";
         } else if (wrongAnswers <= 7) {
-            story = "Geschafft! Der Virus ist gestoppt – aber er hat dich ganz schön getestet.";
+            story = "Geschafft! Das Virus ist gestoppt – aber er hat dich ganz schön getestet.";
         } else {
-            story = "Du hast es geschafft… knapp. Der Virus hat ordentlich Widerstand geleistet.";
+            story = "Du hast es geschafft… knapp. Das Virus hat ordentlich Widerstand geleistet.";
         }
 
             storyLabel.setText(story);
@@ -175,6 +194,11 @@ public class HubView extends JLayeredView {
             finalStatsLabel.setVisible(true);
     }
 
+    /**
+     * Aktiviert oder deaktiviert Buttons im Hub.
+     *
+     * @param enabled {@code true} zum Aktivieren, {@code false} zum Deaktivieren
+     */
     void setButtonsEnabled(boolean enabled) {
         graphicsCardBtn.setEnabled(enabled);
         //if (networkBtn != null) networkBtn.setEnabled(enabled);
@@ -182,6 +206,17 @@ public class HubView extends JLayeredView {
         // ggf. weitere Buttons
     }
 
+    /**
+     * Erstellt einen unsichtbaren Button an einer festen Position,
+     * der nur als Klickfläche dient.
+     *
+     * @param x   X-Position
+     * @param y   Y-Position
+     * @param w   Breite
+     * @param h   Höhe
+     * @param cmd ActionCommand (z.B. Ziel-Screen)
+     * @return konfigurierter JButton
+     */
     private JButton makeInvisibleButton(int x, int y, int w, int h, String cmd) {
 
         JButton b = new JButton();
@@ -194,11 +229,12 @@ public class HubView extends JLayeredView {
         return b;
     }
 
-
-    // Hover-Highlight (Rand)
-
-
-
+    /**
+     * Setzt ein Hover-Highlight für einen Button.
+     *
+     * @param button Zielbutton
+     * @param on     {@code true} zum Aktivieren des Highlights, sonst deaktivieren
+     */
     public void setButtonHighlight(JButton button, boolean on) {
 
         if (on) {
@@ -214,7 +250,6 @@ public class HubView extends JLayeredView {
         repaint();
     }
 
-
     public JButton getGraphicsCardButton() {
         return graphicsCardBtn;
     }
@@ -223,6 +258,10 @@ public class HubView extends JLayeredView {
     public JButton getNetworkBtn() {return networkBtn;}
     public JButton getCpuBtn() {return cpuBtn;}
 
+
+    /**
+     * Lädt den Teleport-Sound (teleport.wav) als Clip.
+     */
     private void loadTeleportSound() {
     try (AudioInputStream ais = AudioSystem.getAudioInputStream(
             getClass().getResource("/teleport.wav")
@@ -234,7 +273,9 @@ public class HubView extends JLayeredView {
         teleportClip = null;
     }
 }
-
+    /**
+     * Spielt den Teleport-Sound ab
+     */
     private void playTeleportSound() {
     if (teleportClip == null) return;
 
@@ -243,6 +284,11 @@ public class HubView extends JLayeredView {
     teleportClip.start();
 }
 
+    /**
+     * Teleportiert ein Virus-Label zufällig an eine neue Position innerhalb der View.
+     *
+     * @param v das zu teleportierende Component-Objekt (Virus-Label)
+     */
     private void teleportVirus(JComponent v) {
     int maxX = getWidth() - v.getWidth();
     int maxY = getHeight() - v.getHeight();
