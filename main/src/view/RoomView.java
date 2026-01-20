@@ -23,12 +23,7 @@ public class RoomView extends JLayeredView {
     final JButton[] klickButtons = new JButton[3];
     private final JButton back;
     private final JProgressBar progressBar;
-
-    //Fog-Overlayx
-    private JComponent fog1, fog2;
-    private Timer fogTimer;
-    private int fogX = 0;
-    private int fogSpeed = 1;
+    private final SpecialEffects effects;
 
 
     /**
@@ -57,6 +52,9 @@ public class RoomView extends JLayeredView {
         progressBar.setStringPainted(true);
         progressBar.setBorderPainted(false);
         add(progressBar, Integer.valueOf(3)); // über Background, unter Buttons
+
+        effects = new SpecialEffects(this);
+
     }
 
     /**
@@ -132,103 +130,18 @@ public class RoomView extends JLayeredView {
         repaint();
     }
 
-    /**
-     * Aktiviert oder deaktiviert den animierten Nebel-Overlay.
-     *
-     * @param on true = Nebel sichtbar + Timer läuft, false = Nebel aus + Timer stoppt
-     */
-    /**
-     * Aktiviert oder deaktiviert den animierten Nebel-Overlay.
-     *
-     * @param on true = Nebel sichtbar + Timer läuft,
-     *           false = Nebel aus + Timer stoppt
-     */
     public void enableFog(boolean on) {
-
-        // Initialisierung nur beim ersten Aufruf
-        if (fogTimer == null) {
-
-            // Nebelbild aus den Ressourcen laden
-            var url = RoomView.class.getResource("/fog.png");
-            if (url == null) {
-                return;
-            }
-
-            Image fogImage = new ImageIcon(url).getImage();
-
-            // Erste Nebel-Kachel
-            fog1 = new JComponent() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    g.drawImage(fogImage, 0, 0, getWidth(), getHeight(), null);
-                }
-            };
-
-            // Zweite Nebel-Kachel (für nahtlosen Übergang)
-            fog2 = new JComponent() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    g.drawImage(fogImage, 0, 0, getWidth(), getHeight(), null);
-                }
-            };
-
-            // Beide Nebel-Ebenen zur View hinzufügen
-            add(fog1, Integer.valueOf(1));
-            add(fog2, Integer.valueOf(1));
-
-            // Timer für die Bewegung des Nebels
-            fogTimer = new Timer(40, e -> {
-
-                int viewWidth = getWidth();
-                int viewHeight = getHeight();
-
-                // Nebel nach links bewegen
-                fogX = fogX - fogSpeed;
-
-                // Wenn der erste Nebel komplett links verschwunden ist,
-                // starte den Zyklus neu
-                if (fogX <= -viewWidth) {
-                    fogX = 0;
-                }
-
-                // Nebel-Ebenen positionieren
-                fog1.setBounds(fogX, 0, viewWidth, viewHeight);
-                fog2.setBounds(fogX + viewWidth, 0, viewWidth, viewHeight);
-            });
-
-            // Startposition nach dem Layout setzen
-            SwingUtilities.invokeLater(() -> {
-                int viewWidth = getWidth();
-                int viewHeight = getHeight();
-
-                if (viewWidth <= 0 || viewHeight <= 0) {
-                    return;
-                }
-
-                fog1.setBounds(0, 0, viewWidth, viewHeight);
-                fog2.setBounds(viewWidth, 0, viewWidth, viewHeight);
-            });
-        }
-
-        // Nebel ein- oder ausschalten
-        if (on) {
-            fog1.setVisible(true);
-            fog2.setVisible(true);
-
-            if (!fogTimer.isRunning()) {
-                fogTimer.start();
-            }
-        } else {
-            if (fogTimer.isRunning()) {
-                fogTimer.stop();
-            }
-
-            fog1.setVisible(false);
-            fog2.setVisible(false);
-        }
+        effects.enableFog(on);
     }
+
+    public void setupRamManHotspot(Rectangle bounds) {
+        effects.setupRamManHotspot(bounds);
+    }
+
+    public void setupRamManHotspot2(Rectangle bounds) {
+        effects.setupRamManHotspot2(bounds);
+    }
+
 
     /*
     Updatet ProgressBar, dabei wird der Wert vom Model an den Quizcontroller weitergegeben (immer um 1 erhöht, weil die Bar von 0-15 geht)
