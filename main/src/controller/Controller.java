@@ -6,6 +6,7 @@ import model.Room;
 import model.Screen;
 import view.MainView;
 import view.RoomView;
+import java.awt.Rectangle;
 
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
@@ -151,6 +152,13 @@ public class Controller implements PropertyChangeListener {
         room.setListenersRegistered(true);
 
         RoomView roomView = view.getRoomView(room);
+
+        if (room.getTitle() == EnumScreen.RAMRoom) {
+                roomView.setupRamManHotspot(new Rectangle(200, 460, 100, 100));   // Männchen 1 (grün/rot)
+                roomView.setupRamManHotspot2(new Rectangle(1220, 460, 100, 100));  // Männchen 2 (blau/gelb)
+
+        }
+
 
         // Registriert die Quiz-Buttons eines Raums so, dass beim Klick
         // das jeweils passende Quiz für genau diesen Raum gestartet wird.
