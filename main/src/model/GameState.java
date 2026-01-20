@@ -180,32 +180,8 @@ public class GameState {
         this.difficulty = difficulty;
     }
 
-    /**
-     * Prüft, ob alle Räume als abgeschlossen markiert sind.
-     *
-     * @return {@code true}, wenn alle Räume abgeschlossen sind, sonst {@code false}
-     */
-    boolean allRoomsCompleted() {
-        for (Room room : roomOverview) {
-            if (!room.isCompleted()) {
-                return false;
-            }
-        }
-        return true;
-    }
 
-    /**
-     * Prüft, ob das Spiel abgeschlossen ist. Wenn ja, wird der Screen gewechselt
-     * und ein PropertyChange-Event ("gameCompleted") gefeuert.
-     * Zusätzlich wird die Gesamtzahl falscher Antworten in der Konsole ausgegeben.
-     */
-//ToDo: Ist 7 der Endscreen?
-    void checkForGameCompletion(){
-        if (allRoomsCompleted()){
-            changeScreen(getAvailableScreens().get(7));
-            pcs.firePropertyChange("gameCompleted", false, true);
-            //Gesamtzahl falscher Antworten in der Konsole ausgeben
-            System.out.println("Gesamtzahl falscher Antworten: " + totalWrongAnswers);
-        }
-    }
+
 }
+
+
