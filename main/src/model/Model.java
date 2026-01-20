@@ -313,7 +313,6 @@ public class Model {
             changeScreen(room);
         }
 
-        gameState.checkForGameCompletion();
     }
     /**
      * Wird genutzt wenn ein Overlay geschlossen wurde.
