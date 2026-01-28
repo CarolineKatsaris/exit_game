@@ -69,11 +69,11 @@ public class TextOverlay extends JPanel {
 
         add(box, new GridBagConstraints());
 
-        autoCloseTimer = new Timer(60_000, e -> close());
+        autoCloseTimer = new Timer(120_000, e -> close()); //Fenster wird nach 2 Minuten ausgeblendet
         autoCloseTimer.setRepeats(false);
 
         // Timer für das Schreiben des Textes
-        typingTimer = new Timer(10, e -> typeText());
+        typingTimer = new Timer(25, e -> typeText()); //Buchstaben erscheinen mit einer Delay von 25 (größerer Wert --> langsamer Text)
     }
 
     /**
