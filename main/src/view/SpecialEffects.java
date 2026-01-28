@@ -173,7 +173,7 @@ public class SpecialEffects {
     private void startGlow() {
         if (glowOverlay == null) {
             glowOverlay = new GlowOverlay();
-            view.add(glowOverlay, Integer.valueOf(9));
+            view.add(glowOverlay, Integer.valueOf(1));
             glowOverlay.setBounds(0, 0, view.getWidth(), view.getHeight());
         }
 
