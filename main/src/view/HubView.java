@@ -33,6 +33,8 @@ public class HubView extends JLayeredView {
     private int[] vy = {1, 2, 1};
 
     private Clip teleportClip;
+    private final HubSpecialEffects effects;
+
 
     /**
      * Erstellt die HubView, setzt unsichtbare Buttons, Labels für End-Infos
@@ -53,6 +55,16 @@ public class HubView extends JLayeredView {
         add(fileBtn, Integer.valueOf(1));
         add(networkBtn, Integer.valueOf(1));
         add(cpuBtn, Integer.valueOf(1));
+
+        effects = new HubSpecialEffects(this);
+
+        // Glow für Hub-Buttons einmal registrieren
+        effects.registerButtonGlow(graphicsCardBtn);
+        effects.registerButtonGlow(ramBtn);
+        effects.registerButtonGlow(fileBtn);
+        effects.registerButtonGlow(networkBtn);
+        effects.registerButtonGlow(cpuBtn);
+
 
         // Felder für abschließende Botschaft und Gesamtfehlerzahl
         int centerX = 1536 / 2;
@@ -236,19 +248,17 @@ public class HubView extends JLayeredView {
      * @param on     {@code true} zum Aktivieren des Highlights, sonst deaktivieren
      */
     public void setButtonHighlight(JButton button, boolean on) {
+        // NEU: statt Border -> GlowOverlay
+        effects.setButtonGlowEnabled(button, on);
 
+        // Cursor-Handling (optional)
         if (on) {
-            button.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
-            button.setBorderPainted(true);
             button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         } else {
-            button.setBorder(BorderFactory.createEmptyBorder());
-            button.setBorderPainted(false);
             button.setCursor(Cursor.getDefaultCursor());
         }
-
-        repaint();
     }
+
 
     public JButton getGraphicsCardButton() {
         return graphicsCardBtn;
