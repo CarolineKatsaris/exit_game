@@ -70,6 +70,18 @@ public class RoomView extends JLayeredView {
             if (klickButtons[i] == null) {
                 klickButtons[i] = makeInvisibleButton(0, 0, 0, 0, "quiz_" + i);
                 add(klickButtons[i], Integer.valueOf(1));
+
+                // NEU: Glow für diesen Button registrieren (nur einmal!)
+                // base/alt sind bei deinem neuen "Flächen-Glow" faktisch egal,
+                // auf Gelb setzen oder später entfernen.
+                effects.registerButtonGlow(
+                        klickButtons[i],
+                        new Color(255, 255, 0),
+                        new Color(255, 255, 0)
+                );
+
+                // Optional: Hand-Cursor direkt am Button (HoverAdapter kann bleiben)
+                klickButtons[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
 
             // Nur Bounds aktualisieren (Button bleibt derselbe)
@@ -106,16 +118,17 @@ public class RoomView extends JLayeredView {
     public JButton getQuiz3Button() { return klickButtons[2]; }
     public JButton getBackButton() { return back; };
 
-    public void setQuiz1Highlight(boolean on) { setHighlight(klickButtons[0], on); }
-    public void setQuiz2Highlight(boolean on) { setHighlight(klickButtons[1], on); }
-    public void setQuiz3Highlight(boolean on) { setHighlight(klickButtons[2], on); }
+    public void setQuiz1Highlight(boolean on) { effects.setButtonGlowEnabled(klickButtons[0], on); }
+    public void setQuiz2Highlight(boolean on) { effects.setButtonGlowEnabled(klickButtons[1], on); }
+    public void setQuiz3Highlight(boolean on) { effects.setButtonGlowEnabled(klickButtons[2], on); }
+
 
 
     /**
      * Färbt Buttons mit gelben Rand ein und ändert den Cursor
      * @param b JButton
      * @param on boolean
-     */
+
     private void setHighlight(JButton b, boolean on) {
         if (on) {
             b.setBorder(BorderFactory.createLineBorder(
@@ -128,7 +141,7 @@ public class RoomView extends JLayeredView {
             b.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
         repaint();
-    }
+    }*/
 
     public void enableFog(boolean on) {
         effects.enableFog(on);
