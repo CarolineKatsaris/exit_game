@@ -123,24 +123,7 @@ public class RoomView extends JLayeredView {
 
 
 
-    /**
-     * Färbt Buttons mit gelben Rand ein und ändert den Cursor
-     * @param b JButton
-     * @param on boolean
 
-    private void setHighlight(JButton b, boolean on) {
-        if (on) {
-            b.setBorder(BorderFactory.createLineBorder(
-                    new Color(255, 255, 0), 3)); // gelber Rand
-            b.setBorderPainted(true);
-            b.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        } else {
-            b.setBorder(BorderFactory.createEmptyBorder());
-            b.setBorderPainted(false);
-            b.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        }
-        repaint();
-    }*/
 
     public void enableFog(boolean on) {
         effects.enableFog(on);
