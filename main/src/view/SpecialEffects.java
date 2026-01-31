@@ -96,6 +96,12 @@ public class SpecialEffects {
 
     private JComponent createFogTile(Image fogImage) {
         return new JComponent() {
+
+            @Override
+            public boolean contains(int x, int y) {
+                return false; // Fog blockiert niemals Klicks
+            }
+
             @Override
             protected void paintComponent(Graphics g) {
                 g.drawImage(fogImage, 0, 0, getWidth(), getHeight(), null);
@@ -190,7 +196,15 @@ public class SpecialEffects {
     }
 
     private class GlowOverlay extends JComponent {
-        GlowOverlay() { setOpaque(false); }
+        GlowOverlay() {
+            setOpaque(false);
+            setFocusable(false);
+        }
+
+        @Override
+        public boolean contains(int x, int y) {
+            return false; // <-- ganz wichtig
+        }
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -222,19 +236,6 @@ public class SpecialEffects {
             }
 
 
-            // ===== NEU: QuizButtons =====
-            for (GlowTarget t : buttonGlows) {
-                if (!t.enabled) continue;
-
-                Rectangle r = SwingUtilities.convertRectangle(
-                        t.btn.getParent(),
-                        t.btn.getBounds(),
-                        view
-                );
-
-                paintButtonOverlayGlow(g2, r, pulse);
-            }
-
             g2.dispose();
         }
 
@@ -265,83 +266,9 @@ public class SpecialEffects {
             g2.fillOval(cx - radius, cy - radius, 2 * radius, 2 * radius);
         }
 
-        // ===== Für Quizbuttons =====
-
-        private void paintButtonOverlayGlow(
-                Graphics2D g2,
-                Rectangle r,
-                float pulse
-        ) {
-            // Basisfarbe: Gelb mit 30 % Alpha
-            Color base = new Color(255, 255, 0, 77); // 77 ≈ 30 %
-
-            // Glow „atmet“ leicht (optional)
-            float strength = 0.85f + 0.15f * pulse;
-
-            int cx = r.x + r.width / 2;
-            int cy = r.y + r.height / 2;
-            float radius = Math.max(r.width, r.height) * 0.75f;
-
-            RadialGradientPaint paint = new RadialGradientPaint(
-                    new Point2D.Float(cx, cy),
-                    radius,
-                    new float[]{0.0f, 1.0f},
-                    new Color[]{
-                            new Color(
-                                    base.getRed(),
-                                    base.getGreen(),
-                                    base.getBlue(),
-                                    (int) (base.getAlpha() * strength)
-                            ),
-                            new Color(255, 255, 0, 0)
-                    }
-            );
-
-            Paint old = g2.getPaint();
-            g2.setPaint(paint);
-            g2.fillRect(r.x, r.y, r.width, r.height);
-            g2.setPaint(old);
-        }
 
     }
 
-    private static class GlowTarget {
-        JButton btn;
-        boolean enabled;
-        Color base;
-        Color alt;
-        boolean altColor;
-    }
-
-    private final java.util.List<GlowTarget> buttonGlows = new java.util.ArrayList<>();
-
-    public void registerButtonGlow(JButton btn, Color base, Color alt) {
-        GlowTarget t = new GlowTarget();
-        t.btn = btn;
-        t.base = base;
-        t.alt = alt;
-        t.enabled = false;
-        t.altColor = false;
-        buttonGlows.add(t);
-
-        // optional: Toggle-Farbe beim Klick
-        btn.addActionListener(e -> {
-            if (t.enabled) t.altColor = !t.altColor;
-            if (glowOverlay != null) glowOverlay.repaint();
-        });
-
-        startGlow(); // nutzt ihren bestehenden Overlay+Timer
-    }
-
-    public void setButtonGlowEnabled(JButton btn, boolean on) {
-        for (GlowTarget t : buttonGlows) {
-            if (t.btn == btn) {
-                t.enabled = on;
-                if (glowOverlay != null) glowOverlay.repaint();
-                return;
-            }
-        }
-    }
 
 
 }
