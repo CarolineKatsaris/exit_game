@@ -33,7 +33,7 @@ public class HubView extends JLayeredView {
     private int[] vy = {1, 2, 1};
 
     private Clip teleportClip;
-    private final HubSpecialEffects effects;
+    private final ButtonGlowEffects glow;;
 
 
     /**
@@ -56,14 +56,14 @@ public class HubView extends JLayeredView {
         add(networkBtn, Integer.valueOf(1));
         add(cpuBtn, Integer.valueOf(1));
 
-        effects = new HubSpecialEffects(this);
+        glow = new ButtonGlowEffects(this);
 
         // Glow für Hub-Buttons einmal registrieren
-        effects.registerButtonGlow(graphicsCardBtn);
-        effects.registerButtonGlow(ramBtn);
-        effects.registerButtonGlow(fileBtn);
-        effects.registerButtonGlow(networkBtn);
-        effects.registerButtonGlow(cpuBtn);
+        glow.register(graphicsCardBtn);
+        glow.register(ramBtn);
+        glow.register(fileBtn);
+        glow.register(networkBtn);
+        glow.register(cpuBtn);
 
 
         // Felder für abschließende Botschaft und Gesamtfehlerzahl
@@ -249,7 +249,7 @@ public class HubView extends JLayeredView {
      */
     public void setButtonHighlight(JButton button, boolean on) {
         // NEU: statt Border -> GlowOverlay
-        effects.setButtonGlowEnabled(button, on);
+        glow.setEnabled(button, on);
 
         // Cursor-Handling (optional)
         if (on) {
