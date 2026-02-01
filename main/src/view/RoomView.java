@@ -6,6 +6,8 @@ import java.awt.*;
 
 import static java.lang.Integer.valueOf;
 
+
+
 /**
  * View-Klasse für einen Raum-Screen.
  * Enthält:
@@ -21,9 +23,11 @@ public class RoomView extends JLayeredView {
 
     // UI-Komponenten
     final JButton[] klickButtons = new JButton[3];
+    private final ButtonGlowEffects glow;
     private final JButton back;
-    private final JProgressBar progressBar;
     private final SpecialEffects effects;
+    private final JProgressBar progressBar;
+
 
 
     /**
@@ -52,8 +56,9 @@ public class RoomView extends JLayeredView {
         progressBar.setStringPainted(true);
         progressBar.setBorderPainted(false);
         add(progressBar, Integer.valueOf(3)); // über Background, unter Buttons
-
+        glow = new ButtonGlowEffects(this);
         effects = new SpecialEffects(this);
+
 
     }
 
@@ -72,13 +77,7 @@ public class RoomView extends JLayeredView {
                 add(klickButtons[i], Integer.valueOf(1));
 
                 // NEU: Glow für diesen Button registrieren (nur einmal!)
-                // base/alt sind bei deinem neuen "Flächen-Glow" faktisch egal,
-                // auf Gelb setzen oder später entfernen.
-                effects.registerButtonGlow(
-                        klickButtons[i],
-                        new Color(255, 255, 0),
-                        new Color(255, 255, 0)
-                );
+                glow.register(klickButtons[i]);
 
                 // Optional: Hand-Cursor direkt am Button (HoverAdapter kann bleiben)
                 klickButtons[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -118,30 +117,13 @@ public class RoomView extends JLayeredView {
     public JButton getQuiz3Button() { return klickButtons[2]; }
     public JButton getBackButton() { return back; };
 
-    public void setQuiz1Highlight(boolean on) { effects.setButtonGlowEnabled(klickButtons[0], on); }
-    public void setQuiz2Highlight(boolean on) { effects.setButtonGlowEnabled(klickButtons[1], on); }
-    public void setQuiz3Highlight(boolean on) { effects.setButtonGlowEnabled(klickButtons[2], on); }
+    public void setQuiz1Highlight(boolean on) {glow.setEnabled(klickButtons[0], on); }
+    public void setQuiz2Highlight(boolean on) {glow.setEnabled(klickButtons[1], on); }
+    public void setQuiz3Highlight(boolean on) {glow.setEnabled(klickButtons[2], on); }
 
 
 
-    /**
-     * Färbt Buttons mit gelben Rand ein und ändert den Cursor
-     * @param b JButton
-     * @param on boolean
 
-    private void setHighlight(JButton b, boolean on) {
-        if (on) {
-            b.setBorder(BorderFactory.createLineBorder(
-                    new Color(255, 255, 0), 3)); // gelber Rand
-            b.setBorderPainted(true);
-            b.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        } else {
-            b.setBorder(BorderFactory.createEmptyBorder());
-            b.setBorderPainted(false);
-            b.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        }
-        repaint();
-    }*/
 
     public void enableFog(boolean on) {
         effects.enableFog(on);
