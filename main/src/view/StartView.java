@@ -10,6 +10,9 @@ public class StartView extends JPanel {
     public StartView() {
         // Hintergrund fallback (falls Bild nicht geladen)
         setBackground(Color.black);
+        //Font
+        final Font retroFont = new Font(Font.MONOSPACED, Font.PLAIN, 24);
+
 
         // 1) Bild laden und prüfen
         java.net.URL imgUrl = getClass().getResource("/StartViewBackground.png");
@@ -32,13 +35,13 @@ public class StartView extends JPanel {
         // 2) Deine Text-Elemente
         JLabel introText = new JLabel("Ein Virus verbreitet sich in deiner Schule und diesmal ist es nicht Corona…");
         introText.setHorizontalAlignment(SwingConstants.CENTER);
-        introText.setFont(new Font("SansSerif", Font.BOLD, 25));
-        introText.setForeground(Color.WHITE);
+        introText.setFont(retroFont);
+        introText.setForeground(new Color(220, 240, 230));
 
         JLabel subText = new JLabel("Kannst du helfen es zu stoppen?");
         subText.setHorizontalAlignment(SwingConstants.CENTER);
-        subText.setFont(new Font("SansSerif", Font.BOLD, 25));
-        subText.setForeground(Color.WHITE);
+        subText.setFont(retroFont);
+        subText.setForeground(new Color(220, 240, 230));
 
         // 3) Textpanel wie von dir gebaut
         JPanel textPanel = new JPanel(new GridLayout(2, 1));
@@ -48,17 +51,32 @@ public class StartView extends JPanel {
 
         // 4) Button bauen
         startButton = new JButton("Virus stoppen");
-        startButton.setFont(new Font("SansSerif", Font.BOLD, 20));
-        startButton.setForeground(Color.WHITE);
-        startButton.setBackground(new Color(10, 10, 10, 160)); // leicht transparent dunkel
-        startButton.setOpaque(true);
+
+        // gleicher Font, aber größer
+        startButton.setFont(retroFont.deriveFont(18f));
+
+        // Farben & Verhalten
+        startButton.setPreferredSize(new Dimension(260, 60));
         startButton.setFocusPainted(false);
-        startButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+        startButton.setOpaque(true);
+        startButton.setContentAreaFilled(true);
+
+        startButton.setBackground(new Color(18, 42, 32));      // Waldgrün
+        startButton.setForeground(new Color(200, 60, 60));    // ROTER Text
+        startButton.setBorder(
+                BorderFactory.createLineBorder(new Color(180, 40, 40), 3) // rote Umrandung
+        );
+
 
         // 5) Button-Panel für unten
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setOpaque(false); // durchsichtig
+        bottomPanel.setOpaque(false);
+
+        // Abstand nach unten erzeugt visuell „nach oben schieben“
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
+
         bottomPanel.add(startButton);
+
 
         // 6) Jetzt Text & Button ins Hintergrundlabel einfügen
         // BorderLayout.CENTER   -> dein Text (mittig)
