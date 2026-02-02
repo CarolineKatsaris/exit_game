@@ -105,6 +105,9 @@ public class Controller implements PropertyChangeListener {
                 registerListener(view.getSubmitButton(),
                         e -> model.validateLogin(view.getLoginUsername(), view.getLoginDifficulty()));
                 break;
+            case VirusTrap: // Intermezzo läuft automatisch weiter
+                view.getVirusTrapView().start(() -> model.nextScreen());
+                break;
             case Hub:
                 registerHubListeners();
                 break;

@@ -16,6 +16,7 @@ public class MainView extends JFrame {
     // Referenzen auf einzelne Screens:
     private StartView startView;
     private LoginView loginView;
+    private VirusTrapView virusTrapView ;
     private HubView hubView;
     private Map<EnumScreen, RoomView> roomViews = new EnumMap<>(EnumScreen.class);
     private RoomView graphicsView;
@@ -40,6 +41,10 @@ public class MainView extends JFrame {
         return null;
     }
 
+    public VirusTrapView getVirusTrapView() {
+        return virusTrapView;
+    }
+
 
     public MainView() {
         setTitle("Exit Game");
@@ -53,6 +58,7 @@ public class MainView extends JFrame {
         // Screens anlegen
         startView = new StartView();
         hubView = new HubView();
+        virusTrapView = new VirusTrapView();
         loginView = new LoginView();
         graphicsView = new RoomView();
         ramView = new RoomView();
@@ -67,6 +73,7 @@ public class MainView extends JFrame {
 
         // Screens registrieren mit Namen
         root.add(startView, EnumScreen.Start.toString());
+        root.add(virusTrapView, EnumScreen.VirusTrap.toString());
         root.add(hubView, EnumScreen.Hub.toString());
         root.add(loginView, EnumScreen.Login.toString());
         root.add(graphicsView, EnumScreen.GraphicRoom.toString());
