@@ -12,6 +12,18 @@ public class QuizView extends JPanel {
     private JButton[] answerButtons = new JButton[4];
     private JButton quizStopButton;
 
+    // === Style wie TextOverlay ===
+    private static final Color OVERLAY_TINT = new Color(40, 60, 40, 120);
+    private static final Color BOX_BG = new Color(18, 42, 32);
+    private static final Color BOX_BORDER = new Color(60, 140, 110);
+
+    private static final Color BTN_BG = new Color(160, 180, 140);
+    private static final Color BTN_FG = new Color(30, 50, 30);
+    private static final Color BTN_BORDER = new Color(40, 60, 40);
+
+    private static final Font RETRO_FONT = new Font(Font.MONOSPACED, Font.BOLD, 18);
+
+
     public QuizView() {
         // Hintergrund: wir malen selbst halbtransparent
         setOpaque(false);
@@ -19,9 +31,9 @@ public class QuizView extends JPanel {
 
 
         JPanel dialogPanel = new JPanel();
-        dialogPanel.setLayout(new BorderLayout(50, 50));
-        dialogPanel.setBackground(new Color(20, 20, 20, 230)); // dunkles Overlay für das Kästchen
-        dialogPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
+        styleDialogPanel(dialogPanel);
+        dialogPanel.setLayout(new BorderLayout(30, 30)); // schönere Aufteilung
+
 
 
         // Frage
@@ -31,23 +43,36 @@ public class QuizView extends JPanel {
         questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Mehrzeilige Darstellung erlauben
-        questionLabel.setFont(questionLabel.getFont().deriveFont(Font.BOLD, 30f));
+        questionLabel.setForeground(Color.WHITE);
+        questionLabel.setFont(RETRO_FONT.deriveFont(28f));
         dialogPanel.add(questionLabel, BorderLayout.NORTH);
 
         // Antworten
         JPanel answersPanel = new JPanel(new GridLayout(2, 2, 50, 50));
         answersPanel.setBackground(Color.BLACK);
+        answersPanel.setOpaque(false); // damit BOX_BG vom dialogPanel durchscheint
+
         for (int i = 0; i < 4; i++) {
             JButton btn = new JButton("Antwort " + (i + 1));
-            btn.setFont(btn.getFont().deriveFont(Font.BOLD, 25f));
+            styleRetroButton(btn);
             btn.setActionCommand("QUIZ_ANSWER_" + i);
+
+            // Defaults speichern
+            btn.putClientProperty("defaultBg", btn.getBackground());
+            btn.putClientProperty("defaultFg", btn.getForeground());
+            btn.putClientProperty("defaultContentAreaFilled", btn.isContentAreaFilled());
+            btn.putClientProperty("defaultBorderPainted", btn.isBorderPainted());
+            btn.putClientProperty("defaultOpaque", btn.isOpaque());
+
             answerButtons[i] = btn;
             answersPanel.add(btn);
         }
 
         quizStopButton = new JButton("Abbrechen");
-        quizStopButton.setForeground(Color.RED);
-        quizStopButton.setFont(quizStopButton.getFont().deriveFont(Font.BOLD, 25f));
+        styleRetroButton(quizStopButton);
+        quizStopButton.setForeground(new Color(180, 60, 60));      // rot, aber nicht knallig
+        quizStopButton.setBorder(BorderFactory.createLineBorder(new Color(120, 40, 40), 3));
+
 
         dialogPanel.add(answersPanel, BorderLayout.CENTER);
         dialogPanel.add(quizStopButton, BorderLayout.SOUTH);
@@ -71,7 +96,7 @@ public class QuizView extends JPanel {
         }
 
         // HTML-Wrapper, damit lange Fragen umbrechen
-        String htmlText = "<html><body style='width:400px,text-align:center;'>" + question.getQuestion() + "</body></html>";
+        String htmlText = "<html><body style='width:400px; text-align:center;'>" + question.getQuestion() + "</body></html>";
         questionLabel.setText(htmlText);
 
         for (int i = 0; i < 4; i++) {
@@ -91,18 +116,51 @@ public class QuizView extends JPanel {
     public JButton getQuizStopButton() {return quizStopButton;};
 
     /**
-     *Setzt ein halbtransparentes schwarzes Overlay über den gesamten Raum
+     *Setzt ein halbtransparentes dunkles Overlay über den gesamten Raum
      */
     @Override
     protected void paintComponent(Graphics g) {
         // Halbtransparentes Dunkel über den gesamten Raum legen
         Graphics2D g2 = (Graphics2D) g.create();
-        g2.setColor(new Color(0, 0, 0, 150)); // 150 = Transparenz
+        g2.setColor(OVERLAY_TINT); // 150 = Transparenz
         g2.fillRect(0, 0, getWidth(), getHeight());
         g2.dispose();
 
         super.paintComponent(g);
     }
+
+    protected void restoreDefaultButton(JButton b) {
+        b.setBackground((Color) b.getClientProperty("defaultBg"));
+        b.setForeground((Color) b.getClientProperty("defaultFg"));
+        b.setContentAreaFilled((Boolean) b.getClientProperty("defaultContentAreaFilled"));
+        b.setBorderPainted((Boolean) b.getClientProperty("defaultBorderPainted"));
+        b.setOpaque((Boolean) b.getClientProperty("defaultOpaque"));
+
+        // optional, aber hilft bei "hängt optisch"
+        b.repaint();
+    }
+
+    private void styleRetroButton(JButton b) {
+        b.setFocusPainted(false);
+        b.setOpaque(true);
+        b.setContentAreaFilled(true);
+
+        b.setBackground(BTN_BG);
+        b.setForeground(BTN_FG);
+        b.setBorder(BorderFactory.createLineBorder(BTN_BORDER, 3));
+        b.setFont(RETRO_FONT.deriveFont(18f));
+    }
+
+    private void styleDialogPanel(JPanel p) {
+        p.setOpaque(true);
+        p.setBackground(BOX_BG);
+        p.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(BOX_BORDER, 4),
+                BorderFactory.createEmptyBorder(16, 24, 16, 24)
+        ));
+    }
+
+
 
     public void highlightIncorrectQuizAnswer(int buttonIndex) {
         if (buttonIndex < 0 || buttonIndex >= getAnswerButtons().length) {
@@ -116,13 +174,9 @@ public class QuizView extends JPanel {
         buttonToHighlight.setBackground(Color.RED); // Button rot färben
 
         // Timer, um die Farbe nach 2 Sekunden zurückzusetzen
-        Timer timer = new Timer(500, e -> {
-            buttonToHighlight.setBackground(null); // Hintergrundfarbe zurücksetzen
-            buttonToHighlight.setContentAreaFilled(false);
-            buttonToHighlight.setBorderPainted(true);
-        });
-        timer.setRepeats(false); // Timer soll nur einmal ablaufen
-        timer.start(); // Timer starten
+        Timer timer = new Timer(200, e -> restoreDefaultButton(buttonToHighlight));
+        timer.setRepeats(false);
+        timer.start();
     }
 
     public void highlightCorrectQuizAnswer(int buttonIndex) {
@@ -137,13 +191,9 @@ public class QuizView extends JPanel {
         buttonToHighlight.setBackground(Color.GREEN); // Button rot färben
 
         // Timer, um die Farbe nach 2 Sekunden zurückzusetzen
-        Timer timer = new Timer(50, e -> {
-            buttonToHighlight.setBackground(null); // Hintergrundfarbe zurücksetzen
-            buttonToHighlight.setContentAreaFilled(false);
-            buttonToHighlight.setBorderPainted(true);
-        });
-        timer.setRepeats(false); // Timer soll nur einmal ablaufen
-        timer.start(); // Timer starten
+        Timer timer = new Timer(200, e -> restoreDefaultButton(buttonToHighlight));
+        timer.setRepeats(false);
+        timer.start();
     }
 
 }
