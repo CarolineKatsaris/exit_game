@@ -11,6 +11,9 @@ public class MainView extends JFrame {
 
     private CardLayout cards;
     private JPanel root;
+    private static final Dimension GAME_SIZE = new Dimension(1536, 1024);
+
+
 
 
     // Referenzen auf einzelne Screens:
@@ -49,11 +52,16 @@ public class MainView extends JFrame {
     public MainView() {
         setTitle("Exit Game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1536, 1024);
+        // Frame darf später maximiert werden; die Game-Fläche bleibt fix 1536x1024
+        setMinimumSize(new Dimension(900, 700)); // optional, damit es nicht zu klein wird
+
 
         // Layout-Container für die Screens
         cards = new CardLayout();
         root = new JPanel(cards);
+        root.setPreferredSize(GAME_SIZE);
+        root.setSize(GAME_SIZE); // wichtig für absolute layouts / bounds-basierte Views
+
 
         // Screens anlegen
         startView = new StartView();
@@ -82,6 +90,9 @@ public class MainView extends JFrame {
         root.add(networkView, EnumScreen.NetRoom.toString());
         root.add(cpuView, EnumScreen.CPURoom.toString());
 
+
+
+
         // RoomViews in Map registrieren
         roomViews.put(EnumScreen.GraphicRoom, graphicsView);
         roomViews.put(EnumScreen.RAMRoom, ramView);
@@ -91,6 +102,20 @@ public class MainView extends JFrame {
 
         // Alles ins Fenster
         add(root, BorderLayout.CENTER);
+        LetterboxPanel letterbox = new LetterboxPanel(root, GAME_SIZE);
+        setContentPane(letterbox);
+
+        pack();
+        setLocationRelativeTo(null);
+
+        // Maximiert starten:
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        // Optional: echtes Fullscreen (ohne Taskbar) wäre extra, aber MAXIMIZED reicht meist.
+        setVisible(true);
+
+
+
     }
 
     /**
