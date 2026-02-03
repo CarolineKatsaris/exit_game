@@ -174,7 +174,7 @@ public class QuizView extends JPanel {
         buttonToHighlight.setBackground(Color.RED); // Button rot färben
 
         // Timer, um die Farbe nach 2 Sekunden zurückzusetzen
-        Timer timer = new Timer(200, e -> restoreDefaultButton(buttonToHighlight));
+        Timer timer = new Timer(100, e -> restoreDefaultButton(buttonToHighlight));
         timer.setRepeats(false);
         timer.start();
     }
@@ -191,7 +191,7 @@ public class QuizView extends JPanel {
         buttonToHighlight.setBackground(Color.GREEN); // Button rot färben
 
         // Timer, um die Farbe nach 2 Sekunden zurückzusetzen
-        Timer timer = new Timer(200, e -> restoreDefaultButton(buttonToHighlight));
+        Timer timer = new Timer(100, e -> restoreDefaultButton(buttonToHighlight));
         timer.setRepeats(false);
         timer.start();
     }

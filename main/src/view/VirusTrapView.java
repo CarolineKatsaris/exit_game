@@ -18,6 +18,8 @@ public class VirusTrapView extends JLayeredView {
 
 
 
+
+
     private Timer autoAdvanceTimer;
 
     public VirusTrapView() {
@@ -65,6 +67,12 @@ public class VirusTrapView extends JLayeredView {
                 virusLabel.setIcon(new ImageIcon(vScaled));
                 virusLabel.setBounds(60, (h - vSize) / 2, vSize, vSize);
 
+                int textX = virusLabel.getX() + virusLabel.getWidth() + 30;
+                int textY = virusLabel.getY() + 80;
+
+                textOverlay.setAnchor(textX, textY);
+
+
                 int bx = virusLabel.getX() + virusLabel.getWidth() + 40;
                 int bw = Math.max(300, w - bx - 60);
                 int bh = Math.min(340, h / 2);
@@ -75,6 +83,9 @@ public class VirusTrapView extends JLayeredView {
             }
         });
     }
+
+
+
 
     /**
      * Startet die Sequenz:
@@ -100,7 +111,7 @@ public class VirusTrapView extends JLayeredView {
 
         if (autoAdvanceTimer != null) autoAdvanceTimer.stop();
 
-        int delayMs = 25_000; // 25 Sekunden
+        int delayMs = 15_000; // 15 Sekunden
         autoAdvanceTimer = new Timer(delayMs, e -> {
             rain.stop();
             if (onDone != null) onDone.run();
@@ -232,6 +243,13 @@ public class VirusTrapView extends JLayeredView {
         private final String title;
         private final String[] lines;
         private float alpha = 1f;
+        private int baseX;
+        private int baseY;
+
+        void setAnchor(int x, int y) {
+            this.baseX = x;
+            this.baseY = y;
+        }
 
         VirusText(String title, String... lines) {
             this.title = title;
@@ -252,16 +270,16 @@ public class VirusTrapView extends JLayeredView {
 
                 g2.setComposite(AlphaComposite.SrcOver.derive(alpha));
 
-                int w = getWidth();
-                int h = getHeight();
+
 
                 // Position rechts neben Virus (robust: orientiert sich an Layout)
                 // Wenn Virus links sitzt, passt das gut:
-                int x = (int) (w * 0.52);
-                int y = (int) (h * 0.35);
+                int x = baseX;
+                int y = baseY;
+
 
                 // Titel groß/rot/dramatisch
-                Font titleFont = new Font("SansSerif", Font.BOLD, 50);
+                Font titleFont = new Font(Font.MONOSPACED, Font.BOLD, 50);
                 g2.setFont(titleFont);
 
                 // roter Glow/Shadow
@@ -271,7 +289,7 @@ public class VirusTrapView extends JLayeredView {
                 g2.drawString(title, x, y);
 
                 // Body etwas kleiner, hell (oder leicht grünlich)
-                Font bodyFont = new Font("SansSerif", Font.BOLD, 34);
+                Font bodyFont  = new Font(Font.MONOSPACED, Font.BOLD, 34);
                 g2.setFont(bodyFont);
                 FontMetrics fm = g2.getFontMetrics();
                 int lineY = y + fm.getHeight() + 30;
