@@ -379,7 +379,7 @@ along with this program. If not, see https://www.gnu.org/licenses/
 CONTRIBUTORS:
     - Anja Schiefer
     - Andreas Stark
-    - Caroline Staerk
+    - Caroline Katsaris
     - Sandra Sowa
     - Svenja Dorsch
 

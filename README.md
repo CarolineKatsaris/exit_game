@@ -352,7 +352,7 @@ You should have received a copy of the GNU General Public License along with thi
 **Contributors:**
 - Anja Schiefer
 - Andreas Stark
-- Caroline Staerk
+- Caroline Katsaris
 - Sandra Sowa
 - Svenja Dorsch
 
