@@ -3,9 +3,24 @@
                    Running Exit-Game.jar on Your Computer
 ================================================================================
 
+⚡ QUICK START (30 SECONDS)
+================================================================================
+
+1. Extract Exit-Game_0_1_0.zip (double-click it)
+2. Open the Exit-Game folder
+3. Double-click Exit-Game.jar
+4. Game launches!
+
+If step 3 doesn't work, see "TROUBLESHOOTING" section below.
+
+
+================================================================================
+                            DETAILED INSTRUCTIONS
+================================================================================
+
 OVERVIEW
 --------
-This guide will help you run the Exit-Game application on Windows, Linux, 
+This guide will help you run the Exit-Game application on Windows, Linux,
 or macOS. The game files are packaged in a ZIP file for easy distribution.
 
 
@@ -82,7 +97,7 @@ After extraction, you should have a folder named "Exit-Game" containing:
     - ExitGame.sqlite       (the game database)
     - README-ExitGame.txt   (this file)
 
-If any of these files are missing, the game will not run. 
+If any of these files are missing, the game will not run.
 Re-extract the ZIP file and try again.
 
 
@@ -149,14 +164,14 @@ Windows:
 
 macOS/Linux:
     1. Open Terminal
-       
+
        macOS: Press Command + Space, type "Terminal", press Enter
        Linux: Press Ctrl + Alt + T
-    
+
     2. Type the following command and press Enter:
        cd path/to/Exit-Game
        (Replace "path/to/Exit-Game" with where you saved the folder)
-    
+
     3. Type and press Enter:
        java --enable-native-access=ALL-UNNAMED -jar Exit-Game.jar
 
@@ -230,7 +245,7 @@ Windows:
     - Download and install Java 17 from https://adoptium.net/
     - Restart your computer after installation
     - Or use the full path to Java, for example:
-      C:\Program Files\Eclipse Adoptium\jdk-17.0.x\bin\java.exe 
+      C:\Program Files\Eclipse Adoptium\jdk-17.0.x\bin\java.exe
       --enable-native-access=ALL-UNNAMED -jar Exit-Game.jar
 
 macOS:
@@ -240,10 +255,10 @@ macOS:
 
 Linux:
     - Install Java 17 using your package manager
-    
+
     Ubuntu/Debian:
       sudo apt-get install openjdk-17-jre
-    
+
     Fedora/RHEL:
       sudo dnf install java-17-openjdk
 
@@ -254,7 +269,7 @@ PROBLEM: "File not found" or "sqlite database error"
     - Make sure all files are in the same Exit-Game folder:
       * Exit-Game.jar
       * ExitGame.sqlite
-    
+
     - Check that filenames are spelled exactly as shown
     - On Linux/macOS, filenames are case-sensitive
     - Try re-extracting the ZIP file
@@ -300,7 +315,7 @@ PROBLEM: Double-clicking the JAR doesn't work (Windows)
 --------------------------------------------------------------------------
 
     - Right-click the Exit-Game.jar file
-    - Select "Open with" 
+    - Select "Open with"
     - Choose "Java(TM) Platform SE binary" or similar
     - If not available, use the command line method instead
 
@@ -318,23 +333,6 @@ Internet:       Not required (offline play)
 
 
 ================================================================================
-QUICK START SUMMARY
-================================================================================
-
-FASTEST WAY TO START THE GAME:
-
-Step 1: Extract
-    - Find Exit-Game_0_1_0.zip
-    - Double-click it to extract
-    - A new "Exit-Game" folder will appear
-
-Step 2: Run
-    - Open the Exit-Game folder
-    - Double-click Exit-Game.jar
-    - Game launches!
-
-
-================================================================================
 NEED HELP?
 ================================================================================
 
@@ -342,18 +340,18 @@ If you encounter issues:
 
     1. Make sure the ZIP file was fully extracted
        (All 3 files should be present in the Exit-Game folder)
-    
+
     2. Check that Java 17 or later is installed
        (Run: java -version in a terminal)
-    
+
     3. Verify all files are in the same Exit-Game folder:
        - Exit-Game.jar
        - ExitGame.sqlite
-    
+
     4. Try running from a terminal to see detailed error messages
        (Use the command line method in Step 4)
 
-If problems persist, check the error message displayed and refer to the 
+If problems persist, check the error message displayed and refer to the
 troubleshooting section above.
 
 
@@ -379,7 +377,7 @@ along with this program. If not, see https://www.gnu.org/licenses/
 CONTRIBUTORS:
     - Anja Schiefer
     - Andreas Stark
-    - Caroline Katsaris
+    - Caroline Staerk
     - Sandra Sowa
     - Svenja Dorsch
 
