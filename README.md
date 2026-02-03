@@ -21,7 +21,7 @@ Exit-Game/
 ├── out/                  # Build output directory
 │   └── artifacts/
 │       ├── Exit_Game_jar/    # Game files ready for distribution
-│       └── Exit_Game_0_1_0.zip  # Packaged game for end users
+│       └── Exit-Game_1_0_<x>.zip  # Packaged game for end users
 ├── META-INF/             # Java manifest files
 └── README.md             # This file
 ```
@@ -67,12 +67,18 @@ If Java 17 is not installed:
 3. Right-click and select **Run 'HelloWorld.main()'**
 4. Verify "Hello, World!" appears in the console output
 
-## Building the Game
-
-### Building for Distribution
+## Building the Game for Distribution
 
 IntelliJ IDEA is configured to automatically build the game artifacts when you compile. Follow these steps to create the complete distribution package:
 
+### Method 1: Rebuild Project (Builds Both Artifacts)
+
+Alternatively, you can rebuild the entire project which will build both artifacts automatically:
+
+1. Go to **Build → Rebuild Project**
+2. This rebuilds all artifacts including the JAR and support files
+
+### Method 2: Build Artifacts Separately
 #### Step 1: Build the JAR File
 
 1. In IntelliJ IDEA, go to **Build → Build Artifacts**
@@ -90,13 +96,6 @@ After building the JAR, you **must** copy the support files (database and readme
    - `README-ExitGame.txt` (end-user instructions)
 
 **⚠️ Important**: Both build steps must be executed. The "Copy sqlite and start scripts" step is essential for the game to run.
-
-#### Method 2: Rebuild Project (Builds Both Artifacts)
-
-Alternatively, you can rebuild the entire project which will build both artifacts automatically:
-
-1. Go to **Build → Rebuild Project**
-2. This rebuilds all artifacts including the JAR and support files
 
 ### Verifying the Build
 
@@ -128,7 +127,7 @@ To package the game for end users, you need to create a ZIP file containing all 
    - README-ExitGame.txt
 3. Right-click the selection
 4. Select **Send to → Compressed (zipped) folder**
-5. Rename the resulting ZIP file to `Exit_Game_1_0_x.zip` (x = increasing build number)
+5. Rename the resulting ZIP file to `Exit-Game_1_0_<x>.zip` (x = increasing build number)
 6. Move it to `out/artifacts/`
 
 #### macOS
@@ -140,7 +139,7 @@ To package the game for end users, you need to create a ZIP file containing all 
    - README-ExitGame.txt
 3. Right-click and select **Compress** (or use `Cmd+C`)
 4. The ZIP file will be created as `Archive.zip`
-5. Rename it to `Exit_Game_0_1_0.zip`
+5. Rename it to `Exit-Game_1_0_<x>.zip` (x = increasing build number)
 6. Move it to `out/artifacts/`
 
 #### Linux
@@ -149,7 +148,7 @@ Open a terminal and run:
 ```
 bash
 cd out/artifacts/Exit_Game_jar/
-zip -r ../Exit_Game_0_1_0.zip Exit-Game.jar ExitGame.sqlite README-ExitGame.txt
+zip -r ../Exit-Game_1_0_<x>.zip Exit-Game.jar ExitGame.sqlite README-ExitGame.txt
 ```
 ### Automated ZIP Creation (Optional)
 
@@ -159,13 +158,13 @@ If you have 7-Zip or similar tools, you can automate this process:
 ```
 batch
 cd out\artifacts\Exit_Game_jar
-7z a ..\Exit_Game_0_1_0.zip Exit-Game.jar ExitGame.sqlite README-ExitGame.txt
+7z a ..\Exit-Game_1_0_<x>.zip Exit-Game.jar ExitGame.sqlite README-ExitGame.txt
 ```
 **macOS/Linux (with zip):**
 ```
 bash
 cd out/artifacts/Exit_Game_jar
-zip -r ../Exit_Game_0_1_0.zip Exit-Game.jar ExitGame.sqlite README-ExitGame.txt
+zip -r ../Exit-Game_1_0_<x>.zip Exit-Game.jar ExitGame.sqlite README-ExitGame.txt
 ```
 ## Running the Game
 
@@ -192,8 +191,8 @@ java --enable-native-access=ALL-UNNAMED -jar Exit-Game.jar
 
 End users should:
 
-1. Extract `Exit_Game_0_1_0.zip`
-2. A folder named `Exit-Game` will be created
+1. Extract `Exit-Game_1_0_<x>.zip`
+2. A folder named `Exit-Game_1_0_<x>` will be created
 3. Double-click `Exit-Game.jar` to launch the game
 
 See `README-ExitGame.txt` for detailed end-user instructions.
