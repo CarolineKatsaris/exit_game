@@ -11,11 +11,15 @@ public class MainView extends JFrame {
 
     private CardLayout cards;
     private JPanel root;
+    private static final Dimension GAME_SIZE = new Dimension(1536, 1024);
+
+
 
 
     // Referenzen auf einzelne Screens:
     private StartView startView;
     private LoginView loginView;
+    private VirusTrapView virusTrapView ;
     private HubView hubView;
     private Map<EnumScreen, RoomView> roomViews = new EnumMap<>(EnumScreen.class);
     private RoomView graphicsView;
@@ -40,19 +44,29 @@ public class MainView extends JFrame {
         return null;
     }
 
+    public VirusTrapView getVirusTrapView() {
+        return virusTrapView;
+    }
+
 
     public MainView() {
         setTitle("Exit Game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1536, 1024);
+        // Frame darf später maximiert werden; die Game-Fläche bleibt fix 1536x1024
+        setMinimumSize(new Dimension(900, 700)); // optional, damit es nicht zu klein wird
+
 
         // Layout-Container für die Screens
         cards = new CardLayout();
         root = new JPanel(cards);
+        root.setPreferredSize(GAME_SIZE);
+        root.setSize(GAME_SIZE); // wichtig für absolute layouts / bounds-basierte Views
+
 
         // Screens anlegen
         startView = new StartView();
         hubView = new HubView();
+        virusTrapView = new VirusTrapView();
         loginView = new LoginView();
         graphicsView = new RoomView();
         ramView = new RoomView();
@@ -67,6 +81,7 @@ public class MainView extends JFrame {
 
         // Screens registrieren mit Namen
         root.add(startView, EnumScreen.Start.toString());
+        root.add(virusTrapView, EnumScreen.VirusTrap.toString());
         root.add(hubView, EnumScreen.Hub.toString());
         root.add(loginView, EnumScreen.Login.toString());
         root.add(graphicsView, EnumScreen.GraphicRoom.toString());
@@ -74,6 +89,9 @@ public class MainView extends JFrame {
         root.add(fileView, EnumScreen.FileRoom.toString());
         root.add(networkView, EnumScreen.NetRoom.toString());
         root.add(cpuView, EnumScreen.CPURoom.toString());
+
+
+
 
         // RoomViews in Map registrieren
         roomViews.put(EnumScreen.GraphicRoom, graphicsView);
@@ -84,6 +102,20 @@ public class MainView extends JFrame {
 
         // Alles ins Fenster
         add(root, BorderLayout.CENTER);
+        LetterboxPanel letterbox = new LetterboxPanel(root, GAME_SIZE);
+        setContentPane(letterbox);
+
+        pack();
+        setLocationRelativeTo(null);
+
+        // Maximiert starten:
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        // Optional: echtes Fullscreen (ohne Taskbar) wäre extra, aber MAXIMIZED reicht meist.
+        setVisible(true);
+
+
+
     }
 
     /**
@@ -106,10 +138,17 @@ public class MainView extends JFrame {
 
         // Fehlerbehandlung
         if (screen.isError()) {
-       //loginView.errorLabel.setVisible(true);
-            JOptionPane.showMessageDialog(root, screen.getErrorMessage(), "Fehler", JOptionPane.ERROR_MESSAGE); //ToDo bessere Fehleranzeige als ein Popup
-            screen.clearErrorMessage(); //Fehlermeldung zurücksetzen, da sie angezeigt wurde
+            String msg = screen.getErrorMessage();
+
+            if (screen.getTitle() == EnumScreen.Hub) {
+                hubView.showErrorBanner(msg);
+            } else if (screen instanceof Room) {
+                getRoomView((Room) screen).showErrorBanner(msg);
+            }
+
+            screen.clearErrorMessage();
         }
+
 
         if (screen.isShowIntro()) {
             if (screen.getTitle() == EnumScreen.Hub) {

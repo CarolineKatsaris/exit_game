@@ -4,7 +4,13 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Hält den zentralen Spielzustand (aktueller Screen, Räume, Nutzer, Difficulty)
+ * und kapselt das Laden von Screen-/Room-Daten aus der Datenbank.
+ * <p>
+ * Zusätzlich wird die Gesamtzahl falscher Antworten über alle Räume gezählt.
+ * </p>
+ */
 public class GameState {
 
 
@@ -18,7 +24,15 @@ public class GameState {
     private int totalWrongAnswers = 0; // Gesamtzahl der falschen Antworten
 
 
-    // Konstruktor - erzeugt die Räume, zunächst alle geschlossen
+    /**
+     * Erzeugt den initialen Spielzustand:
+     * <ul>
+     *   <li>initialisiert den DB-Loader</li>
+     *   <li>legt Hub und alle Räume an (zunächst nicht abgeschlossen)</li>
+     *   <li>baut die Screen-Reihenfolge (Game-Flow) auf</li>
+     *   <li>lädt Hintergrund, Intro und Outro für jeden Screen</li>
+     * </ul>
+     */
     public GameState() {
 
         this.dbLoader = new DbLoader("jdbc:sqlite:ExitGame.sqlite");
@@ -38,14 +52,12 @@ public class GameState {
         roomOverview.add(netRoom);
         roomOverview.add(cpuRoom);
 
-        // Räume in die Screens-Liste eintragen, legt Reihenfolge fest -> Hubview immer wieder zwischenschalten?
-
-
+        // Räume in die Screens-Liste eintragen, legt Reihenfolge fest -> Hubview immer wieder zwischenschalten
         availableScreens = List.of(
                 new Screen(EnumScreen.Start),
                 new Screen(EnumScreen.Login),
+                new Screen(EnumScreen.VirusTrap),
                 hubScreen,
-                //new Screen(EnumScreen.Room)?,
                 graphicRoom,
                 hubScreen,
                 ramRoom,
@@ -65,8 +77,11 @@ public class GameState {
         }
 
     }
-    // >>> Quizze aus der Datenbank laden <<<
-
+    /**
+     * Lädt die Quizze passend zur Schwierigkeit für jeden Raum und setzt sie im jeweiligen Room-Objekt.
+     *
+     * @param difficulty gewünschte Schwierigkeit
+     */
     public void initQuizzesForDifficulty(EnumDifficulty difficulty) {
         // Räume haben wir ja in roomOverview
         for (Room room : roomOverview) {
@@ -82,6 +97,10 @@ public class GameState {
             }
         }
     }
+
+    /**
+     * Erhöht die Gesamtzahl falscher Antworten um 1
+     */
     public void incrementWrongAnswers() {
         totalWrongAnswers++;
     }
@@ -90,10 +109,16 @@ public class GameState {
         return totalWrongAnswers;
     }
 
+    /**
+     * Setzt die Gesamtzahl falscher Antworten zurück.
+     */
     public void resetWrongAnswers() {
         totalWrongAnswers = 0;
     }
 
+    /**
+     * @return Liste der verfügbaren Screens in Spielreihenfolge
+     */
     public List<Screen> getAvailableScreens() {
         return availableScreens;
     }
@@ -106,6 +131,11 @@ public class GameState {
         return username;
     }
 
+    /**
+     * Setzt den Benutzernamen und feuert ein PropertyChange-Event ("username").
+     *
+     * @param username neuer Benutzername
+     */
     public void setUsername(String username){
         String old = this.username;
         this.username = username;
@@ -116,14 +146,23 @@ public class GameState {
         return currentScreen;
     }
 
+    /**
+     * Wechselt den aktuellen Screen (ohne PropertyChange-Event für "screen",
+     * da dieses an anderer Stelle im Model ausgelöst wird).
+     *
+     * @param newScreen neuer Screen
+     */
     void changeScreen(Screen newScreen){
         Screen old = this.currentScreen;
         this.currentScreen = newScreen;
-        //wird schon im MOdel gefeuert
-        //pcs.firePropertyChange("screen",old,newScreen);
         }
 
-
+    /**
+     * Sucht in {@link #availableScreens} nach einem Screen mit passendem Titel.
+     *
+     * @param title Screen-Titel
+     * @return Screen-Objekt oder {@code null}, falls nicht vorhanden
+     */
     public Screen getScreenByTitle(EnumScreen title) {
         for (Screen screen : availableScreens) {
             if (screen.getTitle() == title) {
@@ -133,7 +172,6 @@ public class GameState {
         return null;
     }
 
-
     public EnumDifficulty getDifficulty() {
         return difficulty;
     }
@@ -142,23 +180,8 @@ public class GameState {
         this.difficulty = difficulty;
     }
 
-    boolean allRoomsCompleted() {
-        for (Room room : roomOverview) {
-            if (!room.isCompleted()) {
-                return false;
-            }
-        }
-        return true;
-    }
 
 
-//ToDo: Ist 7 der Endscreen?
-    void checkForGameCompletion(){
-        if (allRoomsCompleted()){
-            changeScreen(getAvailableScreens().get(7));
-            pcs.firePropertyChange("gameCompleted", false, true);
-            //Gesamtzahl falscher Antworten in der Konsole ausgeben
-            System.out.println("Gesamtzahl falscher Antworten: " + totalWrongAnswers);
-        }
-    }
 }
+
+

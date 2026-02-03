@@ -4,17 +4,25 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
-// observable
+/**
+ * Zentrales Model (Observable) der Anwendung.
+ * Verwaltet den {@link GameState}, Screen-Wechsel, Quiz-Logik sowie Fortschritt/Events
+ * via {@link PropertyChangeSupport}.
+ */
 public class Model {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final GameState gameState;
+
     private Question currentQuestion;
     private EnumScreen currentQuizRoomType;
     private Quiz currentQuiz;
+
     private int progress = 0;
     private boolean returnToHubAfterCpuOutro = false;
 
-
+    /**
+     * Erstellt ein neues Model mit initialisiertem {@link GameState}.
+     */
     public Model() {
         this.gameState = new GameState();
     }
@@ -27,6 +35,12 @@ public class Model {
         return gameState.getRoomOverview();
     }
 
+
+    /**
+     * Registriert einen PropertyChangeListener.
+     *
+     * @param listener Listener
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         pcs.addPropertyChangeListener(listener);
     }
@@ -57,10 +71,8 @@ public class Model {
     }
 
     /**
-     * Methode um Räume zu öffen, später evtl. überarbeiten (locked/unlocked)
-     * Nutzt die Reihenfolge in availableScreens: Start -> Login -> Hub -> (erster Raum) -> ...
      * Öffnet einen Raum anhand seines Titels.
-     * Zeigt beim ersten Betreten den Intro-Storytext des Raums an
+     * Zeigt beim ersten Betreten ggf. den Intro-Storytext des Raums an
      * und schaltet dann zum nächsten Screen weiter.
      *
      * @param roomTitle Titel des Raums (EnumScreen.name())
@@ -73,6 +85,12 @@ public class Model {
                 break;
             }
         }
+
+        if (!room.isOpen()) {
+            showError("Zugriff verweigert! Das Virus blockiert diesen Teil des Computers.");
+            return; // im Hub bleiben
+        }
+
         changeScreen(room);
     }
 
@@ -145,8 +163,8 @@ public class Model {
 
         // Quizze nur in der erlaubten Reihenfolge spielen lassen
         if (quizIndex > foundRoom.getHighestUnlockedQuizIndex()) {
-            showError("Quiz " + quizIndex + " ist noch gesperrt! "
-                    + "Freigeschaltet bis: " + foundRoom.getHighestUnlockedQuizIndex());
+            showError( "Zugriff verweigert! Das Virus blockiert dieses Modul. "
+                    + "Sichere zuerst die vorherige Einheit.");
             return;
         }
 
@@ -159,8 +177,8 @@ public class Model {
             return;
         }
         if (quiz.isFinished()) {
-            showError("Quiz " + quizIndex + " in Raum " + roomType
-                    + " ist bereits abgeschlossen und kann nicht neu gestartet werden.");
+            showError("Dieser Bereich des Computers wurde bereits erfolgreich vom Virus befreit. " +
+                    "Kümmere dich um den nächsten Bereich!");
             return;
         }
 
@@ -270,6 +288,14 @@ public class Model {
      */
     void completeRoom(Room room) {
         room.setCompleted(true);
+        // Nächsten Raum freischalten (Reihenfolge wie in roomOverview)
+        List<Room> rooms = gameState.getRoomOverview();
+        int idx = rooms.indexOf(room);
+
+        if (idx >= 0 && idx < rooms.size() - 1) {
+            rooms.get(idx + 1).setOpen(true);
+        }
+
         if (room.getTitle() == EnumScreen.CPURoom) {
             returnToHubAfterCpuOutro = true;
         }
@@ -287,9 +313,12 @@ public class Model {
             changeScreen(room);
         }
 
-        gameState.checkForGameCompletion();
     }
-
+    /**
+     * Wird genutzt wenn ein Overlay geschlossen wurde.
+     * Wird u.a. nach dem CPU-Outro genutzt, um zurück zum Hub zu wechseln
+     * und das Spielende-Event zu feuern.
+     */
     public void overlayClosed() {
         if (!returnToHubAfterCpuOutro) return;
 
@@ -338,10 +367,17 @@ public class Model {
             gameState.setDifficulty(difficulty);
             gameState.getCurrentScreen().clearErrorMessage();
             gameState.initQuizzesForDifficulty(difficulty);
+
+            // Räume resetten: alle zu, nur der erste offen
+            for (Room r : gameState.getRoomOverview()) {
+                r.setOpen(true); // zum Testen auf true gesetzt später abzuändern!
+            }
+            gameState.getRoomOverview().get(0).setOpen(true); // z.B. erster Raum (GraphicRoom)
+
             // Fehlversuchszähler für ein neues Spiel zurücksetzen
             gameState.resetWrongAnswers();
 
-            // Load and register the SQLite JDBC driver
+            // JDBC Driver registieren
             try {
                 Class.forName("org.sqlite.JDBC");
             } catch (ClassNotFoundException e) {
@@ -349,7 +385,7 @@ public class Model {
                 throw new RuntimeException("Failed to load SQLite JDBC driver", e);
             }
 
-            // Inserting the username into the "spieler" table in the SQLite database
+            // Spielername zur Datenbank hinzufügen
             try (java.sql.Connection conn = java.sql.DriverManager.getConnection("jdbc:sqlite:ExitGame.sqlite");
                  java.sql.PreparedStatement pstmt = conn.prepareStatement("INSERT INTO spieler (name) VALUES (?);")) {
 
