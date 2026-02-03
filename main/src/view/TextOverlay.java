@@ -41,7 +41,7 @@ public class TextOverlay extends JPanel {
         textArea.setWrapStyleWord(true); // Bricht an Wortgrenzen um
         textArea.setOpaque(false); // Hintergrund transparent
         textArea.setForeground(Color.WHITE);
-        textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 20));
+        textArea.setFont(retroFont.deriveFont(Font.BOLD, 20f));
         textArea.setEditable(false); // TextArea nicht bearbeitbar
 
         // ScrollPane für JTextArea

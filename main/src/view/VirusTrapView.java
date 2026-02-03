@@ -100,7 +100,7 @@ public class VirusTrapView extends JLayeredView {
 
         if (autoAdvanceTimer != null) autoAdvanceTimer.stop();
 
-        int delayMs = 25_000; // 25 Sekunden
+        int delayMs = 15_000; // 15 Sekunden
         autoAdvanceTimer = new Timer(delayMs, e -> {
             rain.stop();
             if (onDone != null) onDone.run();
@@ -261,7 +261,7 @@ public class VirusTrapView extends JLayeredView {
                 int y = (int) (h * 0.35);
 
                 // Titel groß/rot/dramatisch
-                Font titleFont = new Font("SansSerif", Font.BOLD, 50);
+                Font titleFont = new Font(Font.MONOSPACED, Font.BOLD, 50);
                 g2.setFont(titleFont);
 
                 // roter Glow/Shadow
@@ -271,7 +271,7 @@ public class VirusTrapView extends JLayeredView {
                 g2.drawString(title, x, y);
 
                 // Body etwas kleiner, hell (oder leicht grünlich)
-                Font bodyFont = new Font("SansSerif", Font.BOLD, 34);
+                Font bodyFont  = new Font(Font.MONOSPACED, Font.BOLD, 34);
                 g2.setFont(bodyFont);
                 FontMetrics fm = g2.getFontMetrics();
                 int lineY = y + fm.getHeight() + 30;
