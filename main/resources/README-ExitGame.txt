@@ -354,12 +354,23 @@ If you encounter issues:
 If problems persist, check the error message displayed and refer to the
 troubleshooting section above.
 
-
 ================================================================================
 LICENSE
 ================================================================================
 
 GNU General Public License v3.0
+
+Copyright (c) 2024-2026 Exit-Game Contributors
+
+CONTRIBUTORS:
+    - Anja Schiefer
+    - Andreas Stark
+    - Caroline Staerk
+    - Sandra Sowa
+    - Svenja Dorsch
+
+SPECIAL THANKS TO:
+    - Philipp Sadlo
 
 This software is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -374,28 +385,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see https://www.gnu.org/licenses/
 
-CONTRIBUTORS:
-    - Anja Schiefer
-    - Andreas Stark
-    - Caroline Staerk
-    - Sandra Sowa
-    - Svenja Dorsch
-
-SPECIAL THANKS TO:
-    - Philipp Sadlo
-
 WHAT THIS MEANS:
     - You can use this software freely for any purpose
     - You can study, modify, and improve the source code
     - You can distribute the software and your modifications
-    - If you distribute modified versions, you must also distribute 
+    - If you distribute modified versions, you must also distribute
       the source code
-    - You cannot use this software in proprietary/closed-source projects 
+    - You cannot use this software in proprietary/closed-source projects
       without sharing your modifications
     - Any commercial use must comply with these terms
 
 For more information, visit: https://www.gnu.org/licenses/gpl-3.0.html
-
 
 ================================================================================
 
