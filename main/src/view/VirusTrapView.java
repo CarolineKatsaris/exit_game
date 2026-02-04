@@ -26,6 +26,9 @@ public class VirusTrapView extends JLayeredView {
         super();
 
         // Hintergrund: Zahlenregen
+        setOpaque(true);
+        setBackground(Color.BLACK);
+
         rain = new DigitRainPanel();
         rain.setBounds(0, 0, 1536, 1024);
         add(rain, Integer.valueOf(0));
@@ -111,7 +114,7 @@ public class VirusTrapView extends JLayeredView {
 
         if (autoAdvanceTimer != null) autoAdvanceTimer.stop();
 
-        int delayMs = 5_000; // 15 Sekunden
+        int delayMs = 5_000; // 5 Sekunden
         autoAdvanceTimer = new Timer(delayMs, e -> {
             rain.stop();
             if (onDone != null) onDone.run();
