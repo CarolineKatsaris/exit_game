@@ -353,13 +353,13 @@ public class Model {
     /**
      * Validiert die Login-Eingaben (Benutzername + Schwierigkeitsgrad).
      * Speichert die Daten im GameState, legt einen neuen Spieler in der Datenbank an
-     * und wechselt zum nächsten Screen. Zeigt bei leerem Namen einen Fehler an.
+     * und wechselt zum nächsten Screen. Zeigt bei leerem Namen oder wenn ";" enthalten ist (SQL Injection) einen Fehler an.
      *
      * @param username   eingegebener Benutzername
      * @param difficulty ausgewählte Schwierigkeitsstufe
      */
     public void validateLogin(String username, EnumDifficulty difficulty) {
-        if (!username.isBlank()) {
+        if (!username.isBlank() && !username.contains(";")) {
             gameState.setUsername(username);
             gameState.setDifficulty(difficulty);
             gameState.getCurrentScreen().clearErrorMessage();
