@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="Copy sqlite, start scripts and README">
+    <output-path>$PROJECT_DIR$/out/artifacts/Exit_Game_jar</output-path>
+    <root id="root">
+      <element id="file-copy" path="$PROJECT_DIR$/ExitGame.sqlite" />
+      <element id="file-copy" path="$PROJECT_DIR$/main/resources/README-ExitGame.txt" />
+    </root>
+  </artifact>
+</component>

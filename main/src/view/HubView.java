@@ -102,7 +102,7 @@ public class HubView extends JLayeredView {
         };
 
         for (int i = 0; i < virusLabels.length; i++) {
-            ImageIcon icon = new ImageIcon(getClass().getResource("/virus.png"));
+            ImageIcon icon = new ImageIcon(getClass().getResource("/Virus.png"));
             Image scaled = icon.getImage().getScaledInstance(
                     sizes[i], sizes[i], Image.SCALE_SMOOTH
             );

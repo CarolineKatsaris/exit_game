@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Exit-Game:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Exit_Game_jar</output-path>
+    <root id="archive" name="Exit-Game.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="main" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/sqlite-jdbc-3.51.0.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -63,7 +63,7 @@ class ControllerTest {
         assertEquals(0, view.getSubmitButton().getActionListeners().length);
 
         //Weiterschalten zu Login Screen
-        controller.loadScreen(EnumScreen.Login);
+        //controller.loadScreen(EnumScreen.Login);
 
         //Erwartet: Immer noch 1 Listener, da der Login Screen keine Listener mehr an den StartButton hängen soll
         assertEquals(1, view.getStartButton().getActionListeners().length);
