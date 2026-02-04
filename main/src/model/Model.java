@@ -3,6 +3,8 @@ package model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
+import javax.swing.Timer;
+
 
 /**
  * Zentrales Model (Observable) der Anwendung.
@@ -203,7 +205,6 @@ public class Model {
      * @param actionCommand ActionCommand des Antwort-Buttons (z.B. "QUIZ_ANSWER_0")
      */
     public void handleQuizAnswer(String actionCommand) {
-        // z.B. "QUIZ_ANSWER_0" -> Index extrahieren
         int chosenIndex = Integer.parseInt(
                 actionCommand.substring("QUIZ_ANSWER_".length())
         );
@@ -212,73 +213,69 @@ public class Model {
 
         if (correct) {
             System.out.println("Richtige Antwort!");
-
             pcs.firePropertyChange("correctAnswer", null, chosenIndex);
 
-            // Sicherheitsnetz: falls irgendwas schief ist
-            if (currentQuiz == null) {
-                pcs.firePropertyChange("quizHidden", true, false);
-                return;
-            }
+            // ✅ 2 Sekunden warten, dann erst weiterschalten
+            Timer t = new Timer(2000, e -> {
 
-            // war das schon die letzte Frage?
-            if (currentQuiz.isCompleted()) {
-                //Hier muss der Fortschritt erhöht werden
-                pcs.firePropertyChange("progress", progress, progress + 1);
-                progress = progress + 1;
-
-                // aktuelle Frage ist die letzte → Quiz beenden
-                pcs.firePropertyChange("quizHidden", true, false);
-
-                currentQuiz.markFinished(); // Quiz wird als beendet markiert -> kann nicht nochmal gespielt werden
-
-
-                // Prüfen, ob das das letzte Quiz im Raum ist für Ourto
-                Room room = findRoomByType(currentQuizRoomType);
-                if (room != null) {
-                    List<Quiz> quizzesInRoom = room.getQuizzes();
-                    int quizIndex = quizzesInRoom.indexOf(currentQuiz);
-
-                    // nächstes Quiz freischalten, je nachdem welches da höchste aktuell freigeschaltene ist
-                    if (quizIndex == room.getHighestUnlockedQuizIndex()
-                            && quizIndex < quizzesInRoom.size() - 1) {
-
-                        room.unlockNextQuiz();
-                        System.out.println("Quiz " + (quizIndex + 1) + " wurde freigeschaltet!"); //ToDo Methode ähnlich zu showError um solche Meldungen anzuzeigen.
-                    }
-
-
-                    boolean isLastQuizInRoom = (quizIndex == quizzesInRoom.size() - 1);
-
-                    if (isLastQuizInRoom) {
-
-                        // Raum als abgeschlossen markieren + ggf. Spielende prüfen
-                        completeRoom(room);
-                    }
+                // Sicherheitsnetz
+                if (currentQuiz == null) {
+                    pcs.firePropertyChange("quizHidden", true, false);
+                    return;
                 }
 
-                return;
-            }
+                // letzte Frage?
+                if (currentQuiz.isCompleted()) {
+                    pcs.firePropertyChange("progress", progress, progress + 1);
+                    progress++;
 
-            // sonst zur nächsten Frage schalten
-            currentQuiz.nextQuestion();
-            Question next = currentQuiz.getCurrentQuestion();
+                    pcs.firePropertyChange("quizHidden", true, false);
+                    currentQuiz.markFinished();
 
-            if (next != null) {
-                currentQuestion = next;
-                pcs.firePropertyChange("quizShown", null, currentQuestion);
-            } else {
-                pcs.firePropertyChange("quizHidden", true, false);
-            }
+                    Room room = findRoomByType(currentQuizRoomType);
+                    if (room != null) {
+                        List<Quiz> quizzesInRoom = room.getQuizzes();
+                        int quizIndex = quizzesInRoom.indexOf(currentQuiz);
 
-        } else {
-            // falsche Antwort → Quiz offen lassen, nur Feedback
-            System.out.println("Falsche Antwort!");
-            pcs.firePropertyChange("incorrectAnswer", null, chosenIndex);
+                        // nächstes Quiz freischalten
+                        if (quizIndex == room.getHighestUnlockedQuizIndex()
+                                && quizIndex < quizzesInRoom.size() - 1) {
+                            room.unlockNextQuiz();
+                        }
 
-            gameState.incrementWrongAnswers();
+                        boolean isLastQuizInRoom = (quizIndex == quizzesInRoom.size() - 1);
+                        if (isLastQuizInRoom) {
+                            completeRoom(room);
+                        }
+                    }
+                    return;
+                }
+
+                // sonst nächste Frage
+                currentQuiz.nextQuestion();
+                Question next = currentQuiz.getCurrentQuestion();
+
+                if (next != null) {
+                    currentQuestion = next;
+                    pcs.firePropertyChange("quizShown", null, currentQuestion);
+                } else {
+                    pcs.firePropertyChange("quizHidden", true, false);
+                }
+
+            });
+
+            t.setRepeats(false);
+            t.start();
+
+            return; // ✅ wichtig: sofort raus, sonst läuft else/weiterer Code weiter
         }
+
+        // falsche Antwort
+        System.out.println("Falsche Antwort!");
+        pcs.firePropertyChange("incorrectAnswer", null, chosenIndex);
+        gameState.incrementWrongAnswers();
     }
+
 
     /**
      * Markiert einen Raum als abgeschlossen und löst ein Event aus.
