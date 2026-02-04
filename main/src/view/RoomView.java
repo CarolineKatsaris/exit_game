@@ -48,9 +48,9 @@ public class RoomView extends JLayeredView {
     private final JLabel[] virusIcons = new JLabel[MAX_VIRUSES];
     private ImageIcon virusIconScaled;
     private Image fogImage;
-
-
-
+    private Timer wobbleTimer;
+    private final Point[] virusBasePos = new Point[MAX_VIRUSES];
+    private double wobblePhase = 0;
 
 
 
@@ -119,6 +119,7 @@ public class RoomView extends JLayeredView {
         for (int i = 0; i < MAX_VIRUSES; i++) {
             JLabel l = new JLabel(virusIconScaled);
             l.setBounds(pos[i].x + FOG_PAD, pos[i].y + FOG_PAD, ICON_SIZE, ICON_SIZE);
+            virusBasePos[i] = new Point(l.getX(), l.getY());
             virusIcons[i] = l;
             virusPanel.add(l);
         }
@@ -126,9 +127,21 @@ public class RoomView extends JLayeredView {
 // 6) Startzustand
         setVirusCount(MAX_VIRUSES);
 
+        wobbleTimer = new Timer(40, e -> {
+            wobblePhase += 0.3;
 
+            for (int i = 0; i < MAX_VIRUSES; i++) {
+                JLabel l = virusIcons[i];
+                Point base = virusBasePos[i];
+                if (l == null || base == null || !l.isVisible()) continue;
 
+                int offsetX = (int) (Math.sin(wobblePhase + i) * 4);
+                int offsetY = (int) (Math.cos(wobblePhase * 1.3 + i) * 2);
 
+                l.setLocation(base.x + offsetX, base.y + offsetY);
+            }
+        });
+        wobbleTimer.start();
 
 
 

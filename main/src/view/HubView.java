@@ -199,12 +199,20 @@ public class HubView extends JLayeredView {
             story = "Du hast es geschafft… knapp. Das Virus hat ordentlich Widerstand geleistet.";
         }
 
-            storyLabel.setText(story);
-            finalStatsLabel.setText("Gesamtzahl falscher Antworten: " + wrongAnswers);
+        storyLabel.setText(story);
+        finalStatsLabel.setText("Gesamtzahl falscher Antworten: " + wrongAnswers);
 
-            storyLabel.setVisible(true);
-            finalStatsLabel.setVisible(true);
+        // <<< NUR DAS >>>
+        storyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        finalStatsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        storyLabel.setBounds(0, 400, getWidth(), 60);
+        finalStatsLabel.setBounds(0, 470, getWidth(), 40);
+
+        storyLabel.setVisible(true);
+        finalStatsLabel.setVisible(true);
     }
+
 
     /**
      * Aktiviert oder deaktiviert Buttons im Hub.
