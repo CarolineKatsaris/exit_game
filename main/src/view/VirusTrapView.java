@@ -111,7 +111,7 @@ public class VirusTrapView extends JLayeredView {
 
         if (autoAdvanceTimer != null) autoAdvanceTimer.stop();
 
-        int delayMs = 15_000; // 15 Sekunden
+        int delayMs = 5_000; // 15 Sekunden
         autoAdvanceTimer = new Timer(delayMs, e -> {
             rain.stop();
             if (onDone != null) onDone.run();
