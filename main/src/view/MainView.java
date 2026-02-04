@@ -142,6 +142,8 @@ public class MainView extends JFrame {
 
             if (screen.getTitle() == EnumScreen.Hub) {
                 hubView.showErrorBanner(msg);
+            } else if (screen.getTitle() == EnumScreen.Login) {
+                loginView.showErrorBanner(msg);
             } else if (screen instanceof Room) {
                 getRoomView((Room) screen).showErrorBanner(msg);
             }

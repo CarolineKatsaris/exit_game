@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="Exit-Game:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/Exit_Game_jar</output-path>
+    <output-path>$PROJECT_DIR$/out/artifacts/Exit-Game_jar</output-path>
     <root id="archive" name="Exit-Game.jar">
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
