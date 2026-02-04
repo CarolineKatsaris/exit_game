@@ -14,6 +14,15 @@ public class LoginView extends JLayeredView {
     final JTextField nameField;
     final JComboBox<EnumDifficulty> difficultySelection;
     final JButton submitButton;
+    // Retro-Font (einmal zentral)
+    private final Font retroFont = new Font(Font.MONOSPACED, Font.BOLD, 18);
+
+    // Farbpalette (waldgrün × cyber)
+    private static final Color BG_DARK = new Color(18, 42, 32);
+    private static final Color FG_CYBER = new Color(200, 230, 215);
+    private static final Color BORDER_RED = new Color(180, 40, 40);
+
+
 
     public LoginView() {
         // Initialisierung von JLayeredView
@@ -33,7 +42,7 @@ public class LoginView extends JLayeredView {
         // Label für den Namen
         JLabel nameLabel = new JLabel("Name:");
         nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-        nameLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        nameLabel.setFont(retroFont.deriveFont(16f));
         nameLabel.setForeground(Color.BLACK);
         nameLabel.setOpaque(true);
         nameLabel.setBackground(new Color(255, 255, 255, 150));
@@ -45,7 +54,7 @@ public class LoginView extends JLayeredView {
         nameField.setText("Name eingeben!");
         nameField.setForeground(Color.GRAY);
         nameField.setBounds(rectX + 220, rectY + 10, 200, 35);
-        nameField.setFont(new Font("SansSerif", Font.BOLD, 16));
+        nameField.setFont(retroFont.deriveFont(16f));
         add(nameField, Integer.valueOf(1));
 
         // FocusListener hinzufügen
@@ -68,9 +77,9 @@ public class LoginView extends JLayeredView {
         });
 
         // Auswahl der Schwierigkeit
-        JLabel difficultyLabel = new JLabel("Schwierigkeitsstufe:");
+        JLabel difficultyLabel = new JLabel("Schwierigkeit:");
         difficultyLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-        difficultyLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        difficultyLabel.setFont(retroFont.deriveFont(16f));
         difficultyLabel.setForeground(Color.BLACK);
         difficultyLabel.setOpaque(true);
         difficultyLabel.setBackground(new Color(255, 255, 255, 150));
@@ -79,16 +88,16 @@ public class LoginView extends JLayeredView {
 
         EnumDifficulty[] difficulties = {EnumDifficulty.Unterstufe, EnumDifficulty.Mittelstufe, EnumDifficulty.Oberstufe};
         difficultySelection = new JComboBox<>(difficulties);
-        difficultySelection.setBounds(rectX + 220, rectY + 50, 200, 40);
-        difficultySelection.setFont(new Font("SansSerif", Font.BOLD, 16));
+        difficultySelection.setBounds(rectX + 220, rectY + 50, 200, 35);
+        difficultySelection.setFont(retroFont.deriveFont(16f));
         add(difficultySelection, Integer.valueOf(1));
 
         // Bestätigen Button
         submitButton = new JButton("Starten");
         submitButton.setBackground(new Color(0, 120, 215));
         submitButton.setForeground(Color.BLACK);
-        submitButton.setFont(new Font("SansSerif", Font.BOLD, 16));
-        submitButton.setBounds(rectX + 90, rectY + 95, 230, 40);
+        submitButton.setFont(retroFont.deriveFont(16f));
+        submitButton.setBounds(rectX + 90, rectY + 100, 230, 35);
         add(submitButton, Integer.valueOf(1));
     }
 
