@@ -370,7 +370,7 @@ public class Model {
 
             // Räume resetten: alle zu, nur der erste offen
             for (Room r : gameState.getRoomOverview()) {
-                r.setOpen(true); // zum Testen auf true gesetzt später abzuändern!
+                r.setOpen(false); // auf true setzten für Testbetrieb um in alle Räume sofort gehen zu können
             }
             gameState.getRoomOverview().get(0).setOpen(true); // z.B. erster Raum (GraphicRoom)
 
