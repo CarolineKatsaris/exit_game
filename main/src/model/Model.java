@@ -319,10 +319,13 @@ public class Model {
     public void overlayClosed() {
         if (!returnToHubAfterCpuOutro) return;
 
+        //Spielende Sonderfall:
         returnToHubAfterCpuOutro = false;
 
         // zurück zum Hub
-        changeScreen(gameState.getScreenByTitle(EnumScreen.Hub));
+        Screen HubEnd = gameState.getScreenByTitle(EnumScreen.Hub);
+        HubEnd.setBackgroundImagePath(HubEnd.getOutroImagePath());
+        changeScreen(HubEnd);
 
         // Fehlerzahl an den Controller melden
         pcs.firePropertyChange("gameCompleted", null, gameState.getTotalWrongAnswers());

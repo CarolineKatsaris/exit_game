@@ -71,7 +71,7 @@ public class HubView extends JLayeredView {
         int centerY = 1024 / 2;
 
         storyLabel = new JLabel();
-        storyLabel.setBounds(centerX - 1450/2, centerY - 70, 1450, 40);
+        storyLabel.setBounds(centerX - 1450/2, centerY - 70, 1450, 40); //wird in showFinalStats noch verschoben
         storyLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
         storyLabel.setForeground(Color.WHITE);
         storyLabel.setOpaque(true);
@@ -82,7 +82,7 @@ public class HubView extends JLayeredView {
         add(storyLabel, Integer.valueOf(5));
 
         finalStatsLabel = new JLabel();
-        finalStatsLabel.setBounds(centerX - 600/2, centerY - 20, 600, 50);
+        finalStatsLabel.setBounds(centerX - 600/2, centerY - 20, 600, 50);//wird in showFinalStats noch verschoben
         finalStatsLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
         finalStatsLabel.setForeground(Color.RED);
         finalStatsLabel.setOpaque(true);
@@ -202,15 +202,21 @@ public class HubView extends JLayeredView {
         storyLabel.setText(story);
         finalStatsLabel.setText("Gesamtzahl falscher Antworten: " + wrongAnswers);
 
-        // <<< NUR DAS >>>
         storyLabel.setHorizontalAlignment(SwingConstants.CENTER);
         finalStatsLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        storyLabel.setBounds(0, 400, getWidth(), 60);
-        finalStatsLabel.setBounds(0, 470, getWidth(), 40);
+        storyLabel.setBounds(0, 50, getWidth(), 60);
+        finalStatsLabel.setBounds(0, 120, getWidth(), 40);
 
         storyLabel.setVisible(true);
         finalStatsLabel.setVisible(true);
+
+        //adjust button positions for clean hub view since position of elements is slightly different
+        graphicsCardBtn.setBounds(153, 200, 200, 234);
+        ramBtn.setBounds(183, 540, 186, 77);
+        fileBtn.setBounds(666, 230, 189, 81);
+        networkBtn.setBounds(1165, 250, 217, 51);
+        cpuBtn.setBounds(1417, 566, 97, 97);
     }
 
 
