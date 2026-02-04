@@ -319,10 +319,13 @@ public class Model {
     public void overlayClosed() {
         if (!returnToHubAfterCpuOutro) return;
 
+        //Spielende Sonderfall:
         returnToHubAfterCpuOutro = false;
 
         // zurück zum Hub
-        changeScreen(gameState.getScreenByTitle(EnumScreen.Hub));
+        Screen HubEnd = gameState.getScreenByTitle(EnumScreen.Hub);
+        HubEnd.setBackgroundImagePath(HubEnd.getOutroImagePath());
+        changeScreen(HubEnd);
 
         // Fehlerzahl an den Controller melden
         pcs.firePropertyChange("gameCompleted", null, gameState.getTotalWrongAnswers());
@@ -353,13 +356,13 @@ public class Model {
     /**
      * Validiert die Login-Eingaben (Benutzername + Schwierigkeitsgrad).
      * Speichert die Daten im GameState, legt einen neuen Spieler in der Datenbank an
-     * und wechselt zum nächsten Screen. Zeigt bei leerem Namen einen Fehler an.
+     * und wechselt zum nächsten Screen. Zeigt bei leerem Namen oder wenn ";" enthalten ist (SQL Injection) einen Fehler an.
      *
      * @param username   eingegebener Benutzername
      * @param difficulty ausgewählte Schwierigkeitsstufe
      */
     public void validateLogin(String username, EnumDifficulty difficulty) {
-        if (!username.isBlank()) {
+        if (!username.isBlank() && !username.contains(";")) {
             gameState.setUsername(username);
             gameState.setDifficulty(difficulty);
             gameState.getCurrentScreen().clearErrorMessage();
@@ -367,7 +370,7 @@ public class Model {
 
             // Räume resetten: alle zu, nur der erste offen
             for (Room r : gameState.getRoomOverview()) {
-                r.setOpen(true); // zum Testen auf true gesetzt später abzuändern!
+                r.setOpen(false); // auf true setzten für Testbetrieb um in alle Räume sofort gehen zu können
             }
             gameState.getRoomOverview().get(0).setOpen(true); // z.B. erster Raum (GraphicRoom)
 
