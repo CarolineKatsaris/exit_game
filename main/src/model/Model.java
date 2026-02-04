@@ -215,7 +215,7 @@ public class Model {
             System.out.println("Richtige Antwort!");
             pcs.firePropertyChange("correctAnswer", null, chosenIndex);
 
-            // ✅ 2 Sekunden warten, dann erst weiterschalten
+            // 2 Sekunden warten, dann erst weiterschalten
             Timer t = new Timer(2000, e -> {
 
                 // Sicherheitsnetz
@@ -267,7 +267,7 @@ public class Model {
             t.setRepeats(false);
             t.start();
 
-            return; // ✅ wichtig: sofort raus, sonst läuft else/weiterer Code weiter
+            return; // wichtig: sofort raus, sonst läuft else/weiterer Code weiter
         }
 
         // falsche Antwort
