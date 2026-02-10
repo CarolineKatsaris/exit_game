@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>view</OriginalElement>
+  <nodes>
+    <node x="815.0" y="1518.5">view.RoomView</node>
+    <node x="422.5" y="1294.0">view.JLayeredView</node>
+    <node x="596.0" y="1518.5">view.VirusTrapView</node>
+    <node x="-52.0" y="1518.5">view.HubView</node>
+    <node x="329.0" y="1518.5">view.LoginView</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="view.VirusTrapView" target="view.JLayeredView" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="695.5" y="1498.5" />
+      <point x="562.0" y="1498.5" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="view.HubView" target="view.JLayeredView" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="128.5" y="1498.5" />
+      <point x="562.0" y="1498.5" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="view.RoomView" target="view.JLayeredView" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="995.5" y="1498.5" />
+      <point x="562.0" y="1498.5" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="view.LoginView" target="view.JLayeredView" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="452.5" y="1498.5" />
+      <point x="562.0" y="1498.5" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Generic" zoom="1.25" showDependencies="false" x="562.0" y="1594.5" />
+  <SelectedNodes>
+    <node>view.JLayeredView</node>
+    <node>view.HubView</node>
+    <node>view.RoomView</node>
+    <node>view.LoginView</node>
+    <node>view.VirusTrapView</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>packageLocal</VISIBILITY>
+</Diagram>
+

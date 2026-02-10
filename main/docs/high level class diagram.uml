@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/andreasstark/IdeaProjects/Exit-Game/main/src</OriginalElement>
+  <nodes>
+    <node x="-277.5" y="42.0">view.MainView</node>
+    <node x="-373.0" y="558.5">controller.Controller</node>
+    <node x="-766.0" y="42.0">model.Model</node>
+    <node x="9.0" y="566.5">ExitGame</node>
+    <node x="-1140.5" y="486.0">model.GameState</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="ExitGame" target="model.Model" relationship="CREATE">
+      <point x="-83.0" y="0.0" />
+      <point x="-547.4196940726576" y="377.8183556405354" />
+      <point x="0.0" y="-236.0" />
+    </edge>
+    <edge source="controller.Controller" target="model.Model" relationship="TO_ONE">
+      <point x="-165.0" y="0.0" />
+      <point x="218.0" y="-156.5" />
+    </edge>
+    <edge source="controller.Controller" target="view.MainView" relationship="TO_ONE">
+      <point x="165.0" y="0.0" />
+      <point x="-129.5" y="-156.5" />
+    </edge>
+    <edge source="ExitGame" target="view.MainView" relationship="CREATE">
+      <point x="83.0" y="0.0" />
+      <point x="264.70299553855966" y="377.8183556405354" />
+      <point x="0.0" y="-236.0" />
+    </edge>
+    <edge source="ExitGame" target="controller.Controller" relationship="CREATE">
+      <point x="0.0" y="31.5" />
+      <point x="0.0" y="-79.5" />
+    </edge>
+  </edges>
+  <settings layout="Orthogonal Groups" zoom="1.1037735849056605" showDependencies="true" x="-615.5" y="466.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>packageLocal</VISIBILITY>
+</Diagram>
+
